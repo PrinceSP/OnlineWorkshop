@@ -1,12 +1,9 @@
-import React from 'react';
+import React from 'react'
 import {ImageBackground,View,Text,StyleSheet,Dimensions} from 'react-native'
-import {LoginBackground,Logo} from './src/assets'
 import {Input,Gap,Button} from './src/components'
 
-const {width,height} = Dimensions.get('window')
-
-const App = () => {
-  return(
+const Register = (props) => {
+  return (
     <View style={styles.container}>
       <Input setLabel={true} label="Email" borderRadius={10} width={width/1.22}/>
       <Gap height={15}/>
@@ -21,7 +18,7 @@ const App = () => {
       <Button name='Daftar' color='#000' fam='Nunito-Regular' size={20} style={styles.btnSubmit}/>
     </View>
   )
-};
+}
 
 const styles = StyleSheet.create({
   container:{
@@ -55,4 +52,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default App;
+export default Register
