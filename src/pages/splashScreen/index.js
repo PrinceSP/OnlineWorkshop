@@ -1,11 +1,9 @@
-import React from 'react';
+import React from 'react'
 import {ImageBackground,View,Text,StyleSheet,Dimensions} from 'react-native'
-import {ManWithCarRepair,ManWithMotoRepair,Logo} from './src/assets'
-import {Input,Gap,Button} from './src/components'
+import {ManWithCarRepair,ManWithMotoRepair,Logo} from '../src/assets'
+import {Input,Gap,Button} from '../src/components'
 
-const {width,height} = Dimensions.get('window')
-
-const App = () => {
+const SplashScreen = () => {
   return(
     <View style={styles.container}>
       <View style={{flexDirection:'row',justifyContent:'center',alignItems:"center"}}>
@@ -51,4 +49,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default App;
+export default SplashScreen
