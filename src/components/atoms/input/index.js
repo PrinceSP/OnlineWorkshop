@@ -7,7 +7,7 @@ const Input = ({setLabel=false,width=329,borderRadius=50,label,color,...rest})=>
       height:50,
       width,
       borderWidth:1.5,
-      borderColor:'#B5DCFF',
+      borderColor:'#000',
       borderRadius,
       color:'#000',
       paddingHorizontal:28.77,
