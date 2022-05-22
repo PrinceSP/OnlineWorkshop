@@ -1,42 +1,47 @@
 import { StyleSheet, Text, View, Image } from 'react-native'
 import React from 'react'
-import Gap from '../../components/gap'
+import {Gap} from '../../components'
+import AntDesign from 'react-native-vector-icons/AntDesign'
+import CarLogo from '../../assets/icons/carLogo.svg'
 
-
-const Profile = () => {
+const ProfileBengkel = () => {
   return (
     <View style={styles.container}>
       {/* header */}
       <View style={styles.header}>
           <View style={styles.headerBackButton}>
-              {/* back navigation */}
-              <Text>back</Text>
+              <AntDesign name ="arrowleft" size={30} color='black'/>
           </View>
           <View style={styles.headerTitleContainer}> 
                 <Text style={styles.headerTitleText}>Profil</Text>
           </View>
-          <Gap height={20}/>
+           <Gap height={20}/>
       </View>
-      
-        <View style={styles.containerImage}>
+      <View style={{borderBottomColor: 'black',borderBottomWidth: 1, opacity: 0.2, marginBottom: 12 }}/> 
+      <View>
+        <Text style={{color: 'black', fontWeight:'bold'}}>Jenis Bengkel yang dipilih:</Text>
+        <View>
+        {/* <Car width={120} height={40} /> */}
+
+        </View>
+      </View>
+      <View style={styles.containerImage}>
           <Image
-            source={require('../../assets/images/fotoprofil.jpg')} //Change your icon image here
+            source={require('../../assets/images/fotoprofilbengkel.png')} //Change your icon image here
               style={styles.ImageStyle}
         />
         </View>
-
-
       <View style={styles.cardContainer}>
-          <Text style={styles.titleText}>Nama Lengkap</Text>
+          <Text style={styles.titleText}>Nama Bengkel</Text>
         <View style={styles.card}>
-            <Text style={styles.textCard}>Yoel Roring</Text>    
+            <Text style={styles.textCard}>Bengkel Motorjaya</Text>    
         </View>
       </View>
       <Gap height={28}/>      
       <View style={styles.cardContainer}>
-          <Text style={styles.titleText}>Email</Text>
+          <Text style={styles.titleText}>Alamat</Text>
         <View style={styles.card}>
-            <Text style={styles.textCard}>roringy@gmail.com</Text>    
+            <Text style={styles.textCard}>motorjaya@gmail.com</Text>    
         </View>
       </View>
       <Gap height={28}/>
@@ -64,7 +69,7 @@ const Profile = () => {
   )
 }
 
-export default Profile
+export default ProfileBengkel
 
 const styles = StyleSheet.create({
   container:{
@@ -72,16 +77,17 @@ const styles = StyleSheet.create({
   },
   header:{
     flexDirection: 'row', 
-    backgroundColor:'yellow'
   },
   headerBackButton:{
-
+    justifyContent:'center',
+    marginLeft: 20,
   },
   headerTitleContainer:{
     marginHorizontal: 120
   },
   headerTitleText:{
-    fontSize: 36
+    fontSize: 36,
+    color:'black'
   },
   cardContainer:{
     marginLeft:19, 

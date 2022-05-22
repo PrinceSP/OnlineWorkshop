@@ -7,5 +7,5 @@ const Gap = ({width, height}) => {
         </View>
     )
 }
-export default Gap
+export default Gap;
 
