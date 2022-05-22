@@ -6,4 +6,5 @@ const Gap = ({height})=>{
     <View style={{height}}/>
   )
 }
- export default Gap
+
+export default Gap
