@@ -1,7 +1,9 @@
 import React from 'react'
 import {ImageBackground,View,Text,StyleSheet,Dimensions} from 'react-native'
-import {ManWithCarRepair,ManWithMotoRepair,Logo} from '../src/assets'
-import {Input,Gap,Button} from '../src/components'
+// import {ManWithCarRepair,ManWithMotoRepair,Logo} from '../src/assets'
+import { ManWithCarRepair,ManWithMotoRepair,Logo } from '../../assets';
+// import {Input,Gap,Button} from '../src/components'
+import {Input,Gap,Button} from '../../components'
 
 const SplashScreen = () => {
   return(
