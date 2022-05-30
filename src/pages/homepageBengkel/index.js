@@ -143,8 +143,8 @@ const styles = StyleSheet.create({
   },
     ImageStyle: {
       padding: 10,
-      marginTop: 40,
-      marginBottom: 35,
+      marginTop: 24,
+      marginBottom: 5,
       height: 87,
       width: 87,
       borderRadius:43.5,
@@ -203,10 +203,8 @@ const TanggapanDanSaran = () =>{
 }
 
  function DrawerContent(props){
-
-
     return(
-        <View style ={{flex: 1}} >
+        <View style ={{flex: 12}} >
           <View style={{flexDirection:'column', marginLeft: 10}}>
             <View>
             <Image
