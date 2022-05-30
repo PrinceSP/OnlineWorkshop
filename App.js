@@ -9,13 +9,15 @@ import Routes from './src/routes/index';
 import RegisterBengkelMotor from './src/pages/registerBengkelMotor';
 import HomePageBengkel from './src/pages/homepageBengkel';
 import SplashScreen from './src/pages/splashScreen';
+import PermintaanService from './src/pages/permintaanService';
 
 const App = () => {
   return (
     <>
 
       {/* <RegisterBengkelMotor/> */}
-      <HomePageBengkel/>
+      {/* <HomePageBengkel/> */}
+      <PermintaanService/>
       {/* <SplashScreen/> */}
     </>
   )
