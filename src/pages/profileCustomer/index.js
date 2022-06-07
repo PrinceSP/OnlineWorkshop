@@ -1,15 +1,14 @@
 import { StyleSheet, Text, View, Image } from 'react-native'
 import React from 'react'
 import {Gap} from '../../components'
-import AntDesign from 'react-native-vector-icons/AntDesign'
-
+import { ArrowLeft } from '../../assets'
 const ProfileCustomer = () => {
   return (
     <View style={styles.container}>
       {/* header */}
       <View style={styles.header}>
           <View style={styles.headerBackButton}>
-              <AntDesign name ="arrowleft" size={30} color='black'/>
+          <ArrowLeft height={13} widdth={14}/>
           </View>
           <View style={styles.headerTitleContainer}> 
                 <Text style={styles.headerTitleText}>Profil</Text>

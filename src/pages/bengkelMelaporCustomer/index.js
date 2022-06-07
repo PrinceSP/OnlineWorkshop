@@ -5,6 +5,8 @@ import { Button, Gap } from '../../components';
 
 const BengkelMelaporCustomer = () => {
   
+  const [text, onChangeText] = React.useState("");
+
   return (
     <View style={{flex: 1}}>
        <View style={styles.header}>
@@ -33,12 +35,14 @@ const BengkelMelaporCustomer = () => {
         <View>
           <TextInput
              style={styles.textInputStyle}
+             onChangeText={onChangeText}
+             value={text}
             />
         </View>
         </View>
           <View style={styles.button}>
             <Button 
-            name='Kirim'
+              name='Kirim'
               size = {24}
               weight = 'bold'
               color ='white'

@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import React from 'react'
-import AntDesign from 'react-native-vector-icons/AntDesign'
+import { ArrowLeft } from '../../assets'
 import { Gap } from '../../components'
 
 const RegisterBengkel = () => {
@@ -8,7 +8,7 @@ const RegisterBengkel = () => {
     <View style={styles.container}>
         <View style={styles.containerHeader}>
             <View style={styles.arrowLeft}>
-              <AntDesign name ="arrowleft" size={25} color='black'/>
+            <ArrowLeft height={13} widdth={14}/>
             </View>
             <View>
                 <Text style={styles.titleHeader}>Pendaftaran Bengkel</Text>
