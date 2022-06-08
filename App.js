@@ -11,16 +11,18 @@ import HomePageBengkel from './src/pages/homepageBengkel';
 import SplashScreen from './src/pages/splashScreen';
 import PermintaanService from './src/pages/permintaanService';
 import BengkelMelaporCustomer from './src/pages/bengkelMelaporCustomer';
+import HistoryPemesanan from './src/pages/historyPemesanan';
 
 const App = () => {
   return (
     <>
-      <RegisterBengkelMotor/>
+      {/* <RegisterBengkelMotor/> */}
       {/* <HomePageBengkel/> */}
       {/* <PermintaanService/> */}
       {/* <SplashScreen/> */}
       {/* <BengkelMelaporCustomer/> */}
       {/* <ProfileCustomer/> */}
+      <HistoryPemesanan/>
     </>
   )
 }
