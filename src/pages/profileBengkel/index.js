@@ -1,8 +1,9 @@
 import { StyleSheet, Text, View, Image } from 'react-native'
 import React from 'react'
 import {Gap} from '../../components'
-import AntDesign from 'react-native-vector-icons/AntDesign'
+// import AntDesign from 'react-native-vector-icons/AntDesign'
 import CarLogo from '../../assets/icons/carLogo.svg'
+import { ArrowLeft } from '../../assets'
 
 const ProfileBengkel = () => {
   return (
@@ -10,7 +11,8 @@ const ProfileBengkel = () => {
       {/* header */}
       <View style={styles.header}>
           <View style={styles.headerBackButton}>
-              <AntDesign name ="arrowleft" size={30} color='black'/>
+              {/* <AntDesign name ="arrowleft" size={30} color='black'/> */}
+              <ArrowLeft width={14} height={13}/>
           </View>
           <View style={styles.headerTitleContainer}> 
                 <Text style={styles.headerTitleText}>Profil</Text>
