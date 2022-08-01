@@ -1,18 +1,20 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import {Register,Login,SplashScreen,LoginOptions,LoginBengkel,LoginCustomer,RegisterBengkel} from '../pages';
 
-import RegisterBengkel from '../pages/registerBengkel';
-// import { SignIn, SplashScreen, SignUp, Home } from '../pages';
+const {Navigator,Screen} = createNativeStackNavigator();
 
-
-const Stack = createNativeStackNavigator();
 const Router = () =>{
-    return (
-        <Stack.Navigator>
-            <Stack.Screen name="RegisterBengkel" component={RegisterBengkel}options={{headerShown: false}}/>
-            <Stack.Screen name="RegisterBengkel" component={RegisterBengkel}options={{headerShown: false}}/>
-        </Stack.Navigator>
-    );
+  return (
+    <Navigator>
+      <Screen name="SplashScreen" component={SplashScreen} options={{headerShown: false}}/>
+      <Screen name="Register" component={Register} options={{headerShown: false}}/>
+      <Screen name="LoginOptions" component={LoginOptions} options={{headerShown: false}}/>
+      <Screen name="LoginBengkel" component={LoginBengkel} options={{headerShown: false}}/>
+      <Screen name="LoginCustomer" component={LoginCustomer} options={{headerShown: false}}/>
+      <Screen name="RegisterBengkel" component={RegisterBengkel} options={{headerShown: false}}/>
+    </Navigator>
+  );
 };
 
 export default Router;

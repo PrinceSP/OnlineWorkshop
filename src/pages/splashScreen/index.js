@@ -1,11 +1,9 @@
-import React from 'react'
-import {ImageBackground,View,Text,StyleSheet,Dimensions} from 'react-native'
-// import {ManWithCarRepair,ManWithMotoRepair,Logo} from '../src/assets'
+import React,{useEffect} from 'react'
+import {View,Text,StyleSheet} from 'react-native'
 import { ManWithCarRepair,ManWithMotoRepair,Logo } from '../../assets';
-// import {Input,Gap,Button} from '../src/components'
 import {Input,Gap,Button} from '../../components'
 
-const SplashScreen = () => {
+const SplashScreen = ({navigation}) => {
   return(
     <View style={styles.container}>
       <View style={{flexDirection:'row',justifyContent:'flex-start',alignItems:"center",width:"100%"}}>
@@ -16,7 +14,7 @@ const SplashScreen = () => {
         <ManWithCarRepair height={250}/>
         <ManWithMotoRepair height={250}/>
       </View>
-      <Button name='Mulai' color='#fff' fam='Nunito-Bold' size={24} style={styles.btnSubmit}/>
+      <Button name='Mulai' color='#fff' fam='Nunito-Bold' size={24} style={styles.btnSubmit} onPress={()=>navigation.navigate("Register")}/>
     </View>
   )
 };

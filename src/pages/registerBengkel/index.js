@@ -1,50 +1,45 @@
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import React from 'react'
-import { ArrowLeft } from '../../assets'
+import { ArrowLeft,CarLogo,MotoLogo,ArrowRight } from '../../assets'
 import { Gap } from '../../components'
 
 const RegisterBengkel = () => {
   return (
     <View style={styles.container}>
-        <View style={styles.containerHeader}>
-            <View style={styles.arrowLeft}>
-            <ArrowLeft height={13} widdth={14}/>
-            </View>
-            <View>
-                <Text style={styles.titleHeader}>Pendaftaran Bengkel</Text>
-            </View>
+      <View style={styles.containerHeader}>
+        <Gap height={30}/>
+        <ArrowLeft height={13} widdth={14}/>
+        <Gap height={30}/>
+        <View>
+          <Text style={styles.titleHeader}>Pendaftaran Bengkel</Text>
         </View>
-        <View style={{borderBottomColor: 'black',borderBottomWidth: 2, opacity: 0.2, marginVertical:12 }}/> 
-        <View style={styles.instruction}>
-            <View style={{flexDirection:'column'}}>
-                <Text style={{fontSize: 24, fontWeight:'700', color:'black'}}>Selamat datang di pendaftaran bengkel</Text>
-            </View>
-            <Gap height={10}/>
-            <View>
-                <Text style={{fontSize:18}}>Ikuti langkah-langkah untuk daftar bengkel secara praktis</Text>
-            </View>
+      </View>
+      <View style={{borderBottomColor: 'black',borderBottomWidth: 2, opacity: 0.2, marginVertical:12 }}/>
+      <View style={styles.instruction}>
+        <View style={{flexDirection:'column'}}>
+          <Text style={{fontSize: 20, fontWeight:'700', color:'black'}}>Selamat datang di pendaftaran bengkel</Text>
         </View>
-        <View style={{borderBottomColor: 'black',borderBottomWidth: 2, opacity: 0.2, marginVertical:12 }}/> 
-        <View style={styles.content}>
-            <View>
-                <Text>Pilih jenis Bengkel</Text>    
-            </View>
-            <View style={styles.category}>
-                    <Text>Bengkel Motor</Text>
-                    <AntDesign name="right" size={20}/> 
-            </View>
-            <View style={styles.category}>
-                <TouchableOpacity onPress={
-                    alert('Bengkel Mobil')
-                }>
-                    <Text>Bengkel Motor</Text>
-                    <AntDesign name="right" size={20}/>         
-                </TouchableOpacity>
-            </View>
-            <View>
-
-            </View>
+        <Gap height={10}/>
+        <View>
+            <Text style={{fontSize:18,color:"#000",fontWeight:"300"}}>Ikuti langkah-langkah untuk daftar bengkel secara praktis</Text>
         </View>
+      </View>
+     <View style={{borderBottomColor: 'black',borderBottomWidth: 2, opacity: 0.2, marginVertical:12 }}/>
+     <View style={styles.content}>
+      <View>
+        <Text style={{color:'#000',fontWeight:"700"}}>Pilih jenis Bengkel</Text>
+      </View>
+      <TouchableOpacity style={styles.category}>
+        <CarLogo/>
+        <Text style={{color:'#000',fontWeight:"700",fontSize:16}}>Bengkel Mobil</Text>
+        <ArrowRight/>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.category}>
+        <MotoLogo/>
+        <Text style={{color:'#000',fontWeight:"700",fontSize:16}}>Bengkel Motor</Text>
+        <ArrowRight/>
+      </TouchableOpacity>
+     </View>
     </View>
   )
 }
@@ -53,36 +48,35 @@ export default RegisterBengkel
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,  
+      flex: 1,
+      backgroundColor:"#FFF"
     },
     containerHeader:{
-        // backgroundColor: 'red',
-        flexDirection: 'column',
-        justifyContent: 'space-between',  
-        marginLeft: 10,  
-        marginRight: 20  
+      flexDirection: 'column',
+      justifyContent: 'space-between',
+      marginLeft: 10,
+      marginRight: 20
     },
     titleHeader:{
-        fontSize: 36,
-        color: 'black',
-        fontWeight: '500'
+      fontSize: 36,
+      color: '#000',
+      fontWeight: '500'
     },
     content:{
-        // flex: 0.5,
-        height: '50%',
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-        // backgroundColor: 'red',
-        marginLeft: 36,
-        fontSize: 18,
-        fontWeight: '700'
+      height: '50%',
+      flexDirection: 'column',
+      justifyContent: 'space-between',
+      marginLeft: 36,
+      fontSize: 18,
+      fontWeight: '700'
     },
     category:{
-        flexDirection: 'row',
-        justifyContent:'space-around',
-        // backgroundColor: 'white'
+      width:280,
+      flexDirection: 'row',
+      alignItems:'center',
+      justifyContent:'space-between',
     },
     instruction:{
-        marginHorizontal:10,
+      marginHorizontal:10,
     }
 })
