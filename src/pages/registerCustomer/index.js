@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import {ImageBackground,View,Text,StyleSheet,Dimensions,TouchableOpacity} from 'react-native'
 import {Input,Gap,Button} from '../../components'
-import {Camera} from '../../assets'
+import {Camera,ArrowLeft} from '../../assets'
 import {launchImageLibrary} from 'react-native-image-picker'
 
 const windowWidth = Dimensions.get('window').width;
@@ -27,14 +27,6 @@ const Register = ({navigation}) => {
         setPhoto(res.assets[0].uri);
         setPhotoBase64(res.assets[0].base64);
         setHasPhoto(true);
-        const option = {
-          method: 'put',
-          headers: {
-            'Accept': 'application/json, text/plain, */*',
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({userId:currentUser[0]._id,profilePicture:res.assets[0].base64})
-        }
       }
     })
   }
@@ -79,6 +71,7 @@ const styles = StyleSheet.create({
   },
   btnSubmit:{
     marginBottom:15,
+    marginLeft:220,
     height:60,
     width:100,
     borderStyle:'solid',
@@ -87,7 +80,18 @@ const styles = StyleSheet.create({
     borderRadius:7,
     alignItems:'center',
     justifyContent:'center',
-  }
+  },
+  containerHeader:{
+    flexDirection: 'row',
+    alignItems:'center',
+    marginLeft: 15,
+  },
+  titleHeader:{
+    fontSize: 26,
+    color: '#000',
+    fontWeight: '500',
+    marginLeft:120
+  },
 })
 
 export default Register

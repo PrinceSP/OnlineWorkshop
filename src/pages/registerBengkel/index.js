@@ -3,7 +3,7 @@ import React from 'react'
 import { ArrowLeft,CarLogo,MotoLogo,ArrowRight } from '../../assets'
 import { Gap } from '../../components'
 
-const RegisterBengkel = () => {
+const RegisterBengkel = ({navigation}) => {
   return (
     <View style={styles.container}>
       <View style={styles.containerHeader}>
@@ -29,12 +29,12 @@ const RegisterBengkel = () => {
       <View>
         <Text style={{color:'#000',fontWeight:"700"}}>Pilih jenis Bengkel</Text>
       </View>
-      <TouchableOpacity style={styles.category}>
+      <TouchableOpacity style={styles.category} onPress={()=>navigation.navigate('RegisterBengkelMobil')}>
         <CarLogo/>
         <Text style={{color:'#000',fontWeight:"700",fontSize:16}}>Bengkel Mobil</Text>
         <ArrowRight/>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.category}>
+      <TouchableOpacity style={styles.category} onPress={()=>navigation.navigate('RegisterBengkelMotor')}>
         <MotoLogo/>
         <Text style={{color:'#000',fontWeight:"700",fontSize:16}}>Bengkel Motor</Text>
         <ArrowRight/>

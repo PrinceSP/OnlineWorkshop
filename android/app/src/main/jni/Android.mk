@@ -10,14 +10,22 @@ include $(CLEAR_VARS)
 LOCAL_PATH := $(THIS_DIR)
 
 # You can customize the name of your application .so file here.
+<<<<<<< HEAD
+LOCAL_MODULE := bengkelonline_appmodules
+=======
 LOCAL_MODULE := onlineworkshop_appmodules
+>>>>>>> 5107a4f9d6eef2308f8d83e322b72b000b504ee5
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)
 LOCAL_SRC_FILES := $(wildcard $(LOCAL_PATH)/*.cpp)
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)
 
 # If you wish to add a custom TurboModule or Fabric component in your app you
+<<<<<<< HEAD
+# will have to uncomment those lines to include the generated source 
+=======
 # will have to uncomment those lines to include the generated source
+>>>>>>> 5107a4f9d6eef2308f8d83e322b72b000b504ee5
 # files from the codegen (placed in $(GENERATED_SRC_DIR)/codegen/jni)
 #
 # LOCAL_C_INCLUDES += $(GENERATED_SRC_DIR)/codegen/jni
@@ -28,7 +36,12 @@ LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)
 LOCAL_SHARED_LIBRARIES := \
   libfabricjni \
   libfbjni \
+<<<<<<< HEAD
+  libfolly_futures \
+  libfolly_json \
+=======
   libfolly_runtime \
+>>>>>>> 5107a4f9d6eef2308f8d83e322b72b000b504ee5
   libglog \
   libjsi \
   libreact_codegen_rncore \
