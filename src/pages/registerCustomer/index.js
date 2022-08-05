@@ -27,20 +27,20 @@ const Register = ({navigation}) => {
         setPhoto(res.assets[0].uri);
         setPhotoBase64(res.assets[0].base64);
         setHasPhoto(true);
-        const option = {
-          method: 'put',
-          headers: {
-            'Accept': 'application/json, text/plain, */*',
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({userId:currentUser[0]._id,profilePicture:res.assets[0].base64})
-        }
       }
     })
   }
 
   return (
     <View style={styles.container}>
+      <View style={styles.containerHeader}>
+        <Gap height={30}/>
+        <ArrowLeft height={13} widdth={14}/>
+        <Gap height={30}/>
+        <View>
+          <Text style={styles.titleHeader}>Pendaftaran Bengkel</Text>
+        </View>
+      </View>
       <TouchableOpacity onPress={imageGallery} style={{height:80,width:80,borderRadius:50,borderWidth:2,borderColor:"#000",alignItems:"center",justifyContent:"center"}}>
         <Camera/>
       </TouchableOpacity>
@@ -87,7 +87,13 @@ const styles = StyleSheet.create({
     borderRadius:7,
     alignItems:'center',
     justifyContent:'center',
-  }
+  },
+  containerHeader:{
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    marginLeft: 10,
+    marginRight: 20
+  },
 })
 
 export default Register

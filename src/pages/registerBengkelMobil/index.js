@@ -3,9 +3,9 @@ import { StyleSheet, Text, View, Image, TextInput, ScrollView, SafeAreaView, Tou
 import {launchImageLibrary} from 'react-native-image-picker';
 import { Button, Gap } from '../../components'
 
-import { ArrowLeft, MotoLogo } from '../../assets'
+import { ArrowLeft, CarLogo } from '../../assets'
 
-const RegisterBengkelMotor = () => {
+const RegisterBengkelMobil = () => {
   const [photo,setPhoto] = useState('')
   const [hasPhoto, setHasPhoto] = useState(false)
   const [photoBase64,setPhotoBase64] = useState('')
@@ -43,9 +43,9 @@ const RegisterBengkelMotor = () => {
           <Text style={{fontWeight: 'bold', color:'black'}}>Jenis Bengkel yang dipilih</Text>
           <Gap height={20}/>
           <View  style={{flexDirection:'row',alignItems:'center'}}>
-           <MotoLogo height={61} width={64}/>
+           <CarLogo height={61} width={64}/>
            <Gap height={16}/>
-          <Text style={{fontWeight: 'bold', color:'black',marginLeft:20}}>Bengkel Motor</Text>
+          <Text style={{fontWeight: 'bold', color:'black',marginLeft:20}}>Bengkel Mobil</Text>
           </View>
           <Gap height={16}/>
           <View style={styles.containerImage}>
@@ -107,7 +107,7 @@ const RegisterBengkelMotor = () => {
   )
 }
 
-export default RegisterBengkelMotor
+export default RegisterBengkelMobil
 
 const styles = StyleSheet.create({
   scrollView: {
