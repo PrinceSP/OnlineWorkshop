@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import {ImageBackground,View,Text,StyleSheet,Dimensions,TouchableOpacity} from 'react-native'
 import {Input,Gap,Button} from '../../components'
-import {Camera} from '../../assets'
+import {Camera,ArrowLeft} from '../../assets'
 import {launchImageLibrary} from 'react-native-image-picker'
 
 const windowWidth = Dimensions.get('window').width;
@@ -33,26 +33,26 @@ const Register = ({navigation}) => {
 
   return (
     <View style={styles.container}>
+      <Gap height={30}/>
       <View style={styles.containerHeader}>
-        <Gap height={30}/>
-        <ArrowLeft height={13} widdth={14}/>
-        <Gap height={30}/>
-        <View>
-          <Text style={styles.titleHeader}>Pendaftaran Bengkel</Text>
-        </View>
+        <ArrowLeft height={21} width={25}/>
+        <Text style={styles.titleHeader}>Daftar</Text>
       </View>
-      <TouchableOpacity onPress={imageGallery} style={{height:80,width:80,borderRadius:50,borderWidth:2,borderColor:"#000",alignItems:"center",justifyContent:"center"}}>
-        <Camera/>
-      </TouchableOpacity>
-      <Input setLabel={true} label="Email" borderRadius={10} width={windowWidth/1.22}/>
-      <Gap height={15}/>
-      <Input setLabel={true} label="Password" borderRadius={10} width={windowWidth/1.22}/>
-      <Gap height={15}/>
-      <Input setLabel={true} label="Email" borderRadius={10} width={windowWidth/1.22}/>
-      <Gap height={15}/>
-      <Input setLabel={true} label="Password" borderRadius={10} width={windowWidth/1.22}/>
-      <Gap height={25}/>
-      <Button name='Daftar' color='#000' fam='Nunito-Regular' size={20} style={styles.btnSubmit} onPress={()=>navigation.navigate('LoginOptions')}/>
+      <Gap height={60}/>
+      <View style={{alignItems:'center',justifyContent:'center'}}>
+        <TouchableOpacity onPress={imageGallery} style={{height:80,width:80,borderRadius:50,borderWidth:2,borderColor:"#000",alignItems:"center",justifyContent:"center"}}>
+          <Camera/>
+        </TouchableOpacity>
+        <Input setLabel={true} label="Email" borderRadius={10} width={windowWidth/1.22}/>
+        <Gap height={15}/>
+        <Input setLabel={true} label="Password" borderRadius={10} width={windowWidth/1.22}/>
+        <Gap height={15}/>
+        <Input setLabel={true} label="Email" borderRadius={10} width={windowWidth/1.22}/>
+        <Gap height={15}/>
+        <Input setLabel={true} label="Password" borderRadius={10} width={windowWidth/1.22}/>
+        <Gap height={25}/>
+        <Button name='Daftar' color='#000' fam='Nunito-Regular' size={20} style={styles.btnSubmit} onPress={()=>navigation.navigate('LoginOptions')}/>
+      </View>
     </View>
   )
 }
@@ -61,8 +61,8 @@ const styles = StyleSheet.create({
   container:{
     flex:1,
     backgroundColor:'#fff',
-    alignItems:'center',
-    justifyContent:'center'
+    // alignItems:'center',
+    // justifyContent:'center'
   },
   image:{
     flex:1,
@@ -79,6 +79,7 @@ const styles = StyleSheet.create({
   },
   btnSubmit:{
     marginBottom:15,
+    marginLeft:220,
     height:60,
     width:100,
     borderStyle:'solid',
@@ -89,10 +90,15 @@ const styles = StyleSheet.create({
     justifyContent:'center',
   },
   containerHeader:{
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    marginLeft: 10,
-    marginRight: 20
+    flexDirection: 'row',
+    alignItems:'center',
+    marginLeft: 15,
+  },
+  titleHeader:{
+    fontSize: 26,
+    color: '#000',
+    fontWeight: '500',
+    marginLeft:120
   },
 })
 
