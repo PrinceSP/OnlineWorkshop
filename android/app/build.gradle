@@ -79,11 +79,20 @@ import org.apache.tools.ant.taskdefs.condition.Os
  */
 
 project.ext.react = [
+<<<<<<< HEAD
     enableHermes: true,  // clean and rebuild if changing
+=======
+    enableHermes: false,  // clean and rebuild if changing
+>>>>>>> 5107a4f9d6eef2308f8d83e322b72b000b504ee5
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
 
+<<<<<<< HEAD
+=======
+// apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
+
+>>>>>>> 5107a4f9d6eef2308f8d83e322b72b000b504ee5
 /**
  * Set this to true to create two separate APKs instead of one:
  *   - An APK that only works on ARM devices
@@ -135,7 +144,11 @@ android {
     compileSdkVersion rootProject.ext.compileSdkVersion
 
     defaultConfig {
+<<<<<<< HEAD
         applicationId "com.bengkelonline"
+=======
+        applicationId "com.onlineworkshop"
+>>>>>>> 5107a4f9d6eef2308f8d83e322b72b000b504ee5
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
@@ -157,7 +170,11 @@ android {
                     cppFlags "-std=c++17"
                     // Make sure this target name is the same you specify inside the
                     // src/main/jni/Android.mk file for the `LOCAL_MODULE` variable.
+<<<<<<< HEAD
                     targets "bengkelonline_appmodules"
+=======
+                    targets "onlineworkshop_appmodules"
+>>>>>>> 5107a4f9d6eef2308f8d83e322b72b000b504ee5
                     // Fix for windows limit on number of character in file paths and in command lines
                     if (Os.isFamily(Os.FAMILY_WINDOWS)) {
                         arguments "NDK_APP_SHORT_COMMANDS=true"

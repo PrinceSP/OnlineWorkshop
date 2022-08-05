@@ -1,5 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<<<<<<< HEAD
   package="com.bengkelonline">
+=======
+  package="com.onlineworkshop">
+>>>>>>> 5107a4f9d6eef2308f8d83e322b72b000b504ee5
 
     <uses-permission android:name="android.permission.INTERNET" />
 
