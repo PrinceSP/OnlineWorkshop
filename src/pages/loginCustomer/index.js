@@ -1,12 +1,32 @@
-import React from 'react'
+import React,{useState} from 'react'
 import {ImageBackground,View,Text,StyleSheet,Dimensions} from 'react-native'
 import {LoginBackground,Logo} from '../../assets'
 import {Input,Gap,Button} from '../../components'
+import {auth} from '../../config/firebase'
+import {signInWithEmailAndPassword} from 'firebase/auth'
 
 const width = Dimensions.get('window').width
 const height = Dimensions.get('window').height
 
 const LoginCustomer = ({navigation}) => {
+  const [email,setEmail] = useState('')
+  const [password,setPassword] = useState('')
+  const [isSignedId,setIsSignedId] = useState(false)
+
+  const handleSignIn = ()=>{
+    // createUserWithEmailAndPassword(auth,email,password)
+    // .then(userCredentials=>{
+    //   const user = userCredentials.user
+    //   setIsSignedIn(true)
+    //   console.log(user.email);
+    // })
+    // .catch((re)=>{
+    //   console.log(re);
+    // })
+
+    navigation.navigate("HomepageCustomer")
+  }
+
   return (
     <View style={styles.container}>
       <ImageBackground source={LoginBackground} resizeMode="cover" style={styles.image}>
@@ -16,9 +36,9 @@ const LoginCustomer = ({navigation}) => {
             <Text style={{color:'#000000',fontSize:24,fontFamily:"Nunito-Bold",marginLeft:15}}>Customer</Text>
           </View>
           <Text style={styles.title}>Masuk</Text>
-          <Input setLabel={true} label="Email" borderRadius={10} width={width/1.22}/>
+          <Input setLabel={true} label="Email" borderRadius={10} width={width/1.22} defaultValue={email} onChangeText={email=>setEmail(email)}/>
           <Gap height={40}/>
-          <Input setLabel={true} label="Password" borderRadius={10} width={width/1.22}/>
+          <Input setLabel={true} label="Password" borderRadius={10} width={width/1.22} secureTextEntry={true} defaultValue={password} onChangeText={password=>setPassword(password)}/>
           <Gap height={15}/>
           <Button name='Lupa password?' color='#000' fam='Nunito-Bold'/>
           <Gap height={60}/>
@@ -27,7 +47,7 @@ const LoginCustomer = ({navigation}) => {
               <Text style={{color:'#777'}}>Pengguna baru?</Text>
               <Button name='Daftar' color='#000' fam='Nunito-Bold' onPress={()=>navigation.navigate('Register')}/>
             </View>
-            <Button name='Masuk' color='#000' fam='Nunito-Regular' size={20} style={styles.btnSubmit}/>
+            <Button name='Masuk' color='#000' fam='Nunito-Regular' size={20} style={styles.btnSubmit} onPress={handleSignIn}/>
           </View>
         </View>
       </ImageBackground>
