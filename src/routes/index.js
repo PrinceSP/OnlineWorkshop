@@ -1,8 +1,31 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import {Register,Login,SplashScreen,LoginOptions,LoginBengkel,LoginCustomer,RegisterBengkel,RegisterBengkelMotor,RegisterBengkelMobil,HomeScreen} from '../pages';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import {Register,Login,SplashScreen,LoginOptions,LoginBengkel,LoginCustomer,RegisterBengkel,
+  RegisterBengkelMotor,RegisterBengkelMobil,HomeScreen,ProfileBengkel,HomepageCustomer} from '../pages';
+import {DrawerContent} from '../components'
 
 const {Navigator,Screen} = createNativeStackNavigator();
+const Drawer = createDrawerNavigator()
+
+const Root=()=>{
+  return(
+    <Drawer.Navigator initialRouteName="HomeScreen"
+      drawerContent={props=><DrawerContent {...props}/>}
+      screenOptions={{
+        drawerStyle: {
+          backgroundColor: '#FFFFFF',
+          width: 300,
+          borderTopRightRadius:20,
+          borderBottomRightRadius:20,
+        },
+        focused:Boolean,
+        drawerActiveBackgroundColor:'#abcdef'
+      }}>
+      <Drawer.Screen name="ProfileBengkel" component={ProfileBengkel} options={{headerShown:false}}/>
+    </Drawer.Navigator>
+  )
+}
 
 const Router = () =>{
   return (
@@ -16,6 +39,8 @@ const Router = () =>{
       <Screen name="RegisterBengkelMotor" component={RegisterBengkelMotor} options={{headerShown: false}}/>
       <Screen name="RegisterBengkelMobil" component={RegisterBengkelMobil} options={{headerShown: false}}/>
       <Screen name="HomeScreen" component={HomeScreen} options={{headerShown: false}}/>
+      <Screen name="HomepageCustomer" component={HomepageCustomer} options={{headerShown: false}}/>
+      <Screen name="Root" component={Root} options={{headerShown:false}}/>
     </Navigator>
   );
 };
