@@ -14,7 +14,7 @@ const SplashScreen = ({navigation}) => {
         <ManWithCarRepair height={250}/>
         <ManWithMotoRepair height={250}/>
       </View>
-      <Button name='Mulai' color='#fff' fam='Nunito-Bold' size={24} style={styles.btnSubmit} onPress={()=>navigation.navigate("Register")}/>
+      <Button name='Mulai' color='#fff' fam='Nunito-Bold' size={24} style={styles.btnSubmit} onPress={()=>navigation.navigate("LoginOptions")}/>
     </View>
   )
 };
