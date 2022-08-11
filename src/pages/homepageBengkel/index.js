@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Switch, Image } from 'react-native';
 import { Gap } from '../../components';
 import {Logo} from '../../assets/'
-import {Button} from '../../components'
+import {Button,Header} from '../../components'
 
 const HomeScreen = ({ navigation })=>{
 
@@ -10,70 +10,44 @@ const HomeScreen = ({ navigation })=>{
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
   return (
-    <View>
-      <View style={{marginLeft: 13}}>
-      {/* Header */}
-        <Gap height={20}/>
-        <TouchableOpacity
-
-          >
-            <Gap height={6.75}/>
-            <View style={{borderBottomColor: '#333333',borderBottomWidth: 2, opacity: 1, maxWidth: 10.67}}/>
-            <Gap height={6.75}/>
-            <View style={{borderBottomColor: '#333333',borderBottomWidth: 2, opacity: 1, maxWidth: 18.67}}/>
-            <Gap height={6.75}/>
-            <View style={{borderBottomColor: '#333333',borderBottomWidth: 2, opacity: 1, maxWidth: 10.67}}/>
-        </TouchableOpacity>
-      </View>
+    <View style={{flex:1,backgroundColor:'#fff'}}>
       <Gap height={21}/>
+      <Header navigation={navigation} button={true} name="Home"/>
       <View style={{borderBottomColor: 'black',borderBottomWidth: 2, opacity: 0.2, marginVertical:12 }}/>
       <View style={styles.caption}>
-        {/* caption */}
-        <View style={{height: 130}}>
-          <Logo height={157}/>
-        </View>
-        <View>
-           <Text style={styles.text1}>Auto OnServ</Text>
-        </View>
-        <View>
-          <Text style={styles.text2}>Service anywhere anythime!</Text>
-        </View>
+        <Logo height={157}/>
+        <Text style={styles.text1}>Auto OnServ</Text>
+        <Text style={styles.text2}>Service anywhere anythime!</Text>
       </View>
       <View style={{borderBottomColor: 'black',borderBottomWidth: 2, opacity: 0.2, marginVertical:12 }}/>
-      <Gap height={50}/>
+      <Gap height={40}/>
       <View style={styles.content}>
         {/* Content */}
         <View style={{flexDirection:'row'}}>
-          <Text style={styles.text3}>Status: </Text>
-
-          { isEnabled ? <Text style={styles.text4a}> Aktif</Text> :
-            <Text style={styles.text4b}>Tidak Aktif</Text>
-          }
+          <View style={{flexDirection:"row"}}>
+            <Text style={styles.text3}>Status: </Text>
+            { isEnabled ? <Text style={styles.text4a}> Aktif</Text> :
+              <Text style={styles.text4b}>Tidak Aktif</Text>
+            }
+          </View>
         </View>
-        <View style={styles.switchContainer}>
-          <Switch
-            style={{ transform: [{ scaleX: 2 }, { scaleY: 2 }] }}
-            trackColor={{ false: "#767577", true: "#38B000" }}
-            thumbColor={isEnabled ? "#ffff" : "#f4f3f4"}
-            ios_backgroundColor="#3e3e3e"
-            onValueChange={toggleSwitch}
-            value={isEnabled}
-          />
-       </View>
-
+        <Switch
+          style={{ transform: [{ scaleX: 2 }, { scaleY: 2 }] }}
+          trackColor={{ false: "#767577", true: "#38B000" }}
+          thumbColor={isEnabled ? "#ffff" : "#f4f3f4"}
+          ios_backgroundColor="#3e3e3e"
+          onValueChange={toggleSwitch}
+          value={isEnabled}/>
       </View>
       <Gap height={250}/>
-      <View>
-          {/* bottom button */}
-          <Button
-          style={styles.button}
-          name='Permintaan Service'
-          color = 'white'
-          textAlign='center'
-          size = {18}
-          fam = 'Nunito'
-          />
-      </View>
+        <Button
+        style={styles.button}
+        name='Permintaan Service'
+        color = 'white'
+        textAlign='center'
+        size = {18}
+        fam = 'Nunito'
+        />
     </View>
   );
 }
@@ -120,16 +94,11 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     // letterSpacing: 0.4
   },
-  switchContainer: {
-    flex: 1,
-    alignItems:"flex-end",
-    marginRight:28
-    // justifyContent: "center"
-  },
   content:{
     flexDirection:'row',
-    marginHorizontal: 12,
-    alignItems:'center'
+    alignItems:'center',
+    justifyContent:'space-between',
+    marginHorizontal:26
   },
   button:{
     marginHorizontal: 144,
