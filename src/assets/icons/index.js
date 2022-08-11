@@ -6,5 +6,6 @@ import ArrowLeft from './arrowLeft.svg'
 import Edit from './edit.svg'
 import Camera from './camera.svg'
 import ArrowRight from './chevron-right.svg'
+import Burger from './burgerIcon.svg'
 
-export {CarLogo,Logo,MotoLogo,SuccessIconn, ArrowLeft, Edit, Camera, ArrowRight}
+export {CarLogo,Logo,MotoLogo,SuccessIconn, ArrowLeft, Edit, Camera, ArrowRight, Burger}
