@@ -1,9 +1,7 @@
 import { StyleSheet, Text, View, Image } from 'react-native'
 import React from 'react'
 import {Gap} from '../../components'
-// import AntDesign from 'react-native-vector-icons/AntDesign'
-import CarLogo from '../../assets/icons/carLogo.svg'
-import { ArrowLeft } from '../../assets'
+import { ArrowLeft, CarLogo } from '../../assets'
 
 const ProfileBengkel = () => {
   return (
@@ -14,12 +12,12 @@ const ProfileBengkel = () => {
               {/* <AntDesign name ="arrowleft" size={30} color='black'/> */}
               <ArrowLeft width={14} height={13}/>
           </View>
-          <View style={styles.headerTitleContainer}> 
+          <View style={styles.headerTitleContainer}>
                 <Text style={styles.headerTitleText}>Profil</Text>
           </View>
            <Gap height={20}/>
       </View>
-      <View style={{borderBottomColor: 'black',borderBottomWidth: 1, opacity: 0.2, marginBottom: 12 }}/> 
+      <View style={{borderBottomColor: 'black',borderBottomWidth: 1, opacity: 0.2, marginBottom: 12 }}/>
       <View>
         <Text style={{color: 'black', fontWeight:'bold'}}>Jenis Bengkel yang dipilih:</Text>
         <View>
@@ -36,37 +34,37 @@ const ProfileBengkel = () => {
       <View style={styles.cardContainer}>
           <Text style={styles.titleText}>Nama Bengkel</Text>
         <View style={styles.card}>
-            <Text style={styles.textCard}>Bengkel Motorjaya</Text>    
+            <Text style={styles.textCard}>Bengkel Motorjaya</Text>
         </View>
       </View>
-      <Gap height={28}/>      
+      <Gap height={28}/>
       <View style={styles.cardContainer}>
           <Text style={styles.titleText}>Alamat</Text>
         <View style={styles.card}>
-            <Text style={styles.textCard}>motorjaya@gmail.com</Text>    
+            <Text style={styles.textCard}>motorjaya@gmail.com</Text>
         </View>
       </View>
       <Gap height={28}/>
       <View style={styles.cardContainer}>
           <Text style={styles.titleText}>Nomor HP</Text>
         <View style={styles.card}>
-            <Text style={styles.textCard}>+6281317743660</Text>    
+          <Text style={styles.textCard}>+6281317743660</Text>
         </View>
       </View>
       <Gap height={28}/>
       <View style={[styles.cardContainer]}>
           <Text style={styles.titleText}>Password</Text>
         <View style={styles.card}>
-            <Text>*************</Text>    
+            <Text>*************</Text>
         </View>
       </View>
       <Gap height={9}/>
       <View style={{flexDirection: 'row', justifyContent: 'flex-end', marginRight: 19 }}>
           <View>
-            <Text >Atur ulang kata sandi</Text>    
+            <Text >Atur ulang kata sandi</Text>
           </View>
       </View>
-      
+
     </View>
   )
 }
@@ -78,7 +76,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white'
   },
   header:{
-    flexDirection: 'row', 
+    flexDirection: 'row',
   },
   headerBackButton:{
     justifyContent:'center',
@@ -92,7 +90,7 @@ const styles = StyleSheet.create({
     color:'black'
   },
   cardContainer:{
-    marginLeft:19, 
+    marginLeft:19,
     marginRight: 19,
   },
   titleText:{
@@ -100,17 +98,17 @@ const styles = StyleSheet.create({
     marginBottom: 14
   },
   card:{
-    borderWidth:2, 
-    borderRadius: 14, 
-    borderColor: 'black', 
-    height: 59, 
+    borderWidth:2,
+    borderRadius: 14,
+    borderColor: 'black',
+    height: 59,
     padding: 16
   },
   textCard:{
     fontSize: 18
   },
   containerImage:{
-    alignItems:'center', 
+    alignItems:'center',
     justifyContent:'center'
   },
   ImageStyle: {
