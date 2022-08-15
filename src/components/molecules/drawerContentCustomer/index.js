@@ -4,7 +4,7 @@ import {DrawerContentScrollView,DrawerItem} from '@react-navigation/drawer'
 import Share from 'react-native-share'
 import {AvatarProfile,Help,ShareIcon,SignOut,HistoryIcon} from '../../../assets'
 
-const DrawerContent = (props)=>{
+const DrawerContentCustomer = (props)=>{
 
   const style = StyleSheet.create({
     container:{
@@ -83,11 +83,11 @@ const DrawerContent = (props)=>{
             <DrawerItem labelStyle={menu}
               icon={()=><AvatarProfile height={28} width={28}/>}
               label="Profil"
-              onPress={()=>{props.navigation.navigate('ProfileBengkel')}}/>
+              onPress={()=>{props.navigation.navigate('Profile')}}/>
             <DrawerItem labelStyle={menu}
               icon={()=><SignOut height={28} width={28}/>}
               label="Keluar"
-              onPress={()=>{props.navigation.navigate('LoginOptions')}}/>
+              onPress={()=>{props.navigation.navigate('ReportListPage')}}/>
             <DrawerItem labelStyle={menu}
               icon={()=><HistoryIcon height={28} width={28}/>}
               label="Riwayat"
@@ -109,4 +109,4 @@ const DrawerContent = (props)=>{
   )
 };
 
-export default DrawerContent;
+export default DrawerContentCustomer;
