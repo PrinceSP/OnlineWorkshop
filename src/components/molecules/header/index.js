@@ -2,7 +2,7 @@ import React from 'react'
 import {Text,View,TouchableOpacity} from 'react-native'
 import {Burger,Edit} from '../../../assets'
 
-const Header = ({name,button,navigation,action,edit,nav,color="#000",bgColor="#fff"})=>{
+const Header = ({name,navigation,action,edit,nav,color="#000",bgColor="#fff"})=>{
 
   const BackCancel = ({onPress})=>{
     return(
@@ -15,11 +15,8 @@ const Header = ({name,button,navigation,action,edit,nav,color="#000",bgColor="#f
   return(
     <View style={{minHeight:43,alignItems:'center',justifyContent:'space-between',flexDirection:'row',paddingHorizontal:17,
     backgroundColor:bgColor}}>
-      {
-        button===true?<Burger stroke={color} strokeWidth="4" strokeLinecap="round" onPress={()=>navigation.openDrawer()}/>
-        : <BackCancel onPress={()=>nav.goBack()}/>
+      <Burger stroke={color} strokeWidth="4" strokeLinecap="round" onPress={()=>navigation.openDrawer()}/>
 
-      }
       <Text style={{fontFamily:'Poppins-Medium',color,fontSize:22}}>{name}</Text>
       {edit===true?<TouchableOpacity onPress={()=>nav.navigate('EditProfile')} style={{flexDirection:'row'}}><Edit/><Text style={{color:'#7a7a7a'}}>Edit</Text></TouchableOpacity>:<View style={{width:42}}/>}
     </View>
