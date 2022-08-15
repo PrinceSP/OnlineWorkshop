@@ -24,7 +24,7 @@ const LoginCustomer = ({navigation}) => {
     //   console.log(re);
     // })
 
-    navigation.navigate("HomepageCustomer")
+    navigation.navigate('Root',{screen:'HomepageCustomer'})
   }
 
   return (
