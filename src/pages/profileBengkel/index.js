@@ -1,78 +1,62 @@
-import { StyleSheet, Text, View, Image } from 'react-native'
+import { StyleSheet, Text, View, Image,ScrollView } from 'react-native'
 import React from 'react'
 import {Gap} from '../../components'
 import { ArrowLeft, CarLogo } from '../../assets'
+import {Header} from '../../components'
 
-const ProfileBengkel = () => {
+const ProfileBengkel = ({navigation}) => {
   return (
     <View style={styles.container}>
       {/* header */}
-      <View style={styles.header}>
-          <View style={styles.headerBackButton}>
-              {/* <AntDesign name ="arrowleft" size={30} color='black'/> */}
-              <ArrowLeft width={14} height={13}/>
-          </View>
-          <View style={styles.headerTitleContainer}>
-                <Text style={styles.headerTitleText}>Profil</Text>
-          </View>
-           <Gap height={20}/>
-      </View>
-      <View style={{borderBottomColor: 'black',borderBottomWidth: 1, opacity: 0.2, marginBottom: 12 }}/>
-      <View>
+      <Header name="Profil" navigation={navigation}/>
+      <ScrollView containerStyle={{height:300,backgroundColor:'red'}}>
+        <View style={{borderBottomColor: 'black',borderBottomWidth: 1, opacity: 0.2, marginBottom: 12 }}/>
         <Text style={{color: 'black', fontWeight:'bold'}}>Jenis Bengkel yang dipilih:</Text>
-        <View>
-        {/* <Car width={120} height={40} /> */}
-
-        </View>
-      </View>
-      <View style={styles.containerImage}>
+        <View style={styles.containerImage}>
           <Image
-            source={require('../../assets/images/fotoprofilbengkel.png')} //Change your icon image here
-              style={styles.ImageStyle}
-        />
-        </View>
-      <View style={styles.cardContainer}>
-          <Text style={styles.titleText}>Nama Bengkel</Text>
-        <View style={styles.card}>
-            <Text style={styles.textCard}>Bengkel Motorjaya</Text>
-        </View>
-      </View>
-      <Gap height={28}/>
-      <View style={styles.cardContainer}>
-          <Text style={styles.titleText}>Alamat</Text>
-        <View style={styles.card}>
-            <Text style={styles.textCard}>motorjaya@gmail.com</Text>
-        </View>
-      </View>
-      <Gap height={28}/>
-      <View style={styles.cardContainer}>
-          <Text style={styles.titleText}>Nomor HP</Text>
-        <View style={styles.card}>
-          <Text style={styles.textCard}>+6281317743660</Text>
-        </View>
-      </View>
-      <Gap height={28}/>
-      <View style={[styles.cardContainer]}>
-          <Text style={styles.titleText}>Password</Text>
-        <View style={styles.card}>
-            <Text>*************</Text>
-        </View>
-      </View>
-      <Gap height={9}/>
-      <View style={{flexDirection: 'row', justifyContent: 'flex-end', marginRight: 19 }}>
-          <View>
-            <Text >Atur ulang kata sandi</Text>
+            source={require('../../assets/images/fotoprofilbengkel.png')}
+            style={styles.ImageStyle}
+          />
+         </View>
+          <View style={styles.cardContainer}>
+              <Text style={styles.titleText}>Nama Bengkel</Text>
+            <View style={styles.card}>
+              <Text style={styles.textCard}>Bengkel Motorjaya</Text>
+            </View>
           </View>
-      </View>
-
+          <Gap height={28}/>
+          <View style={styles.cardContainer}>
+              <Text style={styles.titleText}>Alamat</Text>
+            <View style={styles.card}>
+                <Text style={styles.textCard}>motorjaya@gmail.com</Text>
+            </View>
+          </View>
+          <Gap height={28}/>
+          <View style={styles.cardContainer}>
+              <Text style={styles.titleText}>Nomor HP</Text>
+            <View style={styles.card}>
+              <Text style={styles.textCard}>+6281317743660</Text>
+            </View>
+          </View>
+          <Gap height={28}/>
+          <View style={[styles.cardContainer]}>
+              <Text style={styles.titleText}>Password</Text>
+            <View style={styles.card}>
+              <Text>*************</Text>
+            </View>
+          </View>
+          <Gap height={9}/>
+          <View style={{flexDirection: 'row', justifyContent: 'flex-end', marginRight: 19 }}>
+            <Text>Atur ulang kata sandi</Text>
+          </View>
+        </ScrollView>
     </View>
   )
 }
 
-export default ProfileBengkel
-
 const styles = StyleSheet.create({
   container:{
+    flex:1,
     backgroundColor: 'white'
   },
   header:{
@@ -120,6 +104,7 @@ const styles = StyleSheet.create({
     borderRadius:43.5,
     resizeMode: 'stretch',
     alignItems: 'center',
-}
+  }
 
 })
+export default ProfileBengkel
