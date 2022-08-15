@@ -27,7 +27,7 @@ const LoginBengkel = ({navigation}) => {
               <Text style={{color:'#777'}}>Pengguna baru?</Text>
               <Button name='Daftar' color='#000' fam='Nunito-Bold' onPress={()=>navigation.navigate('RegisterBengkel')}/>
             </View>
-            <Button name='Masuk' color='#000' fam='Nunito-Regular' size={20} style={styles.btnSubmit} onPress={()=>navigation.navigate('HomeScreen')}/>
+            <Button name='Masuk' color='#000' fam='Nunito-Regular' size={20} style={styles.btnSubmit} onPress={()=>navigation.navigate('Root',{screen:'HomeScreen'})}/>
           </View>
         </View>
       </ImageBackground>
