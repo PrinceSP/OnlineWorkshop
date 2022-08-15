@@ -1,8 +1,8 @@
 import React from 'react'
 import {View,StyleSheet,Text} from 'react-native'
-import {Header,Gap} from '../../components'
+import {Header,Gap,WorkshopComponent} from '../../components'
 
-const HomepageCustomer = (props) => {
+const HomepageCustomer = ({navigation}) => {
   return (
     <View style={styles.container}>
       <Gap height={20}/>
