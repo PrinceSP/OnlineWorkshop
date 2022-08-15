@@ -2,7 +2,7 @@ import React from 'react'
 import {Text,View,StyleSheet,ScrollView,Switch,Image,Platform} from 'react-native'
 import {DrawerContentScrollView,DrawerItem} from '@react-navigation/drawer'
 import Share from 'react-native-share'
-// import {AvatarProfile,Help,Report,ShareIcon,SignOut} from '../../../assets'
+import {AvatarProfile,Help,ShareIcon,SignOut,HistoryIcon} from '../../../assets'
 
 const DrawerContent = (props)=>{
 
@@ -49,7 +49,7 @@ const DrawerContent = (props)=>{
     const shareOptions = {
        message: `Find the road around you that damaded or in bad condition and report it with our application`,
        title:'Share Via',
-       url:logoToShare
+       url:'https://github.com/princesp'
      }
 
      try {
@@ -72,7 +72,38 @@ const DrawerContent = (props)=>{
   return(
     <View style={container}>
       <DrawerContentScrollView {...props}>
-        <Text>dsfsdfsdf</Text>
+        <View style={container}>
+          <View style={section}>
+            <View>
+              <Text style={title}>Yoel Roring</Text>
+              <Text style={desc}>+62813131313131</Text>
+            </View>
+          </View>
+          <View style={drawerItemsContainer}>
+            <DrawerItem labelStyle={menu}
+              icon={()=><AvatarProfile height={28} width={28}/>}
+              label="Profil"
+              onPress={()=>{props.navigation.navigate('Profile')}}/>
+            <DrawerItem labelStyle={menu}
+              icon={()=><SignOut height={28} width={28}/>}
+              label="Keluar"
+              onPress={()=>{props.navigation.navigate('ReportListPage')}}/>
+            <DrawerItem labelStyle={menu}
+              icon={()=><HistoryIcon height={28} width={28}/>}
+              label="Riwayat"
+              onPress={()=>{props.navigation.navigate('ReportListPage')}}/>
+          </View>
+          <View style={[{paddingTop:19}]}>
+            <DrawerItem labelStyle={menu}
+              icon={()=><ShareIcon height={26} width={26}/>}
+              label="Undang Teman"
+              onPress={shareBtn}/>
+            <DrawerItem labelStyle={menu}
+              icon={()=><Help height={28} width={28}/>}
+              label="Tanggapan dan Saran"
+              onPress={()=>{props.navigation.navigate('Feedback')}}/>
+          </View>
+        </View>
       </DrawerContentScrollView>
     </View>
   )
