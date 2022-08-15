@@ -2,32 +2,39 @@ import React,{useState,useEffect} from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import {Register,Login,SplashScreen,LoginOptions,LoginBengkel,LoginCustomer,RegisterBengkel,
-  RegisterBengkelMotor,RegisterBengkelMobil,HomeScreen,ProfileBengkel,HomepageCustomer} from '../pages';
-import {DrawerContent} from '../components'
+  RegisterBengkelMotor,RegisterBengkelMobil,HomeScreen,HomepageCustomer,ProfileBengkel,
+  ProfileCustomer} from '../pages';
+import {DrawerContent,DrawerContentCustomer} from '../components'
 
 const {Navigator,Screen} = createNativeStackNavigator();
 const Drawer = createDrawerNavigator()
+const DrawerTwo = createDrawerNavigator()
+
+const CustomerDrawer = ()=>{
+  return(
+    <DrawerTwo.Navigator initialRouteName="HomepageCustomer"
+      id="customerDrawer"
+      screenOptions={{
+        drawerStyle: {
+          backgroundColor: '#FFFFFF',
+          width: 300,
+          borderTopRightRadius:20,
+          borderBottomRightRadius:20,
+        },
+        focused:Boolean,
+        drawerActiveBackgroundColor:'#abcdef'
+      }}>
+      <DrawerTwo.Screen name="HomepageCustomer" component={HomepageCustomer} options={{headerShown: false}}/>
+      <DrawerTwo.Screen name="ProfileCustomer" component={ProfileCustomer} options={{headerShown:false}}/>
+    </DrawerTwo.Navigator>
+  )
+}
 
 const Root=()=>{
-  const[userType,setUserType] = useState(false)
-  // const checkOnBoarding = async()=>{
-  //   try {
-  //     const value = await AsyncStorage.getItem("@viewed")
-  //     if (value!==null) {
-  //       return setViewedOnBoarding(true)
-  //     }else{
-  //       return setViewedOnBoarding(false)
-  //     }
-  //   } catch (e) {
-  //     return e
-  //   }
-  // }
-  // useEffect(()=>{
-  //   checkOnBoarding()
-  // },[])
 
   return(
     <Drawer.Navigator initialRouteName="HomeScreen"
+      id="root"
       drawerContent={props=><DrawerContent {...props}/>}
       screenOptions={{
         drawerStyle: {
@@ -40,7 +47,6 @@ const Root=()=>{
         drawerActiveBackgroundColor:'#abcdef'
       }}>
       <Drawer.Screen name="HomeScreen" component={HomeScreen} options={{headerShown: false}}/>
-      <Drawer.Screen name="HomepageCustomer" component={HomepageCustomer} options={{headerShown: false}}/>
       <Drawer.Screen name="ProfileBengkel" component={ProfileBengkel} options={{headerShown:false}}/>
     </Drawer.Navigator>
   )
@@ -58,6 +64,7 @@ const Router = () =>{
       <Screen name="RegisterBengkelMotor" component={RegisterBengkelMotor} options={{headerShown: false}}/>
       <Screen name="RegisterBengkelMobil" component={RegisterBengkelMobil} options={{headerShown: false}}/>
       <Screen name="Root" component={Root} options={{headerShown:false}}/>
+      <Screen name="CustomerDrawer" component={CustomerDrawer} options={{headerShown:false}}/>
     </Navigator>
   );
 };
