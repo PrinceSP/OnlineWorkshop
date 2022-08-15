@@ -12,7 +12,7 @@ const HomeScreen = ({ navigation })=>{
   return (
     <View style={{flex:1,backgroundColor:'#fff'}}>
       <Gap height={21}/>
-      <Header navigation={navigation} button={true} name="Home"/>
+      <Header navigation={navigation} name="Home"/>
       <View style={{borderBottomColor: 'black',borderBottomWidth: 2, opacity: 0.2, marginVertical:12 }}/>
       <View style={styles.caption}>
         <Logo height={157}/>
