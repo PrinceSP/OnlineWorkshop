@@ -9,7 +9,7 @@ const ProfileBengkel = ({navigation}) => {
     <View style={styles.container}>
       {/* header */}
       <Header name="Profil" navigation={navigation}/>
-      <ScrollView containerStyle={{height:300,backgroundColor:'red'}}>
+      <ScrollView contentContainerStyle={{paddingBottom:20}}>
         <View style={{borderBottomColor: 'black',borderBottomWidth: 1, opacity: 0.2, marginBottom: 12 }}/>
         <Text style={{color: 'black', fontWeight:'bold'}}>Jenis Bengkel yang dipilih:</Text>
         <View style={styles.containerImage}>
@@ -24,33 +24,22 @@ const ProfileBengkel = ({navigation}) => {
               <Text style={styles.textCard}>Bengkel Motorjaya</Text>
             </View>
           </View>
-          <Gap height={28}/>
+          <Gap height={20}/>
           <View style={styles.cardContainer}>
               <Text style={styles.titleText}>Alamat</Text>
             <View style={styles.card}>
                 <Text style={styles.textCard}>motorjaya@gmail.com</Text>
             </View>
           </View>
-          <Gap height={28}/>
+          <Gap height={20}/>
           <View style={styles.cardContainer}>
               <Text style={styles.titleText}>Nomor HP</Text>
             <View style={styles.card}>
               <Text style={styles.textCard}>+6281317743660</Text>
             </View>
           </View>
-          <Gap height={28}/>
-          <View style={[styles.cardContainer]}>
-              <Text style={styles.titleText}>Password</Text>
-            <View style={styles.card}>
-              <Text>*************</Text>
-            </View>
-          </View>
-          <Gap height={9}/>
-          <View style={{flexDirection: 'row', justifyContent: 'flex-end', marginRight: 19 }}>
-            <Text>Atur ulang kata sandi</Text>
-          </View>
         </ScrollView>
-    </View>
+      </View>
   )
 }
 
@@ -79,7 +68,8 @@ const styles = StyleSheet.create({
   },
   titleText:{
     fontSize: 14,
-    marginBottom: 14
+    marginBottom: 14,
+    color:"#444"
   },
   card:{
     borderWidth:2,
@@ -89,7 +79,8 @@ const styles = StyleSheet.create({
     padding: 16
   },
   textCard:{
-    fontSize: 18
+    fontSize: 18,
+    color:"#000"
   },
   containerImage:{
     alignItems:'center',
