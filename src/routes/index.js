@@ -3,7 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import {Register,Login,SplashScreen,LoginOptions,LoginBengkel,LoginCustomer,RegisterBengkel,
   RegisterBengkelMotor,RegisterBengkelMobil,HomeScreen,HomepageCustomer,ProfileBengkel,
-  ProfileCustomer,HistoryPemesanan,BengkelMelaporCustomer} from '../pages';
+  ProfileCustomer,HistoryPemesanan,BengkelMelaporCustomer,PermintaanService} from '../pages';
 import {DrawerContent,DrawerContentCustomer} from '../components'
 
 const {Navigator,Screen} = createNativeStackNavigator();
@@ -50,6 +50,7 @@ const Root=()=>{
       <Drawer.Screen name="ProfileBengkel" component={ProfileBengkel} options={{headerShown:false}}/>
       <Drawer.Screen name="HistoryPemesanan" component={HistoryPemesanan} options={{headerShown:false}}/>
       <Drawer.Screen name="BengkelMelaporCustomer" component={BengkelMelaporCustomer} options={{headerShown:false}}/>
+      <Drawer.Screen name="PermintaanService" component={PermintaanService} options={{headerShown:false}}/>
     </Drawer.Navigator>
   )
 }
