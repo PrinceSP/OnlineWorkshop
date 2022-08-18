@@ -1,55 +1,52 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { StyleSheet, Text, View, TextInput } from 'react-native'
-import { ArrowLeft, Edit } from '../../assets';
-import { Button, Gap } from '../../components';
+import { ArrowLeft, Edit, SuccessIcon } from '../../assets';
+import { Button, Gap, ModalSuccess } from '../../components';
 
 const BengkelMelaporCustomer = ({navigation}) => {
-
-  const [text, onChangeText] = React.useState("");
+  const [visible,setVisible] = useState(false)
 
   return (
     <View style={{flex: 1}}>
-       <View style={styles.header}>
-          <View style={styles.headerBackButton}>
-              <ArrowLeft height={20} width={18} onPress={()=>navigation.navigate("HistoryPemesanan")}/>
+      <ModalSuccess visible={visible}>
+        <View style={styles.modalContainer}>
+          <Text onPress={()=>setVisible(false)} style={{fontSize:28,position:'absolute',right:30,top:24,color:'#000'}}>X</Text>
+          <SuccessIcon height={120} width={120}/>
+          <View style={[styles.headingWrapper,{marginTop:21}]}>
+            <Text style={[{color:'#823589'},styles.headingText]}>Terima kasih,</Text>
+            <Text style={[{color:'#718496',marginLeft:4},styles.headingText]}>Yoel Roring!</Text>
           </View>
-          <View style={styles.headerTitleContainer}>
-                <Text style={styles.headerTitleText}>Lapor</Text>
+          <Text style={styles.comment}>Laporan anda akan segera kami tangani</Text>
+          <View style={[styles.headingWrapper,{marginTop:50}]}>
+            <Text style={{fontSize:15,fontFamily:'Poppins-SemiBold',color:'#C0A8C2'}}>Butuh bantuan?</Text>
+            <Text style={{color:'#E550F2',marginLeft:4,fontSize:15,fontFamily:'Poppins-SemiBold'}}>Hubungi kami!</Text>
           </View>
+        </View>
+      </ModalSuccess>
+      <View style={styles.header}>
+        <View style={styles.headerBackButton}>
+          <ArrowLeft height={20} width={18} onPress={()=>navigation.navigate("HistoryPemesanan")}/>
+        </View>
+        <View style={styles.headerTitleContainer}>
+          <Text style={styles.headerTitleText}>Lapor</Text>
+        </View>
       </View>
       <Gap height={17}/>
       <View style={{borderBottomColor: 'black',borderBottomWidth: 2, opacity: 0.2}}/>
       <Gap height={23}/>
       <View style={styles.content}>
-        <View>
         <View style={{flexDirection:'row'}}>
-          <View>
-            <Text style={{fontFamily:'Nunito', fontWeight:'700', fontSize: 18, color: 'black'}}>Laporkan jika ada masalah</Text>
-          </View>
-        <Gap width={7}/>
-          <View>
-            <Edit width={20}/>
-          </View>
+          <Text style={{fontFamily:'Nunito', fontWeight:'700', fontSize: 18, color: 'black'}}>Laporkan jika ada masalah</Text>
+          <Gap width={7}/>
+          <Edit width={20}/>
         </View>
-        <Gap height={5}/>
-        <View>
-          <TextInput
-             style={styles.textInputStyle}
-             onChangeText={onChangeText}
-             value={text}
-            />
-        </View>
-        </View>
-          <View style={styles.button}>
-            <Button
-              name='Kirim'
-              size = {24}
-              weight = 'bold'
-              color ='white'
-            />
-         </View>
-        </View>
-        <Gap height={16}/>
+        <TextInput style={styles.textInputStyle} underlineColorAndroid="transparent"
+          placeholderTextColor="#C0A8C2"
+          numberOfLines={10}
+          multiline={true}/>
+        <Gap height={200}/>
+        <Button style={styles.button} name='Kirim' size = {24} weight = 'bold' color ='white' onPress={()=>setVisible(true)}/>
+      </View>
     </View>
   )
 }
@@ -75,17 +72,17 @@ const styles = StyleSheet.create({
     fontSize: 36
   },
   textInputStyle:{
+    textAlignVertical:'top',
     borderWidth: 2,
     borderColor:'black',
     height: 132,
     width: '100%',
-    borderRadius: 10
+    borderRadius: 10,
+    paddingHorizontal:10
   },
   content:{
     marginHorizontal: 15,
-    flex: 1,
     flexDirection:'column',
-    // backgroundColor: 'blue',
     justifyContent: 'space-between',
   },
   button:{
@@ -94,5 +91,22 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 15
-}
+  },
+  modalContainer:{
+    backgroundColor:"#fff",
+    minHeight:405,
+    minWidth:329,
+    borderRadius:20,
+    alignItems:'center',
+    paddingVertical:64
+  },
+  headingWrapper:{flexDirection:'row'},
+  headingText:{fontSize:19,fontFamily:'Poppins-SemiBold'},
+  modalBg:{
+    flex:1,
+    backgroundColor:'rgba(0, 0, 0, 0.43)',
+    alignItems:'center',
+    justifyContent:'center'
+  },
+  comment:{textAlign:'center',width:230,marginTop:5,color:'#999',fontSize:17},
 })
