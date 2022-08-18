@@ -46,7 +46,7 @@ const ProfileCustomer = () => {
 }
 const styles = StyleSheet.create({
   container:{
-    backgroundColor: 'white'
+    backgroundColor: '#fff'
   },
   header:{
     flexDirection: 'row',
