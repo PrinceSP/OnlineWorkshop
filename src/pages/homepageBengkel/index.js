@@ -39,15 +39,8 @@ const HomeScreen = ({ navigation })=>{
           onValueChange={toggleSwitch}
           value={isEnabled}/>
       </View>
-      <Gap height={250}/>
-        <Button
-        style={styles.button}
-        name='Permintaan Service'
-        color = 'white'
-        textAlign='center'
-        size = {18}
-        fam = 'Nunito'
-        />
+      <Gap height={220}/>
+      <Button style={styles.button} name='Permintaan Service' color = 'white' textAlign='center' size = {18} fam = 'Nunito' onPress={()=>navigation.navigate('PermintaanService')}/>
     </View>
   );
 }
@@ -101,12 +94,14 @@ const styles = StyleSheet.create({
     marginHorizontal:26
   },
   button:{
-    marginHorizontal: 144,
+    marginLeft:100,
     height: 50,
+    width:200,
     backgroundColor: '#5E6B73',
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 15,
+    padding:4
   },
     ImageStyle: {
       padding: 10,
