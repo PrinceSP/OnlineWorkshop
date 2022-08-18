@@ -12,7 +12,8 @@ import ProfileBengkel from './profileBengkel'
 import ProfileCustomer from './profileCustomer'
 import HistoryPemesanan from './historyPemesanan'
 import BengkelMelaporCustomer from './bengkelMelaporCustomer'
+import PermintaanService from './permintaanService'
 
 export {Register,SplashScreen,LoginOptions,LoginBengkel,LoginCustomer,ProfileBengkel,ProfileCustomer,
   RegisterBengkel,RegisterBengkelMotor,RegisterBengkelMobil,HomeScreen,
-  HomepageCustomer,HistoryPemesanan,BengkelMelaporCustomer}
+  HomepageCustomer,HistoryPemesanan,BengkelMelaporCustomer,PermintaanService}
