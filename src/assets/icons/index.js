@@ -12,6 +12,8 @@ import AvatarProfile from './UserCircle.svg'
 import HistoryIcon from './history.svg'
 import SignOut from './signOut.svg'
 import Help from './help.svg'
+import MapPin from './mapPin.svg'
+import Warning from './warning.svg'
 
 export {CarLogo,Logo,MotoLogo,SuccessIconn, ArrowLeft, Edit, Camera, ArrowRight, Burger,ShareIcon,
-  AvatarProfile, HistoryIcon, SignOut, Help}
+  AvatarProfile, HistoryIcon, SignOut, Help, MapPin,Warning}
