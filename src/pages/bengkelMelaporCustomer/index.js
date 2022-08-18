@@ -1,24 +1,24 @@
-import { StyleSheet, Text, View, TextInput } from 'react-native'
 import React from 'react'
+import { StyleSheet, Text, View, TextInput } from 'react-native'
 import { ArrowLeft, Edit } from '../../assets';
 import { Button, Gap } from '../../components';
 
-const BengkelMelaporCustomer = () => {
-  
+const BengkelMelaporCustomer = ({navigation}) => {
+
   const [text, onChangeText] = React.useState("");
 
   return (
     <View style={{flex: 1}}>
        <View style={styles.header}>
           <View style={styles.headerBackButton}>
-              <ArrowLeft height={13} widdth={14}/>
+              <ArrowLeft height={20} width={18} onPress={()=>navigation.navigate("HistoryPemesanan")}/>
           </View>
-          <View style={styles.headerTitleContainer}> 
+          <View style={styles.headerTitleContainer}>
                 <Text style={styles.headerTitleText}>Lapor</Text>
           </View>
       </View>
       <Gap height={17}/>
-      <View style={{borderBottomColor: 'black',borderBottomWidth: 2, opacity: 0.2}}/> 
+      <View style={{borderBottomColor: 'black',borderBottomWidth: 2, opacity: 0.2}}/>
       <Gap height={23}/>
       <View style={styles.content}>
         <View>
@@ -41,7 +41,7 @@ const BengkelMelaporCustomer = () => {
         </View>
         </View>
           <View style={styles.button}>
-            <Button 
+            <Button
               name='Kirim'
               size = {24}
               weight = 'bold'
@@ -59,7 +59,7 @@ export default BengkelMelaporCustomer;
 const styles = StyleSheet.create({
 
   header:{
-    flexDirection: 'row', 
+    flexDirection: 'row',
   },
   headerBackButton:{
     justifyContent:'center',
