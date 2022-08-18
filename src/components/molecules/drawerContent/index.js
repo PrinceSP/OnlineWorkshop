@@ -91,7 +91,7 @@ const DrawerContent = (props)=>{
             <DrawerItem labelStyle={menu}
               icon={()=><HistoryIcon height={28} width={28}/>}
               label="Riwayat"
-              onPress={()=>{props.navigation.navigate('ReportListPage')}}/>
+              onPress={()=>{props.navigation.navigate('HistoryPemesanan')}}/>
           </View>
           <View style={[{paddingTop:19}]}>
             <DrawerItem labelStyle={menu}
