@@ -15,6 +15,8 @@ import Help from './help.svg'
 import MapPin from './mapPin.svg'
 import Warning from './warning.svg'
 import CustomMarker from './marker.png'
+import Pointer from './pointer.svg'
+import Phone from './phone.svg'
 
 export {CarLogo,Logo,MotoLogo,SuccessIcon, ArrowLeft, Edit, Camera, ArrowRight, Burger,ShareIcon,
-  AvatarProfile, HistoryIcon, SignOut, Help, MapPin,Warning, CustomMarker}
+  AvatarProfile, HistoryIcon, SignOut, Help, MapPin,Warning, CustomMarker, Pointer, Phone}
