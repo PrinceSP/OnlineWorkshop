@@ -43,6 +43,11 @@ const PermintaanService = ({navigation}) => {
     navigation.navigate("HomeScreen")
   }
 
+  const confirm=()=>{
+    top.value = withSpring(dimensions.height / 1,springConfig)
+    navigation.navigate("POVLocation")
+  }
+
   return (
     <View style={styles.container}>
       <Gap height={24}/>
@@ -53,7 +58,7 @@ const PermintaanService = ({navigation}) => {
           <View style={{borderStyle:'dotted',borderColor:"rgba(0,0,0,0.4)",borderWidth:2}}/>
           <Gap height={70}/>
           <View style={{width:"100%",flexDirection:'row',alignItems:'center',justifyContent:'space-between',alignContent:'center',paddingHorizontal:40}}>
-            <Button style={styles.button} name='Terima' size = {18} color ='#A8AA3B' fam="Nunito-Bold"/>
+            <Button style={styles.button} name='Terima' size = {18} color ='#A8AA3B' fam="Nunito-Bold" onPress={confirm}/>
             <Button style={styles.button} name='Tolak' size = {18} color ='#FF0000' fam="Nunito-Bold"/>
           </View>
         </Animated.View>
@@ -74,7 +79,7 @@ const PermintaanService = ({navigation}) => {
              />
           <Gap width={23}/>
           <View style={{flexDirection:'column', justifyContent:'center'}}>
-            <Text style={{fontSize:18, fontFamily:'Nunito', fontWeight:'700', color:'black'}}>Yoel Roring</Text>
+            <Text style={{fontSize:18, fontFamily:'Nunito', fontWeight:'700', color:'#000'}}>Yoel Roring</Text>
             <Text style={{fontSize:18, fontFamily:'Nunito', fontWeight:'700', color:'#BCB6B6'}}>Malalayang Satu</Text>
           </View>
         </View>
@@ -88,7 +93,8 @@ export default PermintaanService
 const styles = StyleSheet.create({
     container:{
         flex:1,
-        paddingHorizontal:15
+        paddingHorizontal:15,
+        backgroundColor:"#fff"
     },
     textCaption:{
         fontFamily:'Nunito-Bold',
