@@ -1,12 +1,36 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {ImageBackground,View,Text,StyleSheet,Dimensions} from 'react-native'
 import {LoginBackground,Logo} from '../../assets'
 import {Input,Gap,Button} from '../../components'
+import { collection, addDoc } from "firebase/firestore";
+import {db} from '../../config/firebase'
 
 const width = Dimensions.get('window').width
 const height = Dimensions.get('window').height
 
 const LoginBengkel = ({navigation}) => {
+
+  const [username,setUsername] = useState('')
+  const [password,setPassword] = useState('')
+
+  const submit =  async()=>{
+    console.log(username,password);
+
+    // try {
+    //   const docRef = await addDoc(collection(db, "users"), {
+    //     username: username,
+    //     password: password,
+    //     role:'bengkel'
+    //   });
+    //   alert(true);
+    //   console.log("Document written with ID: ", docRef.id);
+    // } catch (e) {
+    //   alert(false);
+    //   console.error("Error adding document: ", e);
+    // }
+    navigation.navigate('Root',{screen:'HomeScreen'})
+  }
+
   return (
     <View style={styles.container}>
       <ImageBackground source={LoginBackground} resizeMode="cover" style={styles.image}>
@@ -16,9 +40,9 @@ const LoginBengkel = ({navigation}) => {
             <Text style={{color:'#000000',fontSize:24,fontFamily:"Nunito-Bold",marginLeft:15}}>Bengkel</Text>
           </View>
           <Text style={styles.title}>Masuk</Text>
-          <Input setLabel={true} label="Email" borderRadius={10} width={width/1.22}/>
+          <Input setLabel={true} label="Email" borderRadius={10} width={width/1.22} defaultValue={username} onChangeText={(value)=>setUsername(value)}/>
           <Gap height={40}/>
-          <Input setLabel={true} label="Password" borderRadius={10} width={width/1.22}/>
+          <Input setLabel={true} label="Password" borderRadius={10} width={width/1.22} secureTextEntry={true} defaultValue={password} onChangeText={(value)=>setPassword(value)}/>
           <Gap height={15}/>
           <Button name='Lupa password?' color='#000' fam='Nunito-Bold'/>
           <Gap height={60}/>
@@ -27,7 +51,7 @@ const LoginBengkel = ({navigation}) => {
               <Text style={{color:'#777'}}>Pengguna baru?</Text>
               <Button name='Daftar' color='#000' fam='Nunito-Bold' onPress={()=>navigation.navigate('RegisterBengkel')}/>
             </View>
-            <Button name='Masuk' color='#000' fam='Nunito-Regular' size={20} style={styles.btnSubmit} onPress={()=>navigation.navigate('Root',{screen:'HomeScreen'})}/>
+            <Button name='Masuk' color='#000' fam='Nunito-Regular' size={20} style={styles.btnSubmit} onPress={submit}/>
           </View>
         </View>
       </ImageBackground>
