@@ -14,7 +14,8 @@ import HistoryPemesanan from './historyPemesanan'
 import BengkelMelaporCustomer from './bengkelMelaporCustomer'
 import PermintaanService from './permintaanService'
 import POVLocation from './location'
+import Feedback from './feedback'
 
 export {Register,SplashScreen,LoginOptions,LoginBengkel,LoginCustomer,ProfileBengkel,ProfileCustomer,
   RegisterBengkel,RegisterBengkelMotor,RegisterBengkelMobil,HomeScreen,POVLocation,
-  HomepageCustomer,HistoryPemesanan,BengkelMelaporCustomer,PermintaanService}
+  HomepageCustomer,HistoryPemesanan,BengkelMelaporCustomer,PermintaanService,Feedback}
