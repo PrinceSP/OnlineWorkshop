@@ -3,7 +3,6 @@ import {ImageBackground,View,Text,StyleSheet,Dimensions} from 'react-native'
 import {LoginBackground,Logo} from '../../assets'
 import {Input,Gap,Button} from '../../components'
 import {auth} from '../../config/firebase'
-import {signInWithEmailAndPassword} from 'firebase/auth'
 
 const width = Dimensions.get('window').width
 const height = Dimensions.get('window').height
