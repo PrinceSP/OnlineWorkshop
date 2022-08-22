@@ -83,15 +83,7 @@ const DrawerContentCustomer = (props)=>{
             <DrawerItem labelStyle={menu}
               icon={()=><AvatarProfile height={28} width={28}/>}
               label="Profil"
-              onPress={()=>{props.navigation.navigate('Profile')}}/>
-            <DrawerItem labelStyle={menu}
-              icon={()=><SignOut height={28} width={28}/>}
-              label="Keluar"
-              onPress={()=>{props.navigation.navigate('ReportListPage')}}/>
-            <DrawerItem labelStyle={menu}
-              icon={()=><HistoryIcon height={28} width={28}/>}
-              label="Riwayat"
-              onPress={()=>{props.navigation.navigate('ReportListPage')}}/>
+              onPress={()=>{props.navigation.navigate('ProfileCustomer')}}/>
           </View>
           <View style={[{paddingTop:19}]}>
             <DrawerItem labelStyle={menu}
