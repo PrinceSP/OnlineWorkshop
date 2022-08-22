@@ -6,7 +6,7 @@ const HomepageCustomer = ({navigation}) => {
   return (
     <View style={styles.container}>
       <Gap height={20}/>
-      <Header navigation="navigation" name="Home" btn="customer"/>
+      <Header navigation="navigation" name="Home"/>
       <Gap height={30}/>
       <WorkshopComponent/>
     </View>
