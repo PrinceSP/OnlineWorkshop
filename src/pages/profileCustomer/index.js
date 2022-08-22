@@ -3,13 +3,13 @@ import React from 'react'
 import {Gap} from '../../components'
 import { ArrowLeft } from '../../assets'
 
-const ProfileCustomer = () => {
+const ProfileCustomer = ({navigation}) => {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       {/* header */}
       <View style={styles.header}>
           <View style={styles.headerBackButton}>
-          <ArrowLeft height={13} widdth={14}/>
+          <ArrowLeft height={14} onPress={()=>navigation.goBack()}/>
           </View>
           <View style={styles.headerTitleContainer}>
                 <Text style={styles.headerTitleText}>Profil</Text>
@@ -46,7 +46,8 @@ const ProfileCustomer = () => {
 }
 const styles = StyleSheet.create({
   container:{
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
+    flex:1
   },
   header:{
     flexDirection: 'row',
