@@ -1,12 +1,14 @@
 import React from 'react';
 import {View,Text,StyleSheet,ScrollView} from 'react-native'
-import {FeedbackIllustrations} from '../src/assets'
-import {Input,Gap,Button,FeedbackForm,ModalSuccess} from '../src/components'
+import {FeedbackIllustrations} from '../../assets'
+import {Input,Gap,Button,FeedbackForm,ModalSuccess,Header} from '../../components'
 
-const Feedback = (props) => {
+const Feedback = ({navigation}) => {
   return (
     <View style={{flex:1,backgroundColor:"#fff"}}>
-      <Gap height={45}/>
+      <Gap height={15}/>
+      <Header name="Tanggapan dan Saran" btn="customer" navigation={navigation}/>
+      <Gap height={15}/>
       <ScrollView showsVerticalScrollIndicator={false}>
         {/*<ModalSuccess visible={visible}>
           <View style={modalContainer}>
