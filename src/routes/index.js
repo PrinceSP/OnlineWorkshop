@@ -2,7 +2,7 @@ import React,{useState,useEffect} from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import {Register,Login,SplashScreen,LoginOptions,LoginBengkel,LoginCustomer,RegisterBengkel,
-  RegisterBengkelMotor,RegisterBengkelMobil,HomeScreen,HomepageCustomer,ProfileBengkel,
+  RegisterBengkelMotor,RegisterBengkelMobil,HomeScreen,HomepageCustomer,ProfileBengkel,Feedback,
   ProfileCustomer,HistoryPemesanan,BengkelMelaporCustomer,PermintaanService,POVLocation} from '../pages';
 import {DrawerContent,DrawerContentCustomer} from '../components'
 
@@ -14,7 +14,9 @@ const CustomerDrawer = ()=>{
   return(
     <DrawerTwo.Navigator initialRouteName="HomepageCustomer"
       id="customerDrawer"
+      drawerContent={props=><DrawerContentCustomer {...props}/>}
       screenOptions={{
+        drawerPosition: 'right',
         drawerStyle: {
           backgroundColor: '#FFFFFF',
           width: 300,
@@ -26,6 +28,7 @@ const CustomerDrawer = ()=>{
       }}>
       <DrawerTwo.Screen name="HomepageCustomer" component={HomepageCustomer} options={{headerShown: false}}/>
       <DrawerTwo.Screen name="ProfileCustomer" component={ProfileCustomer} options={{headerShown:false}}/>
+      <DrawerTwo.Screen name="Feedback" component={Feedback} options={{headerShown:false}}/>
     </DrawerTwo.Navigator>
   )
 }
@@ -34,9 +37,10 @@ const Root=()=>{
 
   return(
     <Drawer.Navigator initialRouteName="HomeScreen"
-      id="root"
+      id='root'
       drawerContent={props=><DrawerContent {...props}/>}
       screenOptions={{
+        drawerPosition: 'left',
         drawerStyle: {
           backgroundColor: '#FFFFFF',
           width: 300,
