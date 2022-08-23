@@ -3,7 +3,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import {Register,Login,SplashScreen,LoginOptions,LoginBengkel,LoginCustomer,RegisterBengkel,
   RegisterBengkelMotor,RegisterBengkelMobil,HomeScreen,HomepageCustomer,ProfileBengkel,Feedback,
-  ProfileCustomer,HistoryPemesanan,BengkelMelaporCustomer,PermintaanService,POVLocation} from '../pages';
+  ProfileCustomer,HistoryPemesanan,BengkelMelaporCustomer,PermintaanService,POVLocation,CustomerHistory,
+  LaporKerusakkan,CustomerMap} from '../pages';
 import {DrawerContent,DrawerContentCustomer} from '../components'
 
 const {Navigator,Screen} = createNativeStackNavigator();
@@ -28,7 +29,10 @@ const CustomerDrawer = ()=>{
       }}>
       <DrawerTwo.Screen name="HomepageCustomer" component={HomepageCustomer} options={{headerShown: false}}/>
       <DrawerTwo.Screen name="ProfileCustomer" component={ProfileCustomer} options={{headerShown:false}}/>
+      <DrawerTwo.Screen name="CustomerHistory" component={CustomerHistory} options={{headerShown:false}}/>
       <DrawerTwo.Screen name="Feedback" component={Feedback} options={{headerShown:false}}/>
+      <DrawerTwo.Screen name="LaporKerusakkan" component={LaporKerusakkan} options={{headerShown:false}}/>
+      <DrawerTwo.Screen name="CustomerMap" component={CustomerMap} options={{headerShown:false}}/>
     </DrawerTwo.Navigator>
   )
 }
