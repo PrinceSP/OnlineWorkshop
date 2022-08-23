@@ -3,12 +3,15 @@ import {View,StyleSheet,Text} from 'react-native'
 import {Header,Gap,WorkshopComponent} from '../../components'
 
 const HomepageCustomer = ({navigation}) => {
+  const nav=()=>{
+
+  }
   return (
     <View style={styles.container}>
       <Gap height={20}/>
       <Header navigation="navigation" name="Home"/>
       <Gap height={30}/>
-      <WorkshopComponent/>
+      <WorkshopComponent onPress={()=>navigation.navigate('CustomerDrawer',{screen:'LaporKerusakkan'})}/>
     </View>
   )
 }
