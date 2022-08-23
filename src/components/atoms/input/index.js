@@ -1,10 +1,10 @@
 import React from 'react'
 import {View,Text,TextInput,StyleSheet} from 'react-native'
 
-const Input = ({setLabel=false,width=329,borderRadius=50,label,color,...rest})=>{
+const Input = ({height=50,setLabel=false,width=329,borderRadius=50,label,color,...rest})=>{
   const style=StyleSheet.create({
     container:{
-      height:50,
+      height,
       width,
       borderWidth:1.5,
       borderColor:'#000',
