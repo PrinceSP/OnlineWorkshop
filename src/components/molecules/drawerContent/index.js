@@ -93,7 +93,7 @@ const DrawerContent = (props)=>{
               label="Riwayat"
               onPress={()=>{props.navigation.navigate('HistoryPemesanan')}}/>
           </View>
-          <View style={[{paddingTop:19}]}>
+          <View style={[drawerItemsContainer,{paddingTop:19}]}>
             <DrawerItem labelStyle={menu}
               icon={()=><ShareIcon height={26} width={26}/>}
               label="Undang Teman"
@@ -103,6 +103,10 @@ const DrawerContent = (props)=>{
               label="Tanggapan dan Saran"
               onPress={()=>{props.navigation.navigate('Feedback')}}/>
           </View>
+          <DrawerItem labelStyle={menu}
+            icon={()=><SignOut height={28} width={28}/>}
+            label="Keluar"
+            onPress={()=>{props.navigation.navigate('LoginOptions')}}/>
         </View>
       </DrawerContentScrollView>
     </View>
