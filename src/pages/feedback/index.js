@@ -1,37 +1,35 @@
-import React from 'react';
+import React,{useState} from 'react';
 import {View,Text,StyleSheet,ScrollView} from 'react-native'
-import {FeedbackIllustrations} from '../../assets'
+import {FeedbackIllustrations,SuccessIcon} from '../../assets'
 import {Input,Gap,Button,FeedbackForm,ModalSuccess,Header} from '../../components'
 
 const Feedback = ({navigation}) => {
+  const [visible,setVisible] = useState(false)
+
   return (
     <View style={{flex:1,backgroundColor:"#fff"}}>
+      <ModalSuccess visible={visible}>
+        <View style={style.modalContainer}>
+          <Text onPress={()=>setVisible(false)} style={{fontSize:28,position:'absolute',right:30,top:24,color:'#000'}}>X</Text>
+          <SuccessIcon height={120} width={120}/>
+          <View style={[style.headingWrapper,{marginTop:21}]}>
+            <Text style={[{color:'#823589'},style.headingText]}>Terima kasih,</Text>
+            <Text style={[{color:'#718496',marginLeft:4},style.headingText]}>Yoel Roring!</Text>
+          </View>
+          <Text style={style.comment}>Terimakasih atas feedback yang di berikan!</Text>
+        </View>
+      </ModalSuccess>
       <Gap height={15}/>
       <Header name="Tanggapan dan Saran" btn="customer" navigation={navigation}/>
       <Gap height={15}/>
       <ScrollView showsVerticalScrollIndicator={false}>
-        {/*<ModalSuccess visible={visible}>
-          <View style={modalContainer}>
-            <Text onPress={()=>setVisible(false)} style={{fontSize:28,position:'absolute',right:30,top:24,color:'#000'}}>X</Text>
-            <ModalSuccessIcon height={120} width={120}/>
-            <View style={[headingWrapper,{marginTop:21}]}>
-              <Text style={[{color:'#823589'},headingText]}>Thank you so much,</Text>
-              <Text style={[{color:'#718496',marginLeft:4},headingText]}>{currentUser[0].username}!</Text>
-            </View>
-            <Text style={comment}>Your feedback will help us improve our app</Text>
-            <View style={[headingWrapper,{marginTop:50}]}>
-              <Text style={{fontSize:15,fontFamily:'Poppins-SemiBold',color:'#C0A8C2'}}>Need some help?</Text>
-              <Text style={{color:'#E550F2',marginLeft:4,fontSize:15,fontFamily:'Poppins-SemiBold'}}>Contact Us!</Text>
-            </View>
-          </View>
-        </ModalSuccess>*/}
         <View style={style.innerWrapper}>
           <FeedbackIllustrations height={207}/>
           <FeedbackForm/>
           <Gap height={26}/>
           <Button style={style.button} name="Kirim"
             color="#fff"
-            fam='Nunito-Bold' size={24}
+            fam='Nunito-Bold' size={24} onPress={()=>setVisible(true)}
             />
         </View>
       </ScrollView>
