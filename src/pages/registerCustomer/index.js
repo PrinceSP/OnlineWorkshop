@@ -4,6 +4,7 @@ import {Input,Gap,Button} from '../../components'
 import {Camera,ArrowLeft} from '../../assets'
 import {launchImageLibrary} from 'react-native-image-picker'
 import firestore from '@react-native-firebase/firestore';
+import Toast from 'react-native-toast-message';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -18,10 +19,9 @@ const Register = ({navigation}) => {
     email:'',
     phoneNumber:'',
     password:'',
-    address:'',
   })
-  const {username,fullname,email,phoneNumber,password,address} = userInfo
-  const datas = {username,fullname,email,phoneNumber,password,address,role:"customer"}
+  const {username,fullname,email,phoneNumber,password} = userInfo
+  const datas = {username,fullname,email,phoneNumber,password,role:"customer"}
 
   const submit =()=>{
     firestore()
@@ -29,12 +29,26 @@ const Register = ({navigation}) => {
     .add(datas)
     .then(() => {
       console.log('User added!');
+      Toast.show({
+        type: 'success',
+        text1: 'User added!',
+        text2: 'account has been registered 👋'
+      });
+    })
+    .catch((e)=>{
+      Toast.show({
+        type: 'error',
+        text1: 'Failed!',
+        text2: 'account cannot be register!'
+      });
     })
     .finally(()=>{
       setUserInfo({...userInfo,username:'',fullname:'',email:'',phoneNumber:'',password:''})
+      setTimeout(()=>{
+        navigation.navigate('LoginOptions')
+      },3500)
     })
 
-    // navigation.navigate('LoginOptions')
   }
 
   const imageGallery = ()=>{
@@ -64,8 +78,6 @@ const Register = ({navigation}) => {
       </TouchableOpacity>
       <Input setLabel={true} label="fullname" borderRadius={10} width={windowWidth/1.22} defaultValue={username} onChangeText={(value)=>setUserInfo({...userInfo,username:value})}/>
       <Gap height={25}/>
-      <Input setLabel={true} label="Address" borderRadius={10} width={windowWidth/1.22} defaultValue={address} onChangeText={(value)=>setUserInfo({...userInfo,address:value})}/>
-      <Gap height={25}/>
       <Input setLabel={true} label="Username" borderRadius={10} width={windowWidth/1.22} defaultValue={fullname} onChangeText={(value)=>setUserInfo({...userInfo,fullname:value})}/>
       <Gap height={25}/>
       <Input setLabel={true} label="Email" borderRadius={10} width={windowWidth/1.22} defaultValue={email} onChangeText={(value)=>setUserInfo({...userInfo,email:value})}/>
@@ -75,6 +87,7 @@ const Register = ({navigation}) => {
       <Input setLabel={true} label="Password" borderRadius={10} width={windowWidth/1.22} defaultValue={password} onChangeText={(value)=>setUserInfo({...userInfo,password:value})}/>
       <Gap height={25}/>
       <Button name='Daftar' color='#000' fam='Nunito-Regular' size={20} style={styles.btnSubmit} onPress={submit}/>
+      <Toast autoHide={true} visibilityTime={2000}/>
     </ScrollView>
   )
 }
