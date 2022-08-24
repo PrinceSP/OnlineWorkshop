@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "352530139034",
+    "firebase_url": "https://bengkelonline-bf821-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "bengkelonline-bf821",
+    "storage_bucket": "bengkelonline-bf821.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:352530139034:android:1e57e2f31d648f80a69c23",
+        "android_client_info": {
+          "package_name": "com.bengkelonline"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "352530139034-49kbk0314j6g2fgu8avi9eemijro7hr2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bengkelonline",
+            "certificate_hash": "2cb3fbb246986f47d8d180d70901159759feda54"
+          }
+        },
+        {
+          "client_id": "352530139034-d9sg8eplf8pu8oauhmkug0i9tvhggv3p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA1Ziz1ZMOkCSjpjz7csAduOBe5nSATqr8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "352530139034-d9sg8eplf8pu8oauhmkug0i9tvhggv3p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
