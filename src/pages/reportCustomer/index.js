@@ -1,11 +1,23 @@
-import React from 'react'
+import React,{useState} from 'react'
 import {Text,View,StyleSheet,TouchableOpacity,Image} from 'react-native'
-import {ArrowLeft,MapPin,Edit} from '../../assets'
-import {Gap,Input,Button} from '../../components'
+import {ArrowLeft,MapPin,Edit,SuccessIcon} from '../../assets'
+import {Gap,Input,Button,ModalSuccess} from '../../components'
 
 const LaporKerusakkan = ({navigation}) => {
+  const [visible,setVisible] = useState(false)
+
   return (
     <View style={{flex:1,backgroundColor:'#fff'}}>
+      <ModalSuccess visible={visible}>
+        <View style={styles.modalContainer}>
+          <Text onPress={()=>setVisible(false)} style={{fontSize:28,position:'absolute',right:30,top:24,color:'#000'}}>X</Text>
+          <SuccessIcon height={120} width={120}/>
+          <View style={[styles.headingWrapper,{marginTop:21}]}>
+            <Text style={[{color:'#823589'},styles.headingText]}>Terima kasih</Text>
+          </View>
+          <Text style={styles.comment}>Permintaan akan segera di proses!</Text>
+        </View>
+      </ModalSuccess>
       <Gap height={20}/>
       <ArrowLeft onPress={()=>navigation.navigate('HomepageCustomer')} style={{marginLeft:18}} onPress={()=>navigation.goBack()}/>
       <Gap height={28}/>
@@ -33,7 +45,7 @@ const LaporKerusakkan = ({navigation}) => {
         height={172}
         width={360}/>
       <Gap height={25}/>
-      <Button style={styles.btnSubmit} name="Minta layanan" size={24} fam="Nunito-Bold" color="#fff"/>
+      <Button style={styles.btnSubmit} name="Minta layanan" size={24} fam="Nunito-Bold" color="#fff" onPress={()=>setVisible(true)}/>
       </View>
     </View>
   )
@@ -56,7 +68,24 @@ const styles=StyleSheet.create({
   title:{fontSize:24,fontFamily:"Nunito-Bold",color:"#000"},
   line:{height:2,width:"100%",backgroundColor:"#666"},
   reportTitle:{fontSize:18,fontFamily:"Nunito-Bold",color:"#000"},
-  image:{height:188,width:360,borderRadius:15}
+  image:{height:188,width:360,borderRadius:15},
+  headingWrapper:{flexDirection:'row'},
+  headingText:{fontSize:16,fontFamily:'Poppins-SemiBold'},
+  comment:{textAlign:'center',width:230,marginTop:5,color:'#999'},
+  modalBg:{
+    flex:1,
+    backgroundColor:'rgba(0, 0, 0, 0.43)',
+    alignItems:'center',
+    justifyContent:'center'
+  },
+  modalContainer:{
+    backgroundColor:'#fff',
+    minHeight:405,
+    minWidth:329,
+    borderRadius:20,
+    alignItems:'center',
+    paddingVertical:64
+  }
 })
 
 export default LaporKerusakkan
