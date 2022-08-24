@@ -2,8 +2,6 @@ import React, {useState} from 'react'
 import {ImageBackground,View,Text,StyleSheet,Dimensions} from 'react-native'
 import {LoginBackground,Logo} from '../../assets'
 import {Input,Gap,Button} from '../../components'
-import { collection, addDoc } from "firebase/firestore";
-import {db} from '../../config/firebase'
 
 const width = Dimensions.get('window').width
 const height = Dimensions.get('window').height
