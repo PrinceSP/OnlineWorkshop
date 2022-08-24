@@ -3,6 +3,8 @@ import {ImageBackground,View,Text,StyleSheet,Dimensions} from 'react-native'
 import {LoginBackground,Logo} from '../../assets'
 import {Input,Gap,Button} from '../../components'
 import {auth} from '../../config/firebase'
+import Toast from 'react-native-toast-message'
+import firestore from '@react-native-firebase/firestore'
 
 const width = Dimensions.get('window').width
 const height = Dimensions.get('window').height
@@ -13,17 +15,30 @@ const LoginCustomer = ({navigation}) => {
   const [isSignedId,setIsSignedId] = useState(false)
 
   const handleSignIn = ()=>{
-    // createUserWithEmailAndPassword(auth,email,password)
-    // .then(userCredentials=>{
-    //   const user = userCredentials.user
-    //   setIsSignedIn(true)
-    //   console.log(user.email);
-    // })
-    // .catch((re)=>{
-    //   console.log(re);
+    firestore()
+    .collection('users')
+    // Filter results
+    .where('1', '==', '1')
+    .get()
+    .then(() => {
+      console.log('User added!');
+      Toast.show({
+        type: 'success',
+        text1: 'Yeay!',
+        text2: 'account has been login 👋'
+      });
+    })
+    .catch((e)=>{
+      Toast.show({
+        type: 'error',
+        text1: 'Failed!',
+        text2: 'account is not registered!'
+      });
+    })
+    // .finally(()=>{
+    //   navigation.navigate('CustomerDrawer',{screen:'HomepageCustomer'})
     // })
 
-    navigation.navigate('CustomerDrawer',{screen:'HomepageCustomer'})
   }
 
   return (
