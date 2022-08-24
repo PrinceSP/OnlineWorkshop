@@ -1,6 +1,5 @@
-import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
-import {getAuth} from "firebase/auth"
+import firebase from "@react-native-firebase/app";
+import firestore from '@react-native-firebase/firestore';
 
 const firebaseConfig = {
   apiKey: "AIzaSyBmTi7hqx59B7F6JPXbEovHPzCdTEzHTw0",
@@ -11,6 +10,7 @@ const firebaseConfig = {
   appId: "1:352530139034:web:8e6d7b67b7cb3610a69c23"
 };
 
-const app = initializeApp(firebaseConfig)
-export const auth = getAuth(app)
-export const db = getFirestore(app);
+export const app = firebase.initializeApp(firebaseConfig)
+
+// Initialize Cloud Firestore and get a reference to the service
+// export const db = firestore (app);
