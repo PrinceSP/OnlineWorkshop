@@ -3,12 +3,15 @@ import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native';
 import Routes from './routes'
+import {AuthContextProvider} from './config/authContext'
 
 const App = ({navigation}) => {
   return (
-    <NavigationContainer>
-      <Routes/>
-    </NavigationContainer>
+    <AuthContextProvider>
+      <NavigationContainer>
+        <Routes/>
+      </NavigationContainer>
+    </AuthContextProvider>
   )
 }
 
