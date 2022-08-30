@@ -1,10 +1,10 @@
-import React,{useState} from 'react'
+import React,{useState,useContext} from 'react'
 import {ImageBackground,View,Text,StyleSheet,Dimensions} from 'react-native'
 import {LoginBackground,Logo} from '../../assets'
 import {Input,Gap,Button} from '../../components'
-import {auth} from '../../config/firebase'
 import Toast from 'react-native-toast-message'
 import firestore from '@react-native-firebase/firestore'
+import {AuthContext} from '../../config/authContext'
 
 const width = Dimensions.get('window').width
 const height = Dimensions.get('window').height
@@ -12,33 +12,43 @@ const height = Dimensions.get('window').height
 const LoginCustomer = ({navigation}) => {
   const [email,setEmail] = useState('')
   const [password,setPassword] = useState('')
-  const [isSignedId,setIsSignedId] = useState(false)
+  const {isFetching,dispatch} = useContext(AuthContext)
 
   const handleSignIn = ()=>{
+    dispatch({type:"LOGIN_START"})
     firestore()
     .collection('users')
     // Filter results
-    .where('1', '==', '1')
+    // .where('email', '==', email)
+    // .where('password', '==', password)
     .get()
-    .then(() => {
-      console.log('User added!');
-      Toast.show({
-        type: 'success',
-        text1: 'Yeay!',
-        text2: 'account has been login 👋'
+    .then((data) => {
+      // console.log(data.size);
+      data.forEach(item=> {
+        if (item._data.email === email && item._data.password === password) {
+          dispatch({ type: "LOGIN_SUCCESS", payload: [item._data] });
+          Toast.show({
+            type: 'success',
+            text1: 'Yeay!',
+            text2: 'account has been login 👋'
+          });
+          setTimeout(()=>{
+            navigation.navigate('CustomerDrawer',{screen:'HomepageCustomer'})
+          },3000)
+          console.log(true);
+        }else{
+          // isFetching=false
+          Toast.show({
+            type: 'error',
+            text1: 'Oops!',
+            text2: 'account is not registered'
+          });
+          console.log(false);
+        }
       });
+    }).catch(e=>{
+      dispatch({ type: "LOGIN_FAILURE", payload: e });
     })
-    .catch((e)=>{
-      Toast.show({
-        type: 'error',
-        text1: 'Failed!',
-        text2: 'account is not registered!'
-      });
-    })
-    // .finally(()=>{
-    //   navigation.navigate('CustomerDrawer',{screen:'HomepageCustomer'})
-    // })
-
   }
 
   return (
@@ -64,6 +74,7 @@ const LoginCustomer = ({navigation}) => {
             <Button name='Masuk' color='#000' fam='Nunito-Regular' size={20} style={styles.btnSubmit} onPress={handleSignIn}/>
           </View>
         </View>
+        <Toast autoHide={true} visibilityTime={2000}/>
       </ImageBackground>
     </View>
   )

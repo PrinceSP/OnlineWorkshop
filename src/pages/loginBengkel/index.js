@@ -1,32 +1,49 @@
-import React, {useState} from 'react'
+import React, {useState,useContext} from 'react'
 import {ImageBackground,View,Text,StyleSheet,Dimensions} from 'react-native'
 import {LoginBackground,Logo} from '../../assets'
 import {Input,Gap,Button} from '../../components'
+import {AuthContext} from '../../config/authContext'
+import firestore from '@react-native-firebase/firestore'
+import Toast from 'react-native-toast-message'
 
 const width = Dimensions.get('window').width
 const height = Dimensions.get('window').height
 
 const LoginBengkel = ({navigation}) => {
-
-  const [username,setUsername] = useState('')
+  const {isFetching,dispatch} = useContext(AuthContext)
+  const [email,setEmail] = useState('')
   const [password,setPassword] = useState('')
 
-  const submit =  async()=>{
-    console.log(username,password);
-
-    // try {
-    //   const docRef = await addDoc(collection(db, "users"), {
-    //     username: username,
-    //     password: password,
-    //     role:'bengkel'
-    //   });
-    //   alert(true);
-    //   console.log("Document written with ID: ", docRef.id);
-    // } catch (e) {
-    //   alert(false);
-    //   console.error("Error adding document: ", e);
-    // }
-    navigation.navigate('Root',{screen:'HomeScreen'})
+  const submit =  ()=>{
+    firestore().collection('users')
+    .get()
+    .then(data=>{
+      data.forEach(item=> {
+        if (item._data.email === email && item._data.password === password) {
+          console.log(item.id);
+          dispatch({ type: "LOGIN_SUCCESS", payload: item });
+          Toast.show({
+            type: 'success',
+            text1: 'Yeay!',
+            text2: 'account has been login 👋'
+          });
+          setTimeout(()=>{
+            navigation.navigate('Root',{screen:'HomeScreen'})
+          },3000)
+          console.log(true);
+        }else{
+          // isFetching=false
+          Toast.show({
+            type: 'error',
+            text1: 'Oops!',
+            text2: 'account is not registered'
+          });
+          console.log(false);
+        }
+      });
+    }).catch(e=>{
+      dispatch({ type: "LOGIN_FAILURE", payload: e });
+    })
   }
 
   return (
@@ -38,7 +55,7 @@ const LoginBengkel = ({navigation}) => {
             <Text style={{color:'#000000',fontSize:24,fontFamily:"Nunito-Bold",marginLeft:15}}>Bengkel</Text>
           </View>
           <Text style={styles.title}>Masuk</Text>
-          <Input setLabel={true} label="Email" borderRadius={10} width={width/1.22} defaultValue={username} onChangeText={(value)=>setUsername(value)}/>
+          <Input setLabel={true} label="Email" borderRadius={10} width={width/1.22} defaultValue={email} onChangeText={(value)=>setEmail(value)}/>
           <Gap height={40}/>
           <Input setLabel={true} label="Password" borderRadius={10} width={width/1.22} secureTextEntry={true} defaultValue={password} onChangeText={(value)=>setPassword(value)}/>
           <Gap height={15}/>
