@@ -5,6 +5,7 @@ import {Gap,Input,Button,ModalSuccess} from '../../components'
 
 const LaporKerusakkan = ({navigation}) => {
   const [visible,setVisible] = useState(false)
+  const [problems,setProblems] = useState('')
 
   return (
     <View style={{flex:1,backgroundColor:'#fff'}}>
@@ -43,7 +44,9 @@ const LaporKerusakkan = ({navigation}) => {
         multiline={true}
         borderRadius={10}
         height={172}
-        width={360}/>
+        width={360}
+        defaultValue={problems}
+        onChangeText={value=>setProblems(value)}/>
       <Gap height={25}/>
       <Button style={styles.btnSubmit} name="Minta layanan" size={24} fam="Nunito-Bold" color="#fff" onPress={()=>setVisible(true)}/>
       </View>
