@@ -2,6 +2,8 @@ import React,{useState} from 'react'
 import { StyleSheet, Text, View, Image, TextInput, ScrollView, SafeAreaView, TouchableOpacity} from 'react-native'
 import {launchImageLibrary} from 'react-native-image-picker';
 import { Button, Gap } from '../../components'
+import firestore from '@react-native-firebase/firestore'
+import Toast from 'react-native-toast-message'
 
 import { ArrowLeft, CarLogo } from '../../assets'
 
@@ -9,7 +11,25 @@ const RegisterBengkelMobil = ({navigation}) => {
   const [photo,setPhoto] = useState('')
   const [hasPhoto, setHasPhoto] = useState(false)
   const [photoBase64,setPhotoBase64] = useState('')
-
+  const [userInfos,setUserInfos] = useState({
+    namaBengkel:'',
+    alamat:'',
+    username:'',
+    email:'',
+    password:'',
+    noHp:'',
+  })
+  const {namaBengkel,address,username,email,noHp,password} = userInfos
+  const datas = {
+    namaBengkel:namaBengkel,
+    alamat:address,
+    username:username,
+    email:email,
+    password:password,
+    noHp:noHp,
+    image:photoBase64,
+    role:'bengkel'
+  }
   const imageGallery = ()=>{
     const options={
       maxHeight:400,
@@ -28,81 +48,106 @@ const RegisterBengkelMobil = ({navigation}) => {
       }
     })
   }
+  const submit=()=>{
+    firestore()
+    .collection('users')
+    .add(datas)
+    .then(() => {
+      console.log('User added!');
+      Toast.show({
+        type: 'success',
+        text1: 'User added!',
+        text2: 'account has been registered 👋'
+      });
+    })
+    .catch((e)=>{
+      Toast.show({
+        type: 'error',
+        text1: 'Failed!',
+        text2: 'account cannot be register!'
+      });
+    })
+    .finally(()=>{
+      setUserInfos({...userInfos,namaBengkel:'',address:'',username:'',email:'',password:'',noHp:'',})
+      setHasPhoto(false)
+      setPhoto('');
+      setPhotoBase64('');
 
+      setTimeout(()=>{
+        navigation.navigate('LoginBengkel')
+      },3500)
+    })
+  }
   return (
-    <>
-        <View style={styles.containerHeader}>
-         <Gap height={20}/>
-         <ArrowLeft height={21} width={24}/>
-         <Gap height={20}/>
-         <Text style={styles.titleHeader}>Lengkapi Profil</Text>
+    <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{backgroundColor:"#fff"}}>
+      <View style={styles.containerHeader}>
+       <Gap height={20}/>
+       <ArrowLeft height={21} width={24} onPress={()=>navigation.goBack()}/>
+       <Gap height={20}/>
+       <Text style={styles.titleHeader}>Lengkapi Profil</Text>
+      </View>
+      <View style={{borderBottomColor: 'black',borderBottomWidth: 2, opacity: 0.2, marginVertical:12 }}/>
+      <View style={styles.content}>
+        <Text style={{fontWeight: 'bold', color:'black'}}>Jenis Bengkel yang dipilih</Text>
+        <Gap height={20}/>
+        <View  style={{flexDirection:'row',alignItems:'center'}}>
+         <CarLogo height={61} width={64}/>
+         <Gap height={16}/>
+        <Text style={{fontWeight: 'bold', color:'black',marginLeft:20}}>Bengkel Mobil</Text>
         </View>
-        <View style={{borderBottomColor: 'black',borderBottomWidth: 2, opacity: 0.2, marginVertical:12 }}/>
-        <View style={styles.content}>
-          <Text style={{fontWeight: 'bold', color:'black'}}>Jenis Bengkel yang dipilih</Text>
-          <Gap height={20}/>
-          <View  style={{flexDirection:'row',alignItems:'center'}}>
-           <CarLogo height={61} width={64}/>
-           <Gap height={16}/>
-          <Text style={{fontWeight: 'bold', color:'black',marginLeft:20}}>Bengkel Mobil</Text>
-          </View>
-          <Gap height={16}/>
-          <View style={styles.containerImage}>
-            <View style={styles.border}>
-              <TouchableOpacity onPress={imageGallery} activeOpacity={0.5}>
-                  {!hasPhoto && (
-                      <View style={styles.addPhoto}>
-                      <Text style={styles.addPhotoText}>Add Photo</Text>
-                  </View>
+        <Gap height={16}/>
+        <View style={styles.containerImage}>
+          <View style={styles.border}>
+            <TouchableOpacity onPress={imageGallery} activeOpacity={0.5}>
+              {!hasPhoto && (
+                <View style={styles.addPhoto}>
+                  <Text style={styles.addPhotoText}>Add Photo</Text>
+                </View>
               )}
-                  {hasPhoto && (
-                      <Image source={{uri: photo}} style={styles.avatar} />
+              {hasPhoto && (
+                <Image source={{uri: photo}} style={styles.avatar} />
               )}
-              </TouchableOpacity>
-            </View>
+            </TouchableOpacity>
           </View>
+        </View>
+      </View>
+      <Gap height={20}/>
+      <View style={styles.scrollView}>
+        <View style={styles.containerInput}>
+          <Text style={styles.textTitle}>Nama Bengkel</Text>
+          <TextInput style={styles.input} defaultValue={namaBengkel} onChangeText={(value)=>setUserInfos({...userInfos,namaBengkel:value})}/>
         </View>
         <Gap height={20}/>
-        <ScrollView showsVerticalScrollIndicator={false} containerStyle={styles.scrollView}>
-          <View style={styles.containerInput}>
-            <Text style={styles.textTitle}>Nama Bengkel</Text>
-            <TextInput style={styles.input}/>
-          </View>
-          <Gap height={20}/>
-          <View style={styles.containerInput}>
-            <Text style={styles.textTitle}>Alamat</Text>
-            <TextInput style={styles.input}/>
-          </View>
-          <Gap height={20}/>
-          <View style={styles.containerInput}>
-            <Text style={styles.textTitle}>Nama Bengkel</Text>
-            <TextInput style={styles.input}/>
-          </View>
-          <Gap height={20}/>
-          <View style={styles.containerInput}>
-            <Text style={styles.textTitle}>Email</Text>
-            <TextInput style={styles.input}/>
-          </View>
-          <Gap height={20}/>
-          <View style={styles.containerInput}>
-            <Text style={styles.textTitle}>Nomor HP</Text>
-            <TextInput style={styles.input}/>
-          </View>
-          <Gap height={20}/>
-          <View style={styles.containerInput}>
-            <Text style={styles.textTitle}>Password</Text>
-            <TextInput style={styles.input}/>
-          </View>
-          <Gap height={20}/>
-          <View style={styles.containerInput}>
-            <Text style={styles.textTitle}>Konfirmasi Password</Text>
-            <TextInput style={styles.input}/>
-          </View>
-          <Gap height={20}/>
-          <Button style={styles.button} name='Lanjut' size = {24} weight = 'bold' color ='white' onPress={()=>navigation.navigate('LoginBengkel')}/>
-        </ScrollView>
+        <View style={styles.containerInput}>
+          <Text style={styles.textTitle}>Alamat</Text>
+          <TextInput style={styles.input} defaultValue={address} onChangeText={(value)=>setUserInfos({...userInfos,address:value})}/>
+        </View>
         <Gap height={20}/>
-    </>
+        <View style={styles.containerInput}>
+          <Text style={styles.textTitle}>Nama Pengguna</Text>
+          <TextInput style={styles.input} defaultValue={username} onChangeText={(value)=>setUserInfos({...userInfos,username:value})}/>
+        </View>
+        <Gap height={20}/>
+        <View style={styles.containerInput}>
+          <Text style={styles.textTitle}>Email</Text>
+          <TextInput style={styles.input} defaultValue={email} onChangeText={(value)=>setUserInfos({...userInfos,email:value})}/>
+        </View>
+        <Gap height={20}/>
+        <View style={styles.containerInput}>
+          <Text style={styles.textTitle}>Nomor HP</Text>
+          <TextInput style={styles.input} defaultValue={noHp} onChangeText={(value)=>setUserInfos({...userInfos,noHp:value})}/>
+        </View>
+        <Gap height={20}/>
+        <View style={styles.containerInput}>
+          <Text style={styles.textTitle}>Password</Text>
+          <TextInput style={styles.input} defaultValue={password} onChangeText={(value)=>setUserInfos({...userInfos,password:value})}/>
+        </View>
+        <Gap height={20}/>
+        <Button style={styles.button} name='Lanjut' size = {24} weight = 'bold' color ='white' onPress={submit}/>
+      </View>
+      <Gap height={20}/>
+      <Toast autoHide={true} visibilityTime={2000} position="bottom"/>
+    </ScrollView>
   )
 }
 
@@ -110,13 +155,15 @@ export default RegisterBengkelMobil
 
 const styles = StyleSheet.create({
   scrollView: {
+    backgroundColor:'#fff',
     marginHorizontal: 20,
   },
   containerHeader:{
     flexDirection: 'column',
     justifyContent: 'space-between',
     marginLeft: 10,
-    marginRight: 20
+    marginRight: 20,
+    backgroundColor:'#fff',
   },
   textTitle:{
     fontWeight:'500',
@@ -129,6 +176,7 @@ const styles = StyleSheet.create({
     fontWeight: '500'
   },
   content:{
+    backgroundColor:'#fff',
     flexDirection: 'column',
     marginLeft: 12,
     fontSize: 18,
