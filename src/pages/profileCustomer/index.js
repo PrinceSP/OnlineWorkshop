@@ -1,9 +1,12 @@
 import { StyleSheet, Text, View, Image, ScrollView } from 'react-native'
-import React from 'react'
+import React,{useContext} from 'react'
 import {Gap} from '../../components'
 import { ArrowLeft } from '../../assets'
+import {AuthContext} from '../../config/authContext'
 
 const ProfileCustomer = ({navigation}) => {
+  const {user:currentUser} = useContext(AuthContext)
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
       {/* header */}
@@ -23,21 +26,21 @@ const ProfileCustomer = ({navigation}) => {
       <View style={styles.cardContainer}>
           <Text style={styles.titleText}>Nama Lengkap</Text>
         <View style={styles.card}>
-            <Text style={styles.textCard}>Yoel Roring</Text>
+            <Text style={styles.textCard}>{currentUser[0].fullname}</Text>
         </View>
       </View>
       <Gap height={28}/>
       <View style={styles.cardContainer}>
         <Text style={styles.titleText}>Email</Text>
         <View style={styles.card}>
-          <Text style={styles.textCard}>roringy@gmail.com</Text>
+          <Text style={styles.textCard}>{currentUser[0].email}</Text>
         </View>
       </View>
       <Gap height={28}/>
       <View style={styles.cardContainer}>
         <Text style={styles.titleText}>Nomor HP</Text>
         <View style={styles.card}>
-          <Text style={styles.textCard}>+6281317743660</Text>
+          <Text style={styles.textCard}>{currentUser[0].phoneNumber}</Text>
         </View>
       </View>
       <Gap height={28}/>
