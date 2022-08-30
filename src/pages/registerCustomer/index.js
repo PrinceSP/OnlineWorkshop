@@ -99,19 +99,6 @@ const styles = StyleSheet.create({
     justifyContent:'center',
     paddingBottom:30
   },
-  image:{
-    flex:1,
-    alignItems:'center',
-    justifyContent:'center'
-  },
-  blurBackground:{
-    width: windowWidth/1.12,
-    height: windowHeight/1.15,
-    backgroundColor: 'rgba(255, 252, 252, 0.82)',
-    borderRadius:15,
-    padding:15,
-    position:'relative'
-  },
   btnSubmit:{
     marginBottom:15,
     marginLeft:220,
@@ -123,18 +110,7 @@ const styles = StyleSheet.create({
     borderRadius:7,
     alignItems:'center',
     justifyContent:'center',
-  },
-  containerHeader:{
-    flexDirection: 'row',
-    alignItems:'center',
-    marginLeft: 15,
-  },
-  titleHeader:{
-    fontSize: 26,
-    color: '#000',
-    fontWeight: '500',
-    marginLeft:120
-  },
+  }
 })
 
 export default Register
