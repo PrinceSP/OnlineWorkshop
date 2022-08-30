@@ -1,13 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState,useContext} from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Switch, Image } from 'react-native';
 import { Gap } from '../../components';
 import {Logo} from '../../assets/'
 import {Button,Header} from '../../components'
+import firestore from '@react-native-firebase/firestore'
+import {AuthContext} from '../../config/authContext'
 
 const HomeScreen = ({ navigation })=>{
-
+  const {user:currentUser} = useContext(AuthContext)
   const [isEnabled, setIsEnabled] = useState(false);
-  const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+  const toggleSwitch = () => {
+    // console.log(currentUser.id);
+    setIsEnabled(previousState => !previousState)
+    firestore().collection('users').doc(currentUser.id)
+    .update({state:isEnabled==true?"Offline":"Online"})
+    .then(() => {
+      console.log('User updated!');
+    });
+  };
 
   return (
     <View style={{flex:1,backgroundColor:'#fff'}}>
