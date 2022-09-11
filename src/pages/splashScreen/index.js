@@ -2,8 +2,14 @@ import React,{useEffect} from 'react'
 import {View,Text,StyleSheet} from 'react-native'
 import { ManWithCarRepair,ManWithMotoRepair,Logo } from '../../assets';
 import {Input,Gap,Button} from '../../components'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const SplashScreen = ({navigation}) => {
+  const moveTo=()=>{
+    // await AsyncStorage.removeItem("@viewed")
+    navigation.navigate("LoginOptions")
+  }
+
   return(
     <View style={styles.container}>
       <View style={{flexDirection:'row',justifyContent:'flex-start',alignItems:"center",width:"100%"}}>
@@ -14,7 +20,7 @@ const SplashScreen = ({navigation}) => {
         <ManWithCarRepair height={250}/>
         <ManWithMotoRepair height={250}/>
       </View>
-      <Button name='Mulai' color='#fff' fam='Nunito-Bold' size={24} style={styles.btnSubmit} onPress={()=>navigation.navigate("LoginOptions")}/>
+      <Button name='Mulai' color='#fff' fam='Nunito-Bold' size={24} style={styles.btnSubmit} onPress={moveTo}/>
     </View>
   )
 };
