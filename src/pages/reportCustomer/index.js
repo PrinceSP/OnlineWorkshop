@@ -1,11 +1,25 @@
-import React,{useState} from 'react'
+import React,{useState,useContext} from 'react'
 import {Text,View,StyleSheet,TouchableOpacity,Image} from 'react-native'
 import {ArrowLeft,MapPin,Edit,SuccessIcon} from '../../assets'
 import {Gap,Input,Button,ModalSuccess} from '../../components'
+import firestore from '@react-native-firebase/firestore'
+import {AuthContext} from '../../config/authContext'
 
-const LaporKerusakkan = ({navigation}) => {
+const LaporKerusakkan = ({navigation,route}) => {
   const [visible,setVisible] = useState(false)
   const [problems,setProblems] = useState('')
+  const {itemId,otherParams,location} = route.params
+  const {user:currentUser} = useContext(AuthContext)
+
+  const submitreport=()=>{
+    firestore()
+    .collection("reports")
+    .add({problem:problems,toBengkel:otherParams,location,from:currentUser[0],status:'Sedang menunggu konfirmasi'})
+    .then(()=>{
+      console.log('report added');
+      setVisible(true)
+    })
+  }
 
   return (
     <View style={{flex:1,backgroundColor:'#fff'}}>
@@ -25,10 +39,10 @@ const LaporKerusakkan = ({navigation}) => {
       <View style={{alignItems:'center'}}>
         <View>
           <View style={styles.line}/>
-          <Text style={styles.title}>Bengkel Motorjaya, Malalayang</Text>
-          <Image source={require('../../assets/images/fotoprofil.jpg')} style={styles.image}/>
+          <Text style={styles.title}>{`${otherParams.namaBengkel}, ${otherParams.alamat}`}</Text>
+          <Image source={{uri:`data:image/png;base64,${otherParams.image}`}} style={styles.image}/>
           <Gap height={29}/>
-          <TouchableOpacity style={styles.rowAlignment} onPress={()=>navigation.navigate("CustomerDrawer",{screen:"CustomerMap"})}>
+          <TouchableOpacity style={styles.rowAlignment} onPress={()=>navigation.navigate("CustomerDrawer",{screen:"CustomerMap"},{itemId:itemId})}>
             <MapPin/>
             <Text style={{color:"#000"}}>Tentukan Lokasimu</Text>
           </TouchableOpacity>
@@ -48,7 +62,7 @@ const LaporKerusakkan = ({navigation}) => {
         defaultValue={problems}
         onChangeText={value=>setProblems(value)}/>
       <Gap height={25}/>
-      <Button style={styles.btnSubmit} name="Minta layanan" size={24} fam="Nunito-Bold" color="#fff" onPress={()=>setVisible(true)}/>
+      <Button style={styles.btnSubmit} name="Minta layanan" size={24} fam="Nunito-Bold" color="#fff" onPress={submitreport}/>
       </View>
     </View>
   )
