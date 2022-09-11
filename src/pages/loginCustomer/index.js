@@ -5,6 +5,7 @@ import {Input,Gap,Button} from '../../components'
 import Toast from 'react-native-toast-message'
 import firestore from '@react-native-firebase/firestore'
 import {AuthContext} from '../../config/authContext'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const width = Dimensions.get('window').width
 const height = Dimensions.get('window').height
@@ -13,18 +14,16 @@ const LoginCustomer = ({navigation}) => {
   const [email,setEmail] = useState('')
   const [password,setPassword] = useState('')
   const {isFetching,dispatch} = useContext(AuthContext)
+  const datas = []
 
   const handleSignIn = ()=>{
     dispatch({type:"LOGIN_START"})
     firestore()
     .collection('users')
-    // Filter results
-    // .where('email', '==', email)
-    // .where('password', '==', password)
     .get()
     .then((data) => {
       // console.log(data.size);
-      data.forEach(item=> {
+      data.forEach(async(item)=> {
         if (item._data.email === email && item._data.password === password) {
           dispatch({ type: "LOGIN_SUCCESS", payload: [item._data] });
           Toast.show({
@@ -32,6 +31,17 @@ const LoginCustomer = ({navigation}) => {
             text1: 'Yeay!',
             text2: 'account has been login 👋'
           });
+
+          const jsonValue = JSON.stringify(data, (key, val)=>{
+             if (val != null && typeof val == "object") {
+                  if (datas.indexOf(val) >= 0) {
+                      return;
+                  }
+                  datas.push(val);
+              }
+              return val;
+          });
+          await AsyncStorage.setItem('@user', jsonValue)
           setTimeout(()=>{
             navigation.navigate('CustomerDrawer',{screen:'HomepageCustomer'})
           },3000)
@@ -46,6 +56,7 @@ const LoginCustomer = ({navigation}) => {
           console.log(false);
         }
       });
+
     }).catch(e=>{
       dispatch({ type: "LOGIN_FAILURE", payload: e });
     })

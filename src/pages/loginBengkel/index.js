@@ -5,6 +5,7 @@ import {Input,Gap,Button} from '../../components'
 import {AuthContext} from '../../config/authContext'
 import firestore from '@react-native-firebase/firestore'
 import Toast from 'react-native-toast-message'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const width = Dimensions.get('window').width
 const height = Dimensions.get('window').height
@@ -13,20 +14,34 @@ const LoginBengkel = ({navigation}) => {
   const {isFetching,dispatch} = useContext(AuthContext)
   const [email,setEmail] = useState('')
   const [password,setPassword] = useState('')
+  const datas = []
 
-  const submit =  ()=>{
+  const submit = ()=>{
     firestore().collection('users')
     .get()
-    .then(data=>{
-      data.forEach(item=> {
-        if (item._data.email === email && item._data.password === password) {
-          console.log(item.id);
+    .then((data)=>{
+      data._changes.forEach(async(item)=> {
+        if (item._nativeData.doc.data.email[1] === email && item._nativeData.doc.data.password[1] === password) {
+          // console.log(item._nativeData.doc.data.password[1]);
           dispatch({ type: "LOGIN_SUCCESS", payload: item });
           Toast.show({
             type: 'success',
             text1: 'Yeay!',
             text2: 'account has been login 👋'
           });
+          const jsonValue = JSON.stringify(data, (key, val)=>{
+             if (val != null && typeof val == "object") {
+                  if (datas.indexOf(val) >= 0) {
+                      return;
+                  }
+                  datas.push(val);
+              }
+              return val;
+          });
+          // console.log(item._nativeData.doc.path.split('/'));
+          await AsyncStorage.setItem('@user',jsonValue)
+          // await AsyncStorage.removeItem('@user')
+
           setTimeout(()=>{
             navigation.navigate('Root',{screen:'HomeScreen'})
           },3000)
@@ -41,6 +56,8 @@ const LoginBengkel = ({navigation}) => {
           console.log(false);
         }
       });
+
+
     }).catch(e=>{
       dispatch({ type: "LOGIN_FAILURE", payload: e });
     })
