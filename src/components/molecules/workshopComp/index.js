@@ -2,9 +2,9 @@ import React from 'react'
 import {View,Text,TouchableOpacity,Image} from 'react-native'
 import {Gap} from '../../atoms'
 
-const WorkshopComponent = ({desc='Online',onPress,namaBengkel,address,image=""}) => {
+const WorkshopComponent = ({desc='Online',onPress,namaBengkel,address,image="",...rest}) => {
   return (
-    <TouchableOpacity onPress={onPress}>
+    <TouchableOpacity onPress={onPress} {...rest}>
       <View style={{width:"100%",flexDirection:'row',padding:15,justifyContent:"space-between"}}>
         {image==="" ? <View style={{width:80,height:82,backgroundColor:"#444",borderRadius:15}}/> : <Image style={{width:80,height:82,backgroundColor:"#444",borderRadius:15}} source={{uri:`data:image/png;base64,${image}`}}/>}
         <View>
