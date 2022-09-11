@@ -1,11 +1,15 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import {Text,View,StyleSheet,ScrollView,Switch,Image,Platform} from 'react-native'
 import {DrawerContentScrollView,DrawerItem} from '@react-navigation/drawer'
 import Share from 'react-native-share'
 import {AvatarProfile,Help,ShareIcon,SignOut,HistoryIcon} from '../../../assets'
+import {AuthContext} from '../../../config/authContext'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const DrawerContentCustomer = (props)=>{
 
+  const {user:currentUser} = useContext(AuthContext)
+  // console.log(currentUser);
   const style = StyleSheet.create({
     container:{
       flex:1,
@@ -62,8 +66,8 @@ const DrawerContentCustomer = (props)=>{
 
    const signOut=async()=> {
      try {
-       props.navigation.navigate('Login')
-       // await AsyncStorage.removeItem("themeMode")
+       props.navigation.navigate('LoginOptions')
+       await AsyncStorage.removeItem("@user")
      } catch (e) {
        console.log(e);
      }
@@ -75,8 +79,8 @@ const DrawerContentCustomer = (props)=>{
         <View style={container}>
           <View style={section}>
             <View>
-              <Text style={title}>Yoel Roring</Text>
-              <Text style={desc}>+62813131313131</Text>
+              <Text style={title}>{currentUser[0].username}</Text>
+              <Text style={desc}>+62{`${currentUser[0].phoneNumber}`}</Text>
             </View>
           </View>
           <View style={drawerItemsContainer}>
@@ -102,7 +106,7 @@ const DrawerContentCustomer = (props)=>{
           <DrawerItem labelStyle={menu}
             icon={()=><SignOut height={28} width={28}/>}
             label="Keluar"
-            onPress={()=>{props.navigation.navigate('LoginOptions')}}/>
+            onPress={signOut}/>
         </View>
       </DrawerContentScrollView>
     </View>

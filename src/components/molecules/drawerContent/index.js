@@ -1,11 +1,14 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import {Text,View,StyleSheet,ScrollView,Switch,Image,Platform} from 'react-native'
 import {DrawerContentScrollView,DrawerItem} from '@react-navigation/drawer'
 import Share from 'react-native-share'
 import {AvatarProfile,Help,ShareIcon,SignOut,HistoryIcon} from '../../../assets'
+import {AuthContext} from '../../../config/authContext'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const DrawerContent = (props)=>{
-
+  const {user:currentUser} = useContext(AuthContext)
+  // console.log(currentUser._nativeData.doc.data.namaBengkel[1]);
   const style = StyleSheet.create({
     container:{
       flex:1,
@@ -62,8 +65,8 @@ const DrawerContent = (props)=>{
 
    const signOut=async()=> {
      try {
-       props.navigation.navigate('Login')
-       // await AsyncStorage.removeItem("themeMode")
+       props.navigation.navigate('LoginOptions')
+       await AsyncStorage.removeItem("@user")
      } catch (e) {
        console.log(e);
      }
@@ -75,8 +78,8 @@ const DrawerContent = (props)=>{
         <View style={container}>
           <View style={section}>
             <View>
-              <Text style={title}>Yoel Roring</Text>
-              <Text style={desc}>+62813131313131</Text>
+              <Text style={title}>{currentUser._nativeData.doc.data.namaBengkel[1]}</Text>
+              <Text style={desc}>+62{`${currentUser._nativeData.doc.data.noHp[1]}`}</Text>
             </View>
           </View>
           <View style={drawerItemsContainer}>
@@ -84,10 +87,6 @@ const DrawerContent = (props)=>{
               icon={()=><AvatarProfile height={28} width={28}/>}
               label="Profil"
               onPress={()=>{props.navigation.navigate('ProfileBengkel')}}/>
-            <DrawerItem labelStyle={menu}
-              icon={()=><SignOut height={28} width={28}/>}
-              label="Keluar"
-              onPress={()=>{props.navigation.navigate('LoginOptions')}}/>
             <DrawerItem labelStyle={menu}
               icon={()=><HistoryIcon height={28} width={28}/>}
               label="Riwayat"
@@ -101,12 +100,12 @@ const DrawerContent = (props)=>{
             <DrawerItem labelStyle={menu}
               icon={()=><Help height={28} width={28}/>}
               label="Tanggapan dan Saran"
-              onPress={()=>{props.navigation.navigate('Feedback')}}/>
+              onPress={()=>{props.navigation.navigate('BengkelMelaporCustomer')}}/>
           </View>
           <DrawerItem labelStyle={menu}
             icon={()=><SignOut height={28} width={28}/>}
             label="Keluar"
-            onPress={()=>{props.navigation.navigate('LoginOptions')}}/>
+            onPress={signOut}/>
         </View>
       </DrawerContentScrollView>
     </View>
