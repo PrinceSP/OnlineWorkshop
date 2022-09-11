@@ -1,10 +1,27 @@
-import React,{useState} from 'react';
+import React,{useState,useContext} from 'react';
 import {View,Text,StyleSheet,ScrollView} from 'react-native'
 import {FeedbackIllustrations,SuccessIcon} from '../../assets'
 import {Input,Gap,Button,FeedbackForm,ModalSuccess,Header} from '../../components'
+import firestore from '@react-native-firebase/firestore'
+import {AuthContext} from '../../config/authContext'
 
 const Feedback = ({navigation}) => {
   const [visible,setVisible] = useState(false)
+  const [feedback,setFeedback] = useState('')
+  const {user:currentUser} = useContext(AuthContext)
+
+  const submit = ()=>{
+    firestore().collection('feedback')
+    .add({
+      feedback:feedback,
+      owner:currentUser[0]
+    })
+    .then(() => {
+      console.log('User added!');
+      setFeedback('')
+      setVisible(true)
+    });
+  }
 
   return (
     <View style={{flex:1,backgroundColor:"#fff"}}>
@@ -25,11 +42,11 @@ const Feedback = ({navigation}) => {
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={style.innerWrapper}>
           <FeedbackIllustrations height={207}/>
-          <FeedbackForm/>
+          <FeedbackForm desc={feedback} onChangeText={value=>setFeedback(value)}/>
           <Gap height={26}/>
           <Button style={style.button} name="Kirim"
             color="#fff"
-            fam='Nunito-Bold' size={24} onPress={()=>setVisible(true)}
+            fam='Nunito-Bold' size={24} onPress={submit}
             />
         </View>
       </ScrollView>
