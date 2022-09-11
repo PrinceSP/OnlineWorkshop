@@ -1,11 +1,27 @@
-import React, {useState} from 'react'
+import React, {useState,useContext} from 'react'
 import { StyleSheet, Text, View, TextInput } from 'react-native'
 import { ArrowLeft, Edit, SuccessIcon } from '../../assets';
 import { Button, Gap, ModalSuccess } from '../../components';
+import firestore from '@react-native-firebase/firestore'
+import {AuthContext} from '../../config/authContext'
 
 const BengkelMelaporCustomer = ({navigation}) => {
   const [visible,setVisible] = useState(false)
+  const [feedback,setFeedback] = useState('')
+  const {user:currentUser} = useContext(AuthContext)
 
+  const submit = ()=>{
+    firestore().collection('feedback')
+    .add({
+      feedback:feedback,
+      owner:currentUser._data
+    })
+    .then(() => {
+      console.log('User added!');
+      setFeedback('')
+      setVisible(true)
+    });
+  }
   return (
     <View style={{flex: 1}}>
       <ModalSuccess visible={visible}>
@@ -43,9 +59,11 @@ const BengkelMelaporCustomer = ({navigation}) => {
         <TextInput style={styles.textInputStyle} underlineColorAndroid="transparent"
           placeholderTextColor="#C0A8C2"
           numberOfLines={10}
-          multiline={true}/>
+          multiline={true}
+          defaultValue={feedback}
+          onChangeText={value=>setFeedback(value)}/>
         <Gap height={200}/>
-        <Button style={styles.button} name='Kirim' size = {24} weight = 'bold' color ='white' onPress={()=>setVisible(true)}/>
+        <Button style={styles.button} name='Kirim' size = {24} weight = 'bold' color ='white' onPress={submit}/>
       </View>
     </View>
   )
