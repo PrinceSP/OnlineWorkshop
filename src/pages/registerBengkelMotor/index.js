@@ -58,6 +58,13 @@ const RegisterBengkelMotor = ({navigation}) => {
         text1: 'User added!',
         text2: 'account has been registered 👋'
       });
+      // setUserInfos({...userInfos,namaBengkel:'',address:'',username:'',email:'',password:'',noHp:''})
+      // setHasPhoto(false)
+      // setPhoto('');
+      // setPhotoBase64('');
+      setTimeout(()=>{
+        navigation.navigate('LoginBengkel')
+      },3500)
     })
     .catch((e)=>{
       Toast.show({
@@ -65,17 +72,14 @@ const RegisterBengkelMotor = ({navigation}) => {
         text1: 'Failed!',
         text2: 'account cannot be register!'
       });
+      // setUserInfos({...userInfos,namaBengkel:'',address:'',username:'',email:'',password:'',noHp:''})
+      // setHasPhoto(false)
+      // setPhoto('');
+      // setPhotoBase64('');
     })
-    .finally(()=>{
-      setUserInfos({...userInfos,namaBengkel:'',address:'',username:'',email:'',password:'',noHp:''})
-      setHasPhoto(false)
-      setPhoto('');
-      setPhotoBase64('');
-
-      setTimeout(()=>{
-        navigation.navigate('LoginBengkel')
-      },3500)
-    })
+    // .finally(()=>{
+    //
+    // })
     // console.log(datas);
   }
 
