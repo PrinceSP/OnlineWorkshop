@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from 'react';
+import React,{useState,useEffect,useContext} from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import {Register,Login,SplashScreen,LoginOptions,LoginBengkel,LoginCustomer,RegisterBengkel,
@@ -6,6 +6,8 @@ import {Register,Login,SplashScreen,LoginOptions,LoginBengkel,LoginCustomer,Regi
   ProfileCustomer,HistoryPemesanan,BengkelMelaporCustomer,PermintaanService,POVLocation,CustomerHistory,
   LaporKerusakkan,CustomerMap} from '../pages';
 import {DrawerContent,DrawerContentCustomer} from '../components'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import {AuthContext} from '../config/authContext'
 
 const {Navigator,Screen} = createNativeStackNavigator();
 const Drawer = createDrawerNavigator()
@@ -65,6 +67,37 @@ const Root=()=>{
 }
 
 const Router = () =>{
+  const {user:currentUser} = useContext(AuthContext)
+  const datas = []
+  const userData = JSON.stringify(currentUser, (key, val)=>{
+     if (val != null && typeof val == "object") {
+          if (datas.indexOf(val) >= 0) {
+              return;
+          }
+          datas.push(val);
+      }
+      return val;
+  });
+  // const userData = JSON.stringify(currentUser)
+  const userReal = JSON.parse(userData || null)
+  console.log(userReal?._j);
+
+  // const[viewedOnBoarding,setViewedOnBoarding] = useState(false)
+  // const checkOnBoarding = async()=>{
+  //   try {
+  //     const value = await AsyncStorage.getItem("@viewed")
+  //     if (value!==null) {
+  //       return setViewedOnBoarding(true)
+  //     }else{
+  //       return setViewedOnBoarding(false)
+  //     }
+  //   } catch (e) {
+  //     return e
+  //   }
+  // }
+  // useEffect(()=>{
+  //   checkOnBoarding()
+  // },[])
   return (
     <Navigator>
       <Screen name="SplashScreen" component={SplashScreen} options={{headerShown: false}}/>
