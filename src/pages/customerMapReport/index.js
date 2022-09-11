@@ -7,11 +7,13 @@ import Animated,{useAnimatedGestureHandler,useAnimatedStyle,useSharedValue,withS
 
 const {width,height} = Dimensions.get('window')
 
-const CustomerMap = ({navigation})=>{
+const CustomerMap = ({route,navigation})=>{
+  const [reportInfo,setReportInfo] = useState({})
+  // console.log(route);
 
-  // const getGeometrics = (...datas)=>{
-  //   setReportInfo(...datas)
-  // }
+  const getGeometrics = (...datas)=>{
+    setReportInfo(...datas)
+  }
 
   const submit = async()=>{
     top.value = withSpring(dimensions.height / 1,springConfig)
@@ -52,12 +54,25 @@ const CustomerMap = ({navigation})=>{
 
   const back=()=>{
     top.value = withSpring(dimensions.height/1,springConfig)
-    navigation.navigate("CustomerDrawer",{screen:"LaporKerusakkan"})
+    navigation.goBack()
   }
 
+  const desc=reportInfo.desc
+  const title = desc
+  // console.log(title);
+
+  const sendLocation=()=>{
+    navigation.navigate({
+      name: 'LaporKerusakkan',
+      params: { location: reportInfo },
+      merge: true,
+    });
+    top.value = withSpring(dimensions.height/1,springConfig)
+    
+  }
   return(
     <>
-      <MapFinder navigation={navigation}/>
+      <MapFinder getGeometrics={getGeometrics} navigation={navigation}/>
       <PanGestureHandler onGestureEvent={gestureHandler}>
         <Animated.View style={[bottomSheet,bottomSheetStyle]}>
           <Text style={{width:"100%",color:"#000",fontFamily:"Nunito-Bold",fontSize:22,textAlign:'left'}}>Tentukan Lokasi</Text>
@@ -67,12 +82,12 @@ const CustomerMap = ({navigation})=>{
               <View style={{backgroundColor:"#000",height:10.75,width:10.83,borderRadius:10}}/>
             </View>
             <View style={{marginLeft:10}}>
-              <Text style={{fontSize:18,fontFamily:'Nunito-Bold',color:"#000"}}>Malalayang Satu</Text>
-              <Text style={{fontSize:14,fontFamily:"Nunito-Light",color:"#000"}}>FR39+R98, Malalayang satu, Manado, Manado City, North Sulawesi, Indonesia</Text>
+              <Text style={{fontSize:18,fontFamily:'Nunito-Bold',color:"#000"}}>dsfsdf</Text>
+              <Text style={{width:"80%",fontSize:14,fontFamily:"Nunito-Light",color:"#000"}}>{reportInfo.desc}</Text>
             </View>
           </View>
           <Gap height={36}/>
-          <Button style={style.btnSubmit} name="Konfirmasi Lokasi" size={24} fam="Nunito-Bold" color="#fff"/>
+          <Button style={style.btnSubmit} name="Konfirmasi Lokasi" size={24} fam="Nunito-Bold" color="#fff" onPress={sendLocation}/>
         </Animated.View>
       </PanGestureHandler>
       <View style={style.arrowLeft}>
