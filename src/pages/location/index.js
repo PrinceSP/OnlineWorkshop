@@ -8,11 +8,8 @@ import Animated,{useAnimatedGestureHandler,useAnimatedStyle,useSharedValue,withS
 const {width,height} = Dimensions.get('window')
 
 const POVLocation = ({navigation})=>{
-
-  // const getGeometrics = (...datas)=>{
-  //   setReportInfo(...datas)
-  // }
-
+  const [reportInfo,setReportInfo] = useState({})
+  
   const submit = async()=>{
     top.value = withSpring(dimensions.height / 1,springConfig)
   }
@@ -54,9 +51,14 @@ const POVLocation = ({navigation})=>{
     navigation.navigate("PermintaanService")
   }
 
+  const geometrics = (...datas)=>{
+    setReportInfo(...datas)
+    console.log(...datas);
+  }
+
   return(
     <>
-      <MapFinder navigation={navigation}/>
+      <MapFinder getGeometrics={geometrics} navigation={navigation}/>
       <PanGestureHandler onGestureEvent={gestureHandler}>
         <Animated.View style={[bottomSheet,bottomSheetStyle]}>
           <View style={{flexDirection:'row',width:"100%"}}>
