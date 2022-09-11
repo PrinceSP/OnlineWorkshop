@@ -1,18 +1,22 @@
-import React, { useState,useContext} from 'react';
+import React, { useState,useContext,useEffect} from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Switch, Image } from 'react-native';
 import { Gap } from '../../components';
 import {Logo} from '../../assets/'
 import {Button,Header} from '../../components'
 import firestore from '@react-native-firebase/firestore'
 import {AuthContext} from '../../config/authContext'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const HomeScreen = ({ navigation })=>{
   const {user:currentUser} = useContext(AuthContext)
-  const [isEnabled, setIsEnabled] = useState(false);
+  // console.log(currentUser._nativeData.doc.data.state[1]==="Online" ? true : false);
+  const [isEnabled, setIsEnabled] = useState(currentUser._nativeData.doc.data.state[1]==="Online" ? true : falselse);
+  const userId = currentUser._nativeData.doc.path.split("/")
+  // console.log(currentUser._nativeData.doc.data.state[1]);
+
   const toggleSwitch = () => {
-    // console.log(currentUser.id);
     setIsEnabled(previousState => !previousState)
-    firestore().collection('users').doc(currentUser.id)
+    firestore().collection('users').doc(userId[1])
     .update({state:isEnabled==true?"Offline":"Online"})
     .then(() => {
       console.log('User updated!');
