@@ -2,11 +2,14 @@ import React,{useState,useEffect,useContext} from 'react'
 import {View,StyleSheet,Text,FlatList} from 'react-native'
 import {Header,Gap,WorkshopComponent} from '../../components'
 import firestore from '@react-native-firebase/firestore'
+import {AuthContext} from '../../config/authContext'
 
 const HomepageCustomer = ({navigation}) => {
 
   const [bengkels,setBengkels] = useState([])
   const [refreshing,setRefreshing] = useState(false)
+  const [reports,setReport] = useState([])
+  const {user:currentUser} = useContext(AuthContext)
 
   const fetchBengkel=()=>{
     firestore().collection('users')
@@ -23,28 +26,53 @@ const HomepageCustomer = ({navigation}) => {
     })
   }
 
+  const fetchReports=()=>{
+    firestore().collection('reports')
+    .where('from.email','==',currentUser[0].email)
+    .get()
+    .then(items=>{
+      setReport(items._docs)
+      // console.log(items._docs);
+      setRefreshing(true)
+    }).catch(e=>{
+      setRefreshing(false)
+      setReport([])
+    }).finally(()=>{
+      setRefreshing(false)
+    })
+  }
+
+
   useEffect(()=>{
     let mounted = true
     if(mounted){
       fetchBengkel()
+      fetchReports()
     }
     return ()=>mounted=false
   },[])
 
   return (
     <View style={styles.container}>
-      <Gap height={20}/>
-      <Header navigation="navigation" name="Home"/>
-      <Gap height={30}/>
-
-      <FlatList
-        keyExtractor={item => item.id}
-        refreshing={refreshing}
-        onRefresh={fetchBengkel}
-        showsVerticalScrollIndicator={false}
-        data={bengkels._docs}
-        renderItem={({item,index})=><WorkshopComponent key={index} onPress={()=>navigation.navigate('LaporKerusakkan')} desc={item._data.state} namaBengkel={item._data.namaBengkel} address={item._data.alamat} image={item._data.image}/>}
-        />
+     <Gap height={20}/>
+     <Header navigation="navigation" name="Home"/>
+     <Gap height={30}/>
+     <FlatList
+      keyExtractor={item => item.id}
+      refreshing={refreshing}
+      onRefresh={fetchBengkel}
+      showsVerticalScrollIndicator={false}
+      data={bengkels._docs}
+      renderItem={({item,index})=><WorkshopComponent key={index} disabled={item._data?.status !== (undefined||null) ? false : true} onPress={()=>navigation.navigate('LaporKerusakkan',{itemId:item.id,otherParams:item._data})} desc={item._data.state} namaBengkel={item._data.namaBengkel} address={item._data.alamat} image={item._data.image}/>}
+      />
+      {
+        reports.map((item,index)=>(
+          item._data.status === "Sedang menunggu konfirmasi" ? <View key={index} style={{height:82,width:"100%",position:"absolute",bottom:0,backgroundColor:"#5E6B73",padding:10}}>
+            <Text style={{fontSize:20,fontFamily:"Nunito-Bold",color:"#fff"}}>sedang menunggu konfirmasi dari  </Text>
+            <Text style={{fontSize:18,fontFamily:"Nunito-Bold",color:"#ddd"}}>• {item._data.toBengkel.namaBengkel}</Text>
+          </View> : item._data.status === null||undefined ? <Text>sdfsdfsdf</Text> : null
+        ))
+      }
     </View>
   )
 }
