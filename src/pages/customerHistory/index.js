@@ -1,11 +1,33 @@
-import React from 'react'
-import { StyleSheet, Text, View, Image,TouchableOpacity,useWindowDimensions } from 'react-native'
+import React,{useState,useContext,useEffect} from 'react'
+import { StyleSheet, Text, View, Image,TouchableOpacity,useWindowDimensions,FlatList } from 'react-native'
 import {ArrowLeft,MapPin,Warning} from '../../assets/'
 import { Gap,Button,WorkshopComponent } from '../../components'
 import {PanGestureHandler} from 'react-native-gesture-handler'
 import Animated,{useAnimatedGestureHandler,useAnimatedStyle,useSharedValue,withSpring} from 'react-native-reanimated'
+import {AuthContext} from '../../config/authContext'
+import firestore from '@react-native-firebase/firestore'
 
 const CustomerHistory = ({navigation}) => {
+
+  const [reports,setReport] = useState([])
+  const [refreshing,setRefreshing] = useState(false)
+  const {user:currentUser} = useContext(AuthContext)
+  // console.log(reports);
+  const fetchReports=()=>{
+    firestore().collection('reports')
+    .where('from.email','==',currentUser[0].email)
+    .get()
+    .then(items=>{
+      setReport(items._docs)
+      // console.log(items._docs);
+      setRefreshing(true)
+    }).catch(e=>{
+      setRefreshing(false)
+      setReport([])
+    }).finally(()=>{
+      setRefreshing(false)
+    })
+  }
 
   const submit = async()=>{
     top.value = withSpring(dimensions.height / 1,springConfig)
@@ -47,6 +69,15 @@ const CustomerHistory = ({navigation}) => {
     top.value = withSpring(dimensions.height / 1,springConfig)
     navigation.navigate("BengkelMelaporCustomer")
   }
+
+  useEffect(()=>{
+    let mounted = true
+    if (mounted) {
+      fetchReports()
+    }
+      return ()=>mounted=false
+  },[])
+
 
   return (
     <View style={styles.container}>
@@ -90,7 +121,16 @@ const CustomerHistory = ({navigation}) => {
       <Gap height={12}/>
       <View style={{borderBottomColor: 'black',borderBottomWidth: 2, opacity: 0.2}}/>
       <Gap height={30}/>
-      <WorkshopComponent desc="Menunggu Konfirmasi"/>
+
+        <FlatList
+          keyExtractor={item => item.id}
+          refreshing={refreshing}
+          onRefresh={fetchReports}
+          showsVerticalScrollIndicator={false}
+          data={reports}
+          renderItem={({item,index})=><WorkshopComponent key={index} namaBengkel={item._data.toBengkel.namaBengkel} image={item._data.toBengkel.image} address={item._data.toBengkel.alamat} desc={item._data?.status}/>}
+          />
+
       <Gap height={25}/>
     </View>
   )
