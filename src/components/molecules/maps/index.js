@@ -4,7 +4,7 @@ import MapView, { Callout, Circle, Marker, PROVIDER_GOOGLE } from "react-native-
 import {CustomMarker} from '../../../assets'
 import Geocoder from 'react-native-geocoding';
 
-const MapFinder = ({navigation})=>{
+const MapFinder = ({getGeometrics,navigation})=>{
 	const [ region, setRegion ] = useState({
 		latitude: 1.4730796311491023,
 		longitude: 124.85402639232787,
@@ -37,6 +37,11 @@ const MapFinder = ({navigation})=>{
   }
 
   useEffect(()=>{
+    getGeometrics(datas)
+		console.log(datas);
+  },[desc])
+
+  useEffect(()=>{
     return ()=> console.log('clean up');
   },[])
 
@@ -61,12 +66,13 @@ const MapFinder = ({navigation})=>{
                 latitude: e.nativeEvent.coordinate.latitude,
                 longitude: e.nativeEvent.coordinate.longitude,
               })
+              getGeometrics(datas)
             }}
 						image={CustomMarker}
 						title="I'm Here"
 						description={desc}
 					/>
-			</MapView>
+				</MapView>
 			</View>
 		</View>
 	)
