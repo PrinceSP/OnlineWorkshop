@@ -1,5 +1,5 @@
 import React, {useState,useEffect} from 'react'
-import {Text,View,StyleSheet,Dimensions,useWindowDimensions,ActivityIndicator} from 'react-native'
+import {Text,View,StyleSheet,Dimensions,useWindowDimensions,ActivityIndicator,Linking} from 'react-native'
 import {PanGestureHandler} from 'react-native-gesture-handler'
 import {Gap,MapFinder} from '../../components'
 import {Pointer,Phone,ArrowLeft} from '../../assets'
@@ -7,9 +7,9 @@ import Animated,{useAnimatedGestureHandler,useAnimatedStyle,useSharedValue,withS
 
 const {width,height} = Dimensions.get('window')
 
-const POVLocation = ({navigation})=>{
+const POVLocation = ({navigation,route})=>{
   const [reportInfo,setReportInfo] = useState({})
-  
+  console.log("location: ",route.params.itemId);
   const submit = async()=>{
     top.value = withSpring(dimensions.height / 1,springConfig)
   }
@@ -51,14 +51,14 @@ const POVLocation = ({navigation})=>{
     navigation.navigate("PermintaanService")
   }
 
-  const geometrics = (...datas)=>{
+  const getGeometrics = (...datas)=>{
     setReportInfo(...datas)
-    console.log(...datas);
+    // console.log(...datas);
   }
 
   return(
     <>
-      <MapFinder getGeometrics={geometrics} navigation={navigation}/>
+      <MapFinder getGeometrics={getGeometrics} navigation={navigation} id={route.params.itemId} regions={route.params.otherParam}/>
       <PanGestureHandler onGestureEvent={gestureHandler}>
         <Animated.View style={[bottomSheet,bottomSheetStyle]}>
           <View style={{flexDirection:'row',width:"100%"}}>
@@ -71,7 +71,7 @@ const POVLocation = ({navigation})=>{
             </View>
           </View>
           <Gap height={20}/>
-          <Phone/>
+          <Phone onPress={()=>Linking.openURL(`tel:${+6281213507373}`)}/>
           <Text style={{fontSize:14,fontFamily:"Nunito-Light",color:"#000"}}>Via WhatsApp</Text>
         </Animated.View>
       </PanGestureHandler>
