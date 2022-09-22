@@ -61,7 +61,7 @@ const Root=()=>{
       <Drawer.Screen name="HistoryPemesanan" component={HistoryPemesanan} options={{headerShown:false}}/>
       <Drawer.Screen name="BengkelMelaporCustomer" component={BengkelMelaporCustomer} options={{headerShown:false}}/>
       <Drawer.Screen name="PermintaanService" component={PermintaanService} options={{headerShown:false}}/>
-      <Drawer.Screen name="POVLocation" component={POVLocation} options={{headerShown:false}}/>
+      {/*<Drawer.Screen name="POVLocation" component={POVLocation} options={{headerShown:false}}/>*/}
     </Drawer.Navigator>
   )
 }
