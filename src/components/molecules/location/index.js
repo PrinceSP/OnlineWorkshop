@@ -1,15 +1,16 @@
 import React, {useState,useEffect} from 'react'
 import {Text,View,StyleSheet,Dimensions,useWindowDimensions,ActivityIndicator,Linking} from 'react-native'
 import {PanGestureHandler} from 'react-native-gesture-handler'
-import {Gap,MapFinder} from '../../components'
-import {Pointer,Phone,ArrowLeft} from '../../assets'
+import {Gap} from '../../atoms'
+import MapFinder from '../maps'
+import {Phone,ArrowLeft,Pointer} from '../../../assets'
 import Animated,{useAnimatedGestureHandler,useAnimatedStyle,useSharedValue,withSpring} from 'react-native-reanimated'
 
 const {width,height} = Dimensions.get('window')
 
-const POVLocation = ({navigation,route})=>{
+const POVLocation = ({onPress,datas})=>{
   const [reportInfo,setReportInfo] = useState({})
-  console.log("location: ",route.params.itemId);
+  // console.log("location: ",route.params.otherParam);
   const submit = async()=>{
     top.value = withSpring(dimensions.height / 1,springConfig)
   }
@@ -56,9 +57,11 @@ const POVLocation = ({navigation,route})=>{
     // console.log(...datas);
   }
 
+  // console.log(route.params.otherParam);
+
   return(
     <>
-      <MapFinder getGeometrics={getGeometrics} navigation={navigation} id={route.params.itemId} regions={route.params.otherParam}/>
+      <MapFinder getGeometrics={getGeometrics} flags="bengkel" regions={datas}/>
       <PanGestureHandler onGestureEvent={gestureHandler}>
         <Animated.View style={[bottomSheet,bottomSheetStyle]}>
           <View style={{flexDirection:'row',width:"100%"}}>
@@ -71,12 +74,20 @@ const POVLocation = ({navigation,route})=>{
             </View>
           </View>
           <Gap height={20}/>
-          <Phone onPress={()=>Linking.openURL(`tel:${+6281213507373}`)}/>
-          <Text style={{fontSize:14,fontFamily:"Nunito-Light",color:"#000"}}>Via WhatsApp</Text>
+          <View style={{margin:"auto",width:"60%",flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
+            <View>
+              <Phone onPress={()=>Linking.openURL(`tel:${+6281213507373}`)}/>
+              <Text style={{fontSize:14,fontFamily:"Nunito-Light",color:"#000"}}>Via Phone</Text>
+            </View>
+            <View>
+              <Phone onPress={()=>Linking.openURL(`whatsapp://send?phone=${6281213507373}`)}/>
+              <Text style={{fontSize:14,fontFamily:"Nunito-Light",color:"#000"}}>Via WhatsApp</Text>
+            </View>
+          </View>
         </Animated.View>
       </PanGestureHandler>
       <View style={style.arrowLeft}>
-        <ArrowLeft onPress={back}/>
+        <ArrowLeft onPress={onPress}/>
       </View>
       <Pointer style={style.pointer} onPress={()=>{top.value = withSpring(dimensions.height / 1.4,springConfig)}}/>
     </>
