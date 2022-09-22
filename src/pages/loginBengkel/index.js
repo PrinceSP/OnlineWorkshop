@@ -21,6 +21,7 @@ const LoginBengkel = ({navigation}) => {
     .get()
     .then((data)=>{
       data._changes.forEach(async(item)=> {
+        // console.log(item._nativeData.doc.data);
         if (item._nativeData.doc.data.email[1] === email && item._nativeData.doc.data.password[1] === password) {
           // console.log(item._nativeData.doc.data.password[1]);
           dispatch({ type: "LOGIN_SUCCESS", payload: item });
