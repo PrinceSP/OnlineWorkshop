@@ -27,7 +27,8 @@ const RegisterBengkelMotor = ({navigation}) => {
     password:password,
     noHp:noHp,
     image:photoBase64,
-    role:'bengkel'
+    role:'bengkel',
+    state:'Offline'
   }
   const imageGallery = ()=>{
     const options={

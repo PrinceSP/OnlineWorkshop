@@ -28,7 +28,8 @@ const RegisterBengkelMobil = ({navigation}) => {
     password:password,
     noHp:noHp,
     image:photoBase64,
-    role:'bengkel'
+    role:'bengkel',
+    state:'Offline'
   }
   const imageGallery = ()=>{
     const options={
@@ -233,7 +234,6 @@ const styles = StyleSheet.create({
     maxWidth: 40,
     textAlign: 'center',
   },
-
   border: {
     borderWidth: 1,
     borderColor: '8D92A3',
