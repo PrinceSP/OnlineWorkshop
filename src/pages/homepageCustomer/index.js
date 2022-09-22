@@ -10,7 +10,8 @@ const HomepageCustomer = ({navigation}) => {
   const [refreshing,setRefreshing] = useState(false)
   const [reports,setReport] = useState([])
   const {user:currentUser} = useContext(AuthContext)
-
+  // const userId = currentUser[0].ref._documentPath._parts[1]
+  // console.log(userId);
   const fetchBengkel=()=>{
     firestore().collection('users')
     .where('role','==','bengkel')
@@ -28,7 +29,7 @@ const HomepageCustomer = ({navigation}) => {
 
   const fetchReports=()=>{
     firestore().collection('reports')
-    .where('from.email','==',currentUser[0].email)
+    .where('from.email','==',currentUser[0]._data.email)
     .get()
     .then(items=>{
       setReport(items._docs)
