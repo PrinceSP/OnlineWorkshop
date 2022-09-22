@@ -10,7 +10,7 @@ const LaporKerusakkan = ({navigation,route}) => {
   const [problems,setProblems] = useState('')
   const {itemId,otherParams,location} = route.params
   const {user:currentUser} = useContext(AuthContext)
-
+  console.log(location);
   const submitreport=()=>{
     firestore()
     .collection("reports")
@@ -44,7 +44,7 @@ const LaporKerusakkan = ({navigation,route}) => {
           <Gap height={29}/>
           <TouchableOpacity style={styles.rowAlignment} onPress={()=>navigation.navigate("CustomerDrawer",{screen:"CustomerMap"},{itemId:itemId})}>
             <MapPin/>
-            <Text style={{color:"#000"}}>Tentukan Lokasimu</Text>
+            <Text style={{color:"#000",width:"80%"}}>{location!==undefined || null ? `${location?.desc}` :  `Tentukan Lokasimu`}</Text>
           </TouchableOpacity>
         </View>
         <Gap height={40}/>
