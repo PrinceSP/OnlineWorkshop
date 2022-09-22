@@ -5,8 +5,8 @@ import {Input,Gap,Button} from '../../components'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const SplashScreen = ({navigation}) => {
-  const moveTo=()=>{
-    // await AsyncStorage.removeItem("@viewed")
+  const moveTo=async()=>{
+    await AsyncStorage.getItem("@viewed")
     navigation.navigate("LoginOptions")
   }
 
