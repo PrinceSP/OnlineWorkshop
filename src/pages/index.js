@@ -13,12 +13,12 @@ import ProfileCustomer from './profileCustomer'
 import HistoryPemesanan from './historyPemesanan'
 import BengkelMelaporCustomer from './bengkelMelaporCustomer'
 import PermintaanService from './permintaanService'
-import POVLocation from './location'
+// import POVLocation from './location'
 import Feedback from './feedback'
 import CustomerHistory from './customerHistory'
 import LaporKerusakkan from './reportCustomer'
 import CustomerMap from './customerMapReport'
 
 export {Register,SplashScreen,LoginOptions,LoginBengkel,LoginCustomer,ProfileBengkel,ProfileCustomer,
-  RegisterBengkel,RegisterBengkelMotor,RegisterBengkelMobil,HomeScreen,POVLocation,LaporKerusakkan,
+  RegisterBengkel,RegisterBengkelMotor,RegisterBengkelMobil,HomeScreen,LaporKerusakkan,
   HomepageCustomer,HistoryPemesanan,BengkelMelaporCustomer,PermintaanService,Feedback,CustomerHistory,CustomerMap}
