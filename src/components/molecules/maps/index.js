@@ -1,23 +1,30 @@
 import React, {useState,useRef,useEffect} from "react"
 import {StyleSheet, Text, View, TextInput, TouchableOpacity } from "react-native"
+import {CustomMarker,Pointer,ArrowLeft} from '../../../assets'
 import MapView, { Callout, Circle, Marker, PROVIDER_GOOGLE } from "react-native-maps"
-import {CustomMarker} from '../../../assets'
 import Geocoder from 'react-native-geocoding';
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+import MapViewDirections from 'react-native-maps-directions';
 
-const MapFinder = ({getGeometrics,navigation})=>{
+const MapFinder = ({getGeometrics,regions,flags})=>{
 	const [ region, setRegion ] = useState({
-		latitude: 1.4730796311491023,
-		longitude: 124.85402639232787,
-		latitudeDelta: 0.0922,
-		longitudeDelta: 0.0421,
+		latitude: regions?.latitude[1] || 1.4730796311491023,
+		longitude: regions?.longitude[1] || 124.85402639232787,
+		latitudeDelta: regions?.latitudeDelta[1] || 0.0922,
+		longitudeDelta: regions?.longitudeDelta[1] || 0.0421,
+	})
+	const [destination,setDestination] = useState({
+		latitude: regions?.latitude[1] || 1.4545106387134392,
+		longitude: regions?.longitude[1] || 124.81858670711517,
+		latitudeDelta: regions?.latitudeDelta[1] || 0.0922,
+		longitudeDelta: regions?.longitudeDelta[1] || 0.0421,
 	})
   const [desc,setDetails] = useState(null)
-
   const datas = {region,desc}
-
+	// console.log(regions);
   const mapRef = useRef(region)
 	const queryRef = useRef(null)
-
+// console.log(mapRef);
   Geocoder.init("AIzaSyB-lpOPCdsdF7SluzBjETaOIfT-ZDgX2ZA",{language : "en"}); // use a valid API key
   Geocoder.from(region)
   		.then(res => {
@@ -38,53 +45,134 @@ const MapFinder = ({getGeometrics,navigation})=>{
 
   useEffect(()=>{
     getGeometrics(datas)
-		console.log(datas);
+		// console.log(datas);
   },[desc])
 
   useEffect(()=>{
     return ()=> console.log('clean up');
   },[])
 
+	function InputLocation({label,onSelectedInput}){
+		return(
+			<>
+				<Text style={{fontFamily:"Nunito-Bold",color:"#444"}}>{label}</Text>
+				<GooglePlacesAutocomplete
+					ref={queryRef}
+					placeholder={desc?desc:"Search your location here...."}
+					returnKeyType={'search'}
+					autoFocus={true}
+					listViewDisplayed='auto'
+					fetchDetails={true}
+					renderDescription={row=>row.description}
+					GooglePlacesSearchQuery={{
+						rankby: "distance"
+					}}
+					GooglePlacesDetailsQuery={{
+						fields:['formatted_address','geometry']
+					}}
+					enablePoweredByContainer={false}
+					onPress={(data, details = null) => {
+						// 'details' is provided when fetchDetails = true
+						// update the region by its latitude and longitude
+						setRegion({...region,
+							latitude: details.geometry.location.lat,
+							longitude: details.geometry.location.lng,
+						})
+						setDetails(data?.description)
+						getGeometrics(datas)
+						// console.log('data from query: '+data?.description);
+					}}
+					query={{
+						key: "AIzaSyB-lpOPCdsdF7SluzBjETaOIfT-ZDgX2ZA",
+						language: "en",
+						components: "country:id",
+						types: "establishment",
+						radius: 30000,
+						location: `${region.latitude}, ${region.longitude}`
+					}}
+					textInputProps={{
+						placeholderTextColor: '#899',
+						InputComp: TextInput,
+					}}
+					styles={{
+						listView:style.listView,
+						textInputContainer: {
+							alignItems:'center',
+							justifyContent:'space-between'
+						},
+						textInput:{color:'#000',borderColor:"#888",borderWidth:1},
+						description:{
+							fontWeight:'bold',
+							color:'#000',
+						}
+					}}
+				/>
+			</>
+		)
+	}
+
 	return (
-		<View style={{flex:1}}>
-			<View style={style.mapContainer}>
-				<MapView
-					ref={map=>mapRef.current=map}
-					style={style.map}
-          initialRegion={region}
-					provider={PROVIDER_GOOGLE}
-					onPress={goToCurrentRegion}
-				>
-					<Marker coordinate={{ latitude: region.latitude, longitude: region.longitude }} image={CustomMarker} title="I'm Here"
+		<View style={style.mapContainer}>
+			<MapView
+				ref={map=>mapRef.current=map}
+				style={style.map}
+        initialRegion={region}
+				provider={PROVIDER_GOOGLE}
+				onPress={goToCurrentRegion}
+				userLocationUpdateInterval={700}
+			>
+				<Marker coordinate={region}
+					image={CustomMarker} title="I'm Here"
 					description={desc}/>
-					<Marker
-						coordinate={region}
-						draggable={true}
-            onDragEnd={(e) => {
-              setRegion({
-                ...region,
-                latitude: e.nativeEvent.coordinate.latitude,
-                longitude: e.nativeEvent.coordinate.longitude,
-              })
-              getGeometrics(datas)
-            }}
-						image={CustomMarker}
-						title="I'm Here"
-						description={desc}
-					/>
-				</MapView>
-			</View>
+				<Marker
+					coordinate={region}
+					draggable={true}
+          onDragEnd={(e) => {
+            setRegion({
+              ...region,
+              latitude: e.nativeEvent.coordinate.latitude,
+              longitude: e.nativeEvent.coordinate.longitude,
+            })
+            getGeometrics(datas)
+          }}
+					image={CustomMarker}
+					title="I'm Here"
+					description={desc}
+				/>
+			</MapView>
+			{flags==="bengkel" ?
+				<View style={style.placesContainer}>
+					<InputLocation label="From"/>
+					<InputLocation label="Destination"/>
+				</View> : null
+			}
+
 		</View>
 	)
 }
 
 const style = StyleSheet.create({
-	mapContainer:{flex:1},
+	mapContainer:{flex:1,alignItems:'center',justifyContent:'center'},
   map: {
     ...StyleSheet.absoluteFill,
-		marginBottom:0
+		// marginBottom:0
   },
-	placesContainer: {width: "95%",position:'absolute',top:20,left:"3%"},
+	placesContainer: {
+		position:'absolute',
+		width: "90%",
+		backgroundColor:"#fff",
+		shadowColor:"#000",
+		shadowOffset:{
+			width:2,
+			height:2
+		},
+		shadowOpacity:0.4,
+		shadowRadius:4,
+		elevation:4,
+		padding:8,
+		borderRadius:8,
+		top:30
+	},
 	listView:{minHeight:50,color:'#000'}
 })
 
