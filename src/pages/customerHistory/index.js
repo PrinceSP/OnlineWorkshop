@@ -12,7 +12,7 @@ const CustomerHistory = ({navigation}) => {
   const [reports,setReport] = useState([])
   const [refreshing,setRefreshing] = useState(false)
   const {user:currentUser} = useContext(AuthContext)
-  // console.log(reports);
+  console.log(reports[0]._data);
   const fetchReports=()=>{
     firestore().collection('reports')
     .where('from.email','==',currentUser[0].email)
@@ -84,34 +84,30 @@ const CustomerHistory = ({navigation}) => {
       <Gap height={24}/>
       <PanGestureHandler onGestureEvent={gestureHandler}>
         <Animated.View style={[styles.bottomSheet,bottomSheetStyle,{backgroundColor:"#fff",shadowColor:"#000000"}]}>
-          <Text style={{color:"#000",fontFamily:"Nunito-Bold",height:50,width:"100%",fontSize:18}}>Perlu ganti oli dan canvas rem motor matic</Text>
+          <Text style={{color:"#000",fontFamily:"Nunito-Bold",height:50,width:"100%",fontSize:18}}>{reports[0]._data.problem}</Text>
           <Gap height={20}/>
           <View style={{borderStyle:'dotted',borderColor:"rgba(0,0,0,0.4)",borderWidth:2}}/>
           <Gap height={20}/>
           <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
             <View style={{flexDirection:'row',alignItems:'center'}}>
               <MapPin/>
-              <Text style={{color:"#000",fontFamily:"Nunito-Bold",fontSize:18}}>Malalayang Satu</Text>
+              <Text style={{color:"#000",fontFamily:"Nunito-Bold",fontSize:18}}>{reports[0]?._data.location.desc}</Text>
             </View>
-            <TouchableOpacity style={{flexDirection:'row',alignItems:'center'}} onPress={report}>
-              <Warning/>
-              <Text style={{color:"#000",fontFamily:"Nunito-Bold",fontSize:18}}>Lapor</Text>
-            </TouchableOpacity>
           </View>
           <Gap height={20}/>
-          <Text style={{color:"#B3B553",fontFamily:"Nunito-Bold",fontSize:18}}>Sedang di proses</Text>
+          <Text style={{color:"#B3B553",fontFamily:"Nunito-Bold",fontSize:18}}>Sedang menunggu konfirmasi</Text>
           <Gap height={75}/>
           <View>
-            <Text style={{width:"100%",textAlign:'right',color:"#000",fontFamily:"Nunito-Light"}}>Tekan selesai jika sudah selesai servis</Text>
+            <Text style={{width:"100%",textAlign:'right',color:"#000",fontFamily:"Nunito-Light"}}>Tekan batal jika tidak jadi servis</Text>
             <Gap height={4}/>
-            <Button style={styles.button} name='Selesai' size = {24} weight = 'bold' color ='#fff'/>
+            <Button style={styles.button} name='Batalkan' size = {24} weight = 'bold' color ='#fff'/>
           </View>
         </Animated.View>
       </PanGestureHandler>
       <View style={styles.header}>
         <View>
         {/* Header */}
-        <ArrowLeft height={13} widdth={14} onPress={()=>navigation.goBack()}/>
+        <ArrowLeft height={13} width={14} onPress={()=>navigation.goBack()}/>
         </View>
         <Gap height={32}/>
         <View>
@@ -121,16 +117,14 @@ const CustomerHistory = ({navigation}) => {
       <Gap height={12}/>
       <View style={{borderBottomColor: 'black',borderBottomWidth: 2, opacity: 0.2}}/>
       <Gap height={30}/>
-
-        <FlatList
-          keyExtractor={item => item.id}
-          refreshing={refreshing}
-          onRefresh={fetchReports}
-          showsVerticalScrollIndicator={false}
-          data={reports}
-          renderItem={({item,index})=><WorkshopComponent key={index} namaBengkel={item._data.toBengkel.namaBengkel} image={item._data.toBengkel.image} address={item._data.toBengkel.alamat} desc={item._data?.status}/>}
-          />
-
+      <FlatList
+        keyExtractor={item => item.id}
+        refreshing={refreshing}
+        onRefresh={fetchReports}
+        showsVerticalScrollIndicator={false}
+        data={reports}
+        renderItem={({item,index})=><WorkshopComponent key={index} onPress={()=>top.value = withSpring(dimensions.height / 2,springConfig)} namaBengkel={item._data.toBengkel.namaBengkel} image={item._data.toBengkel.image} address={item._data.toBengkel.alamat} desc={item._data?.status}/>}
+        />
       <Gap height={25}/>
     </View>
   )
