@@ -79,8 +79,8 @@ const DrawerContentCustomer = (props)=>{
         <View style={container}>
           <View style={section}>
             <View>
-              <Text style={title}>{currentUser[0].username}</Text>
-              <Text style={desc}>+62{`${currentUser[0].phoneNumber}`}</Text>
+              <Text style={title}>{currentUser[0]._data.username}</Text>
+              <Text style={desc}>+62{`${currentUser[0]._data.phoneNumber}`}</Text>
             </View>
           </View>
           <View style={drawerItemsContainer}>
