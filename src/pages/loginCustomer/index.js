@@ -20,12 +20,16 @@ const LoginCustomer = ({navigation}) => {
     dispatch({type:"LOGIN_START"})
     firestore()
     .collection('users')
+    .where('role','==','customer')
+    .where('email','==',email)
+    .where('password','==',password)
     .get()
     .then((data) => {
       // console.log(data.size);
       data.forEach(async(item)=> {
-        if (item._data.email === email && item._data.password === password) {
-          dispatch({ type: "LOGIN_SUCCESS", payload: [item._data] });
+        if (item._data.role == "customer" && item._data.email == email && item._data.password == password) {
+          // console.log(email);
+          dispatch({ type: "LOGIN_SUCCESS", payload: [item] });
           Toast.show({
             type: 'success',
             text1: 'Yeay!',
@@ -33,19 +37,19 @@ const LoginCustomer = ({navigation}) => {
           });
 
           const jsonValue = JSON.stringify(data, (key, val)=>{
-             if (val != null && typeof val == "object") {
-                  if (datas.indexOf(val) >= 0) {
-                      return;
-                  }
-                  datas.push(val);
-              }
-              return val;
+           if (val != null && typeof val == "object") {
+                if (datas.indexOf(val) >= 0) {
+                    return;
+                }
+                datas.push(val);
+            }
+            return val;
           });
           await AsyncStorage.setItem('@user', jsonValue)
           setTimeout(()=>{
             navigation.navigate('CustomerDrawer',{screen:'HomepageCustomer'})
           },3000)
-          console.log(true);
+          // console.log(true);
         }else{
           // isFetching=false
           Toast.show({
@@ -56,9 +60,6 @@ const LoginCustomer = ({navigation}) => {
           console.log(false);
         }
       });
-
-    }).catch(e=>{
-      dispatch({ type: "LOGIN_FAILURE", payload: e });
     })
   }
 
