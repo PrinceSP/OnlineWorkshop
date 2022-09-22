@@ -68,7 +68,7 @@ const CustomerMap = ({route,navigation})=>{
       merge: true,
     });
     top.value = withSpring(dimensions.height/1,springConfig)
-    
+
   }
   return(
     <>
@@ -82,7 +82,7 @@ const CustomerMap = ({route,navigation})=>{
               <View style={{backgroundColor:"#000",height:10.75,width:10.83,borderRadius:10}}/>
             </View>
             <View style={{marginLeft:10}}>
-              <Text style={{fontSize:18,fontFamily:'Nunito-Bold',color:"#000"}}>dsfsdf</Text>
+              <Text style={{fontSize:18,fontFamily:'Nunito-Bold',color:"#000"}}>Lokasi anda</Text>
               <Text style={{width:"80%",fontSize:14,fontFamily:"Nunito-Light",color:"#000"}}>{reportInfo.desc}</Text>
             </View>
           </View>
