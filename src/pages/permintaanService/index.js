@@ -1,89 +1,70 @@
-import { StyleSheet, Text, View, Image, useWindowDimensions, TouchableOpacity } from 'react-native'
-import React from 'react'
-import {ArrowLeft} from '../../assets/'
-import { Gap,Button } from '../../components'
-import {PanGestureHandler} from 'react-native-gesture-handler'
-import Animated,{useAnimatedGestureHandler,useAnimatedStyle,useSharedValue,withSpring} from 'react-native-reanimated'
+import { StyleSheet, Text, View, Image, TouchableOpacity,FlatList } from 'react-native'
+import React, {useEffect,useState,useContext} from 'react'
+import {ArrowLeft} from '../../assets'
+import { Gap,Button,RequestLists,WorkshopComponent } from '../../components'
+import firestore from '@react-native-firebase/firestore'
+import {AuthContext} from '../../config/authContext'
 
 const PermintaanService = ({navigation}) => {
-  const dimensions = useWindowDimensions()
-  const springConfig ={
-    damping:80,
-    overshootClamping:true,
-    restDisplacementThreshold:0.1,
-    stiffness:500
-  }
-
-  const top = useSharedValue(dimensions.height)
-
-  const bottomSheetStyle = useAnimatedStyle(()=>{
-    return{
-      top:withSpring(top.value,springConfig)
-    }
-  })
-
-  const gestureHandler = useAnimatedGestureHandler({
-    onStart(_, context){
-      context.startTop = top.value
-    },
-    onActive(event,context){
-      top.value = context.startTop + event.translationY
-    },
-    onEnd(){
-      if (top.value > dimensions.height / 2 + 200 ) {
-        top.value = dimensions.height
-      } else{
-        top.value = dimensions.height
-      }
-    }
-  })
-
+  const [refreshing,setRefreshing] = useState(false)
+  const [visible,isVisible] = useState(false)
+  const [reports,setReport] = useState([])
+  const {user:currentUser} = useContext(AuthContext)
+  // reports !=(null||undefined||[]) && reports._changes.map(item=>console.log(item._nativeData))
+  // console.log(reports._changes);
   const back=()=>{
-    top.value = withSpring(dimensions.height / 1,springConfig)
+    // top.value = withSpring(dimensions.height / 1,springConfig)
     navigation.navigate("HomeScreen")
   }
 
-  const confirm=()=>{
-    top.value = withSpring(dimensions.height / 1,springConfig)
-    navigation.navigate("POVLocation")
+
+  const fetchReports=()=>{
+    firestore().collection('reports')
+    .where('toBengkel.email','==',currentUser._nativeData.doc.data.email[1])
+    .get()
+    .then(items=>{
+      setReport(items)
+      setRefreshing(true)
+    }).catch(e=>{
+      setRefreshing(false)
+      setReport([])
+    }).finally(()=>{
+      setRefreshing(false)
+    })
   }
+
+  useEffect(()=>{
+    let mounted = true
+    if(mounted){
+      fetchReports()
+    }
+    return ()=>mounted=false
+  },[])
 
   return (
     <View style={styles.container}>
       <Gap height={24}/>
-      <PanGestureHandler onGestureEvent={gestureHandler}>
-        <Animated.View style={[styles.bottomSheet,bottomSheetStyle,{backgroundColor:"#fff",shadowColor:"#000000"}]}>
-          <Text style={{color:"#000",fontFamily:"Nunito-Bold",height:50,width:"100%",fontSize:18}}>Perlu ganti oli dan canvas rem motor matic</Text>
-          <Gap height={20}/>
-          <View style={{borderStyle:'dotted',borderColor:"rgba(0,0,0,0.4)",borderWidth:2}}/>
-          <Gap height={70}/>
-          <View style={{width:"100%",flexDirection:'row',alignItems:'center',justifyContent:'space-between',alignContent:'center',paddingHorizontal:40}}>
-            <Button style={styles.button} name='Terima' size = {18} color ='#A8AA3B' fam="Nunito-Bold" onPress={confirm}/>
-            <Button style={styles.button} name='Tolak' size = {18} color ='#FF0000' fam="Nunito-Bold"/>
-          </View>
-        </Animated.View>
-      </PanGestureHandler>
       <View style={styles.header}>
-          {/* Header */}
         <ArrowLeft width={14} height={13} onPress={back}/>
       </View>
       <Gap height={32}/>
       <View>
         <Text style={styles.textCaption}>Permintaan Service</Text>
       </View>
-      <TouchableOpacity onPress={()=>top.value = withSpring(dimensions.height / 1.4,springConfig)}>
-        <View style={{flexDirection:'row'}}>
-          <Image
-              source={require('../../assets/images/fotoprofil.jpg')} //Change your icon image here
-              style={styles.ImageStyle}
-             />
-          <Gap width={23}/>
-          <View style={{flexDirection:'column', justifyContent:'center'}}>
-            <Text style={{fontSize:18, fontFamily:'Nunito', fontWeight:'700', color:'#000'}}>Yoel Roring</Text>
-            <Text style={{fontSize:18, fontFamily:'Nunito', fontWeight:'700', color:'#BCB6B6'}}>Malalayang Satu</Text>
-          </View>
-        </View>
-      </TouchableOpacity>
+      {reports !== (undefined||null||[]) &&
+       <FlatList
+        keyExtractor={(item,index) => index}
+        refreshing={refreshing}
+        onRefresh={fetchReports}
+        showsVerticalScrollIndicator={false}
+        data={reports._changes}
+        renderItem={(item,index)=><RequestLists key={index} visible={visible}
+        desc={item.item._nativeData.doc.data.problem[1]} namaBengkel={item.item._nativeData.doc.data.from[1].fullname[1]} id={item.index}
+        address={item.item._nativeData.doc.data.status[1]} navigation={navigation} locations={item.item._nativeData.doc.data.location[1].region[1]}
+        />}
+       />
+      }
+
     </View>
   )
 }
