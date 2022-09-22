@@ -10,7 +10,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 const HomeScreen = ({ navigation })=>{
   const {user:currentUser} = useContext(AuthContext)
   // console.log(currentUser._nativeData.doc.data.state[1]==="Online" ? true : false);
-  const [isEnabled, setIsEnabled] = useState(currentUser._nativeData.doc.data.state[1]==="Online" ? true : falselse);
+  const [isEnabled, setIsEnabled] = useState(currentUser._nativeData.doc.data.state[1]==="Online" ? true : false);
   const userId = currentUser._nativeData.doc.path.split("/")
   // console.log(currentUser._nativeData.doc.data.state[1]);
 
