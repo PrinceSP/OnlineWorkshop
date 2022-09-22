@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {ImageBackground,View,Text,StyleSheet,Dimensions,TouchableOpacity,ScrollView} from 'react-native'
+import {ImageBackground,View,Text,StyleSheet,Dimensions,TouchableOpacity,ScrollView,Image} from 'react-native'
 import {Input,Gap,Button} from '../../components'
 import {Camera,ArrowLeft} from '../../assets'
 import {launchImageLibrary} from 'react-native-image-picker'
@@ -73,9 +73,20 @@ const Register = ({navigation}) => {
   return (
     <ScrollView keyboardShouldPersistTaps="never" contentContainerStyle={styles.container}>
       <Gap height={60}/>
-      <TouchableOpacity onPress={imageGallery} style={{height:80,width:80,borderRadius:50,borderWidth:2,borderColor:"#000",alignItems:"center",justifyContent:"center"}}>
-        <Camera/>
-      </TouchableOpacity>
+      <View style={styles.containerImage}>
+        <View style={styles.border}>
+          <TouchableOpacity onPress={imageGallery} activeOpacity={0.5}>
+              {!hasPhoto && (
+                  <View style={styles.addPhoto}>
+                  <Text style={styles.addPhotoText}>Add Photo</Text>
+              </View>
+          )}
+              {hasPhoto && (
+                  <Image source={{uri: photo}} style={styles.avatar} />
+          )}
+          </TouchableOpacity>
+        </View>
+      </View>
       <Input setLabel={true} label="fullname" borderRadius={10} width={windowWidth/1.22} defaultValue={username} onChangeText={(value)=>setUserInfo({...userInfo,username:value})}/>
       <Gap height={25}/>
       <Input setLabel={true} label="Username" borderRadius={10} width={windowWidth/1.22} defaultValue={fullname} onChangeText={(value)=>setUserInfo({...userInfo,fullname:value})}/>
@@ -110,7 +121,40 @@ const styles = StyleSheet.create({
     borderRadius:7,
     alignItems:'center',
     justifyContent:'center',
-  }
+  },
+  containerImage:{
+    alignItems:'center',
+    justifyContent:'center'
+  },
+  border: {
+    borderWidth: 1,
+    borderColor: '8D92A3',
+    width: 110,
+    height: 110,
+    borderRadius: 110,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderStyle: 'dashed',
+  },
+  avatar: {
+    height: 90,
+    width: 90,
+    borderRadius: 90,
+  },
+  addPhoto: {
+    height: 90,
+    width: 90,
+    backgroundColor: '#E5E5E5',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 90,
+  },
+  addPhotoText: {
+    fontSize: 12,
+    fontFamily: 'Inter',
+    maxWidth: 40,
+    textAlign: 'center',
+  },
 })
 
 export default Register
