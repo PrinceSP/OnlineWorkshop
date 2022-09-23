@@ -1,5 +1,5 @@
 import React,{useState,useContext,useEffect} from 'react'
-import { StyleSheet, Text, View, Image,TouchableOpacity,useWindowDimensions,FlatList } from 'react-native'
+import { StyleSheet, Text, View, Image,TouchableOpacity,useWindowDimensions,FlatList,Modal } from 'react-native'
 import {ArrowLeft,MapPin,Warning} from '../../assets/'
 import { Gap,Button,WorkshopComponent } from '../../components'
 import {PanGestureHandler} from 'react-native-gesture-handler'
@@ -11,64 +11,50 @@ const CustomerHistory = ({navigation}) => {
 
   const [reports,setReport] = useState([])
   const [refreshing,setRefreshing] = useState(false)
+  const [isVisible,setIsVisible] = useState(false)
   const {user:currentUser} = useContext(AuthContext)
-  console.log(reports[0]._data);
+  // console.log(currentUser[0]._data.email);
+  // console.log(reports[0]);
   const fetchReports=()=>{
     firestore().collection('reports')
-    .where('from.email','==',currentUser[0].email)
+    .where('from.email','==',currentUser[0]._data.email)
     .get()
     .then(items=>{
-      setReport(items._docs)
-      // console.log(items._docs);
-      setRefreshing(true)
+      // console.log(items._changes[1]._nativeData.doc.data);
+      items._changes.map(item=>{
+        if (item._nativeData.doc.data.from[1].email[1] == currentUser[0]._data.email) {
+          // console.log(item._nativeData.doc.data.from[1]);
+          setReport(items._changes)
+          console.log(true);
+          setRefreshing(true)
+        }else{
+          setReport([])
+          setRefreshing(true)
+          // console.log(item._nativeData.doc.data.from[1].email[1]);
+          console.log(currentUser[0]._data.email);
+        }
+      })
     }).catch(e=>{
-      setRefreshing(false)
       setReport([])
+      setRefreshing(false)
     }).finally(()=>{
       setRefreshing(false)
     })
   }
 
+
   const submit = async()=>{
     top.value = withSpring(dimensions.height / 1,springConfig)
   }
 
-  const dimensions = useWindowDimensions()
-  const springConfig ={
-    damping:80,
-    overshootClamping:true,
-    restDisplacementThreshold:0.1,
-    stiffness:500
-  }
-
-  const top = useSharedValue(dimensions.height)
-
-  const bottomSheetStyle = useAnimatedStyle(()=>{
-    return{
-      top:withSpring(top.value,springConfig)
-    }
-  })
-
-  const gestureHandler = useAnimatedGestureHandler({
-    onStart(_, context){
-      context.startTop = top.value
-    },
-    onActive(event,context){
-      top.value = context.startTop + event.translationY
-    },
-    onEnd(){
-      if (top.value > dimensions.height / 2 + 200 ) {
-        top.value = dimensions.height
-      } else{
-        top.value = dimensions.height
-      }
-    }
-  })
-
   const report=()=>{
-    top.value = withSpring(dimensions.height / 1,springConfig)
+    // top.value = withSpring(dimensions.height / 1,springConfig)
     navigation.navigate("BengkelMelaporCustomer")
   }
+
+  // const getValue = (...value)=>{
+  //   setIsVisible(...value)
+  // }
 
   useEffect(()=>{
     let mounted = true
@@ -78,32 +64,10 @@ const CustomerHistory = ({navigation}) => {
       return ()=>mounted=false
   },[])
 
-
+  // console.log(reports[0]._nativeData);
   return (
     <View style={styles.container}>
       <Gap height={24}/>
-      <PanGestureHandler onGestureEvent={gestureHandler}>
-        <Animated.View style={[styles.bottomSheet,bottomSheetStyle,{backgroundColor:"#fff",shadowColor:"#000000"}]}>
-          <Text style={{color:"#000",fontFamily:"Nunito-Bold",height:50,width:"100%",fontSize:18}}>{reports[0]._data.problem}</Text>
-          <Gap height={20}/>
-          <View style={{borderStyle:'dotted',borderColor:"rgba(0,0,0,0.4)",borderWidth:2}}/>
-          <Gap height={20}/>
-          <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
-            <View style={{flexDirection:'row',alignItems:'center'}}>
-              <MapPin/>
-              <Text style={{color:"#000",fontFamily:"Nunito-Bold",fontSize:18}}>{reports[0]?._data.location.desc}</Text>
-            </View>
-          </View>
-          <Gap height={20}/>
-          <Text style={{color:"#B3B553",fontFamily:"Nunito-Bold",fontSize:18}}>Sedang menunggu konfirmasi</Text>
-          <Gap height={75}/>
-          <View>
-            <Text style={{width:"100%",textAlign:'right',color:"#000",fontFamily:"Nunito-Light"}}>Tekan batal jika tidak jadi servis</Text>
-            <Gap height={4}/>
-            <Button style={styles.button} name='Batalkan' size = {24} weight = 'bold' color ='#fff'/>
-          </View>
-        </Animated.View>
-      </PanGestureHandler>
       <View style={styles.header}>
         <View>
         {/* Header */}
@@ -117,14 +81,16 @@ const CustomerHistory = ({navigation}) => {
       <Gap height={12}/>
       <View style={{borderBottomColor: 'black',borderBottomWidth: 2, opacity: 0.2}}/>
       <Gap height={30}/>
-      <FlatList
-        keyExtractor={item => item.id}
+      {reports!== (undefined||null||[]) && <FlatList
+        keyExtractor={(item,index) => index}
         refreshing={refreshing}
         onRefresh={fetchReports}
         showsVerticalScrollIndicator={false}
         data={reports}
-        renderItem={({item,index})=><WorkshopComponent key={index} onPress={()=>top.value = withSpring(dimensions.height / 2,springConfig)} namaBengkel={item._data.toBengkel.namaBengkel} image={item._data.toBengkel.image} address={item._data.toBengkel.alamat} desc={item._data?.status}/>}
-        />
+        renderItem={({item,index})=><WorkshopComponent flag="history" key={index}
+        namaBengkel={item._nativeData.doc.data.toBengkel[1].namaBengkel[1]} problem={item._nativeData.doc.data.problem[1]} location={item._nativeData.doc.data.location[1].desc[1]}
+        image={item._nativeData.doc.data.toBengkel[1].image[1]} address={item._nativeData.doc.data.toBengkel[1].alamat[1]} desc={item._nativeData.doc.data?.status[1]}/>}
+        />}
       <Gap height={25}/>
     </View>
   )
