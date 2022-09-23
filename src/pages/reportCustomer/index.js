@@ -10,11 +10,11 @@ const LaporKerusakkan = ({navigation,route}) => {
   const [problems,setProblems] = useState('')
   const {itemId,otherParams,location} = route.params
   const {user:currentUser} = useContext(AuthContext)
-  console.log(location);
+  // console.log(location);
   const submitreport=()=>{
     firestore()
     .collection("reports")
-    .add({problem:problems,toBengkel:otherParams,location,from:currentUser[0],status:'Sedang menunggu konfirmasi'})
+    .add({problem:problems,toBengkel:otherParams,location,from:currentUser[0]._data,status:'Sedang menunggu konfirmasi'})
     .then(()=>{
       console.log('report added');
       setVisible(true)
