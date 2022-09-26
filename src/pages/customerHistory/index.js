@@ -1,5 +1,5 @@
 import React,{useState,useContext,useEffect} from 'react'
-import { StyleSheet, Text, View, Image,TouchableOpacity,useWindowDimensions,FlatList,Modal } from 'react-native'
+import { StyleSheet, Text, View, Image,TouchableOpacity,FlatList,ActivityIndicator } from 'react-native'
 import {ArrowLeft,MapPin,Warning} from '../../assets/'
 import { Gap,Button,WorkshopComponent } from '../../components'
 import {PanGestureHandler} from 'react-native-gesture-handler'
@@ -10,59 +10,49 @@ import firestore from '@react-native-firebase/firestore'
 const CustomerHistory = ({navigation}) => {
 
   const [reports,setReport] = useState([])
-  const [refreshing,setRefreshing] = useState(false)
+  const [refreshing,setRefreshing] = useState(true)
   const [isVisible,setIsVisible] = useState(false)
   const {user:currentUser} = useContext(AuthContext)
-  // console.log(currentUser[0]._data.email);
-  // console.log(reports[0]);
-  const fetchReports=()=>{
-    firestore().collection('reports')
-    .where('from.email','==',currentUser[0]._data.email)
-    .get()
-    .then(items=>{
-      // console.log(items._changes[1]._nativeData.doc.data);
-      items._changes.map(item=>{
-        if (item._nativeData.doc.data.from[1].email[1] == currentUser[0]._data.email) {
-          // console.log(item._nativeData.doc.data.from[1]);
-          setReport(items._changes)
-          console.log(true);
-          setRefreshing(true)
-        }else{
-          setReport([])
-          setRefreshing(true)
-          // console.log(item._nativeData.doc.data.from[1].email[1]);
-          console.log(currentUser[0]._data.email);
-        }
+  const [docId,setDocId] = useState([])
+
+  const fetchReports=async()=>{
+    try {
+      await firestore()
+      .collection('reports')
+      .where('from.email','==',currentUser[0]._data.email)
+      .onSnapshot(items => {
+        items._changes.map(item=>{
+          if (item._nativeData.doc.data.from[1].email[1] == currentUser[0]._data.email) {
+            console.log('id:',item.id);
+            setReport(items._changes)
+            setRefreshing(false)
+            console.log(true);
+          }else{
+            setReport([])
+            setRefreshing(false)
+          }
+        })
+        setRefreshing(false)
       })
-    }).catch(e=>{
+    } catch (e) {
+      console.log(e);
       setReport([])
       setRefreshing(false)
-    }).finally(()=>{
-      setRefreshing(false)
-    })
-  }
-
-
-  const submit = async()=>{
-    top.value = withSpring(dimensions.height / 1,springConfig)
+    }
   }
 
   const report=()=>{
-    // top.value = withSpring(dimensions.height / 1,springConfig)
     navigation.navigate("BengkelMelaporCustomer")
   }
 
-  // const getValue = (...value)=>{
-  //   setIsVisible(...value)
-  // }
-
   useEffect(()=>{
-    let mounted = true
-    if (mounted) {
       fetchReports()
-    }
-      return ()=>mounted=false
+      return ()=> fetchReports()
   },[])
+
+  if (refreshing) {
+    return <ActivityIndicator />;
+  }
 
   // console.log(reports[0]._nativeData);
   return (
@@ -70,12 +60,11 @@ const CustomerHistory = ({navigation}) => {
       <Gap height={24}/>
       <View style={styles.header}>
         <View>
-        {/* Header */}
-        <ArrowLeft height={13} width={14} onPress={()=>navigation.goBack()}/>
+          <ArrowLeft height={13} width={14} onPress={()=>navigation.goBack()}/>
         </View>
         <Gap height={32}/>
         <View>
-        <Text style={styles.textCaption}>History</Text>
+          <Text style={styles.textCaption}>History</Text>
         </View>
       </View>
       <Gap height={12}/>
@@ -87,10 +76,19 @@ const CustomerHistory = ({navigation}) => {
         onRefresh={fetchReports}
         showsVerticalScrollIndicator={false}
         data={reports}
-        renderItem={({item,index})=><WorkshopComponent flag="history" key={index}
-        namaBengkel={item._nativeData.doc.data.toBengkel[1].namaBengkel[1]} problem={item._nativeData.doc.data.problem[1]} location={item._nativeData.doc.data.location[1].desc[1]}
-        image={item._nativeData.doc.data.toBengkel[1].image[1]} address={item._nativeData.doc.data.toBengkel[1].alamat[1]} desc={item._nativeData.doc.data?.status[1]}/>}
+        extraData={reports}
+        renderItem={({item,index})=><WorkshopComponent
+          flag="history"
+          docId={item._nativeData.doc.path.split('/')}
+          namaBengkel={item._nativeData.doc.data.toBengkel[1].namaBengkel[1]}
+          problem={item._nativeData.doc.data.problem[1]}
+          location={item._nativeData.doc.data.location[1].desc[1]}
+          image={item._nativeData.doc.data.toBengkel[1].image[1]}
+          address={item._nativeData.doc.data.toBengkel[1].alamat[1]}
+          desc={item._nativeData.doc.data?.status[1]}
         />}
+       />
+      }
       <Gap height={25}/>
     </View>
   )
