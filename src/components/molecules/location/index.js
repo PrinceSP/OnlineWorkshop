@@ -39,7 +39,7 @@ const POVLocation = ({onPress,datas})=>{
       top.value = context.startTop + event.translationY
     },
     onEnd(){
-      if (top.value > dimensions.height / 2 + 200) {
+      if (top.value > dimensions.height / 1.4 + 200) {
         top.value = dimensions.height
       } else{
         top.value = dimensions.height
