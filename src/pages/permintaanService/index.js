@@ -52,17 +52,23 @@ const PermintaanService = ({navigation}) => {
         <Text style={styles.textCaption}>Permintaan Service</Text>
       </View>
       {reports !== (undefined||null||[]) &&
-       <FlatList
-        keyExtractor={(item,index) => index}
-        refreshing={refreshing}
-        onRefresh={fetchReports}
-        showsVerticalScrollIndicator={false}
-        data={reports._changes}
-        renderItem={(item,index)=><RequestLists key={index} visible={visible}
-        desc={item.item._nativeData.doc.data.problem[1]} namaBengkel={item.item._nativeData.doc.data.from[1].fullname[1]} id={item.index}
-        address={item.item._nativeData.doc.data.status[1]} navigation={navigation} locations={item.item._nativeData.doc.data.location[1].region[1]}
-        />}
-       />
+        // console.log(reports._changes[0]._nativeData.doc.path)
+        <FlatList
+         keyExtractor={(item,index) => index}
+         refreshing={refreshing}
+         onRefresh={fetchReports}
+         showsVerticalScrollIndicator={false}
+         data={reports._changes}
+         renderItem={(item,index)=><RequestLists key={index}
+           visible={visible}
+           desc={item.item._nativeData.doc.data.problem[1]}
+           namaBengkel={item.item._nativeData.doc.data.from[1].fullname[1]}
+           id={item.item._nativeData.doc.path.split('/')}
+           address={item.item._nativeData.doc.data.status[1]}
+           navigation={navigation}
+           locations={item.item._nativeData.doc.data.location[1].region[1]}
+           />}
+        />
       }
 
     </View>
