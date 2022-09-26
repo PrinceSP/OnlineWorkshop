@@ -4,9 +4,30 @@ import {Gap,Button,Input} from '../../atoms'
 import {ArrowLeft,MapPin,Warning} from '../../../assets'
 import {ModalSuccess} from '../successModal'
 import Animated from 'react-native-reanimated'
+import firestore from '@react-native-firebase/firestore'
+import Toast from 'react-native-toast-message'
 
-const WorkshopComponent = ({flag,desc='Online',onPress,namaBengkel,address,image="",problem,location,...rest}) => {
+const WorkshopComponent = ({flag,getRefresh,docId=[],desc='Online',onPress,namaBengkel,address,image="",problem,location,...rest}) => {
   const [visible,setVisible] = useState(false)
+  const cancelRequest = async ()=>{
+    await firestore()
+    .collection('reports')
+    .doc(docId[1])
+    .update({
+      status:'Pesanan dibatalkan'
+    })
+    .then(()=>{
+      Toast.show({
+        type: 'success',
+        text1: 'Yeay!',
+        text2: 'your report has been canceled👋'
+      });
+      // setVisible(false)
+      setTimeout(()=>setVisible(false),3000)
+    })
+    // getRefresh(true)
+  }
+  // flag === "history" && console.log(docId[1]);
   return (
       flag === 'history' ? <View >
         <Modal transparent visible={visible}>
@@ -24,14 +45,15 @@ const WorkshopComponent = ({flag,desc='Online',onPress,namaBengkel,address,image
                   </View>
                 </View>
                 <Gap height={20}/>
-                <Text style={{color:"#B3B553",fontFamily:"Nunito-Bold",fontSize:18}}>Sedang menunggu konfirmasi</Text>
+                <Text style={{color:"#B3B553",fontFamily:"Nunito-Bold",fontSize:18}}>{desc}</Text>
                 <Gap height={75}/>
                 <View>
                   <Text style={{width:"100%",textAlign:'right',color:"#000",fontFamily:"Nunito-Light"}}>Tekan batal jika tidak jadi servis</Text>
                   <Gap height={4}/>
-                  <Button style={styles.button} name='Batalkan' size = {24} weight = 'bold' color ='#fff'/>
+                  <Button style={styles.button} name='Batalkan' size = {24} weight = 'bold' color ='#fff' onPress={cancelRequest}/>
                 </View>
               </Animated.View>
+              <Toast autoHide={true} visibilityTime={2000}/>
           </View>
         </Modal>
         <View style={{width:"100%",flexDirection:'row',padding:15,justifyContent:"space-between"}}>
