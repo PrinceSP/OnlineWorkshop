@@ -8,21 +8,21 @@ import MapViewDirections from 'react-native-maps-directions';
 
 const MapFinder = ({getGeometrics,regions,flags})=>{
 	const [ region, setRegion ] = useState({
-		latitude: regions?.latitude[1] || 1.4730796311491023,
-		longitude: regions?.longitude[1] || 124.85402639232787,
-		latitudeDelta: regions?.latitudeDelta[1] || 0.0922,
-		longitudeDelta: regions?.longitudeDelta[1] || 0.0421,
+		latitude: regions.latitude[1] || null,
+		longitude: regions.longitude[1] || null,
+		latitudeDelta: regions.latitudeDelta[1] || 0.0922,
+		longitudeDelta: regions.longitudeDelta[1] || 0.0421,
 	})
 	const [destination,setDestination] = useState({
-		latitude: regions?.latitude[1] || 1.4545106387134392,
-		longitude: regions?.longitude[1] || 124.81858670711517,
-		latitudeDelta: regions?.latitudeDelta[1] || 0.0922,
-		longitudeDelta: regions?.longitudeDelta[1] || 0.0421,
+		latitude:  1.4730796311491023,
+		longitude:  124.8540263923278,
+		latitudeDelta:  0.0922,
+		longitudeDelta:  0.0421,
 	})
   const [desc,setDetails] = useState(null)
   const datas = {region,desc}
 	// console.log(regions);
-  const mapRef = useRef(region)
+  const mapRef = useRef()
 	const queryRef = useRef(null)
 // console.log(mapRef);
   Geocoder.init("AIzaSyB-lpOPCdsdF7SluzBjETaOIfT-ZDgX2ZA",{language : "en"}); // use a valid API key
@@ -121,10 +121,17 @@ const MapFinder = ({getGeometrics,regions,flags})=>{
 				onPress={goToCurrentRegion}
 				userLocationUpdateInterval={700}
 			>
-				<Marker coordinate={region}
-					image={CustomMarker} title="I'm Here"
-					description={desc}/>
-				<Marker
+				{region && destination && <MapViewDirections
+	          origin={region}
+	          destination={destination}
+	          apikey="AIzaSyB-lpOPCdsdF7SluzBjETaOIfT-ZDgX2ZA" // insert your API Key here
+	          strokeWidth={4}
+	          strokeColor="#7799ff"
+	        />}
+				{region && <Marker coordinate={region}
+					image={CustomMarker}/>}
+				{destination && <Marker coordinate={destination}/>}
+				{/**<Marker
 					coordinate={region}
 					draggable={true}
           onDragEnd={(e) => {
@@ -138,14 +145,14 @@ const MapFinder = ({getGeometrics,regions,flags})=>{
 					image={CustomMarker}
 					title="I'm Here"
 					description={desc}
-				/>
+				/>**/}
 			</MapView>
-			{flags==="bengkel" ?
+			{/**{flags==="bengkel" ?
 				<View style={style.placesContainer}>
 					<InputLocation label="From"/>
 					<InputLocation label="Destination"/>
 				</View> : null
-			}
+			}**/}
 
 		</View>
 	)
