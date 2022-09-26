@@ -12,8 +12,8 @@ const HomepageCustomer = ({navigation}) => {
   const {user:currentUser} = useContext(AuthContext)
   // const userId = currentUser[0].ref._documentPath._parts[1]
   // console.log(userId);
-  const fetchBengkel=()=>{
-    firestore().collection('users')
+  const fetchBengkel=async()=>{
+    await firestore().collection('users')
     .where('role','==','bengkel')
     .get()
     .then(items=>{
@@ -27,8 +27,8 @@ const HomepageCustomer = ({navigation}) => {
     })
   }
 
-  const fetchReports=()=>{
-    firestore().collection('reports')
+  const fetchReports=async()=>{
+    await firestore().collection('reports')
     .where('from.email','==',currentUser[0]._data.email)
     .get()
     .then(items=>{
@@ -45,12 +45,12 @@ const HomepageCustomer = ({navigation}) => {
 
 
   useEffect(()=>{
-    let mounted = true
-    if(mounted){
+    let isMounted = true
+    if(isMounted){
       fetchBengkel()
       fetchReports()
     }
-    return ()=>mounted=false
+    return ()=>isMounted=false
   },[])
 
   return (
@@ -64,11 +64,11 @@ const HomepageCustomer = ({navigation}) => {
       onRefresh={fetchBengkel}
       showsVerticalScrollIndicator={false}
       data={bengkels._docs}
-      renderItem={({item,index})=><WorkshopComponent key={index} disabled={item._data?.status !== (undefined||null) ? false : true} onPress={()=>navigation.navigate('LaporKerusakkan',{itemId:item.id,otherParams:item._data})} desc={item._data.state} namaBengkel={item._data.namaBengkel} address={item._data.alamat} image={item._data.image}/>}
+      renderItem={({item,index,newArr})=><WorkshopComponent key={index} onPress={()=>navigation.navigate('LaporKerusakkan',{itemId:item.id,otherParams:item._data})} desc={item._data.state} namaBengkel={item._data.namaBengkel} address={item._data.alamat} image={item._data.image}/>}
       />
       {
-        reports.map((item,index)=>(
-          item._data.status === "Sedang menunggu konfirmasi" ? <View key={index} style={{height:82,width:"100%",position:"absolute",bottom:0,backgroundColor:"#5E6B73",padding:10}}>
+        reports.map((item,index,newArr)=>(
+          newArr[index]._data.status === "menunggu konfirmasi" ? <View key={index} style={{height:82,width:"100%",position:"absolute",bottom:0,backgroundColor:"#5E6B73",padding:10}}>
             <Text style={{fontSize:20,fontFamily:"Nunito-Bold",color:"#fff"}}>sedang menunggu konfirmasi dari  </Text>
             <Text style={{fontSize:18,fontFamily:"Nunito-Bold",color:"#ddd"}}>• {item._data.toBengkel.namaBengkel}</Text>
           </View> : item._data.status === null||undefined ? <Text>sdfsdfsdf</Text> : null
