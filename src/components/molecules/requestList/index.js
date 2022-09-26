@@ -3,12 +3,29 @@ import {View,Text,TouchableOpacity,Image,StyleSheet,Modal} from 'react-native'
 import {Gap,Button,Input} from '../../atoms'
 import ModalSuccess from '../successModal'
 import POVLocation from '../location'
+import firestore from '@react-native-firebase/firestore'
+import Toast from 'react-native-toast-message'
 
-const RequestLists = ({desc='Online',navigation,id,locations,namaBengkel,address,image=""}) => {
+const RequestLists = ({desc='Online',navigation,id=[],locations,namaBengkel,address,image=""}) => {
   const [visible,setVisible] = useState(false)
   const [showMap,setShowMap] = useState(false)
 
-    const confirm=()=>{
+    const confirm=async()=>{
+      await firestore()
+      .collection('reports')
+      .doc(id[1])
+      .update({
+        status:'Pesanan di terima'
+      })
+      .then(()=>{
+        Toast.show({
+          type: 'success',
+          text1: 'Yeay!',
+          text2: 'Pesanan berhasil di terima👋'
+        });
+        // setVisible(false)
+        setTimeout(()=>setVisible(false),3000)
+      })
       // navigation.navigate({
       //   name:'POVLocation',
       //   params:{itemId: id,otherParam: locations},
@@ -56,6 +73,7 @@ const RequestLists = ({desc='Online',navigation,id,locations,namaBengkel,address
           <Text style={{color:desc==="Online"?"#B3B553":"#777",fontFamily:"Nunito-Bold"}}> {desc}</Text>
         </View>
       </View>
+      <Toast autoHide={true} visibilityTime={2000}/>
     </View>
   )
 }
