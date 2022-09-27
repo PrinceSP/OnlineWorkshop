@@ -8,10 +8,10 @@ import MapViewDirections from 'react-native-maps-directions';
 
 const MapFinder = ({getGeometrics,regions,flags})=>{
 	const [ region, setRegion ] = useState({
-		latitude: regions.latitude[1] || null,
-		longitude: regions.longitude[1] || null,
-		latitudeDelta: regions.latitudeDelta[1] || 0.0922,
-		longitudeDelta: regions.longitudeDelta[1] || 0.0421,
+		latitude: regions?.latitude[1] || 1.4730796311491023,
+		longitude: regions?.longitude[1] || 124.8540263923278,
+		latitudeDelta: regions?.latitudeDelta[1] || 0.0922,
+		longitudeDelta: regions?.longitudeDelta[1] || 0.0421,
 	})
 	const [destination,setDestination] = useState({
 		latitude:  1.4730796311491023,
@@ -25,9 +25,9 @@ const MapFinder = ({getGeometrics,regions,flags})=>{
 	const [time,setTime] = useState('')
 
 	// console.log(distance.toFixed(2),Math.ceil(time));
-	console.log(desc);
+	// console.log(distance.toFixed(1)*3.85,Math.ceil(time));
 
-  const datas = {region,desc}
+  const datas = {region,desc,distance,time}
 	// console.log(regions);
   const mapRef = useRef(region)
 	const queryRef = useRef(null)
@@ -56,7 +56,7 @@ const MapFinder = ({getGeometrics,regions,flags})=>{
   useEffect(()=>{
     getGeometrics(datas)
 		// console.log(datas);
-  },[desc])
+  },[desc,descTwo,distance,time])
 
   useEffect(()=>{
     return ()=> console.log('clean up');
