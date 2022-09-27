@@ -9,8 +9,8 @@ const {width,height} = Dimensions.get('window')
 
 const CustomerMap = ({route,navigation})=>{
   const [reportInfo,setReportInfo] = useState({})
-  // console.log(route);
-
+  console.log(reportInfo.distance);
+  const price =reportInfo.distance*3.87222
   const getGeometrics = (...datas)=>{
     setReportInfo(...datas)
   }
@@ -86,14 +86,23 @@ const CustomerMap = ({route,navigation})=>{
               <Text style={{width:"80%",fontSize:14,fontFamily:"Nunito-Light",color:"#000"}}>{reportInfo.desc}</Text>
             </View>
           </View>
-          <Gap height={36}/>
-          <Button style={style.btnSubmit} name="Konfirmasi Lokasi" size={24} fam="Nunito-Bold" color="#fff" onPress={sendLocation}/>
+          <Gap height={20}/>
+          <View style={{width:'100%',paddingHorizontal:5,flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
+            <Text style={{color:"#333"}}>Ongkos layanan ditempat</Text>
+            <Text style={{color:"#000",fontFamily:'Nunito-Bold'}}>Rp.{price.toFixed(3)}</Text>
+          </View>
+          <Gap height={10}/>
+          <View style={{width:'100%',height:2,backgroundColor:'#444'}}/>
+          <Gap height={10}/>
+          <Text style={{fontSize:12,color:"#777"}}>Notes: Biaya diatas hanya ongkos jalan, untuk ongkos jasa perbaikan dan spare-part jika ada yang harus diganti, bisa saling konfirmasi dengan bengkel yang di pesan.</Text>
+          <Gap height={10}/>
+          <Button style={style.btnSubmit} name="Konfirmasi Lokasi" size={20} fam="Nunito-Bold" color="#fff" onPress={sendLocation}/>
         </Animated.View>
       </PanGestureHandler>
       <View style={style.arrowLeft}>
         <ArrowLeft onPress={back}/>
       </View>
-      <Pointer style={style.pointer} onPress={()=>{top.value = withSpring(dimensions.height / 1.6,springConfig)}}/>
+      <Pointer style={style.pointer} onPress={()=>{top.value = withSpring(dimensions.height / 1.8,springConfig)}}/>
     </>
   )
 }
@@ -113,8 +122,8 @@ const style=StyleSheet.create({
   btnSubmit:{
     marginBottom:15,
     backgroundColor:'#5E6B73',
-    height:66,
-    width:360,
+    height:55,
+    width:340,
     borderRadius:15,
     alignItems:'center',
     justifyContent:'center',
