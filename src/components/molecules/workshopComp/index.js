@@ -7,7 +7,7 @@ import Animated from 'react-native-reanimated'
 import firestore from '@react-native-firebase/firestore'
 import Toast from 'react-native-toast-message'
 
-const WorkshopComponent = ({flag,getRefresh,docId=[],desc='Online',onPress,namaBengkel,address,image="",problem,location,...rest}) => {
+const WorkshopComponent = ({flag,price,docId=[],desc='Online',onPress,namaBengkel,address,image="",problem,location,...rest}) => {
   const [visible,setVisible] = useState(false)
   const cancelRequest = async ()=>{
     await firestore()
@@ -25,7 +25,6 @@ const WorkshopComponent = ({flag,getRefresh,docId=[],desc='Online',onPress,namaB
       // setVisible(false)
       setTimeout(()=>setVisible(false),3000)
     })
-    // getRefresh(true)
   }
   // flag === "history" && console.log(docId[1]);
   return (
@@ -46,7 +45,12 @@ const WorkshopComponent = ({flag,getRefresh,docId=[],desc='Online',onPress,namaB
                 </View>
                 <Gap height={20}/>
                 <Text style={{color:"#B3B553",fontFamily:"Nunito-Bold",fontSize:18}}>{desc}</Text>
-                <Gap height={75}/>
+                <Gap height={20}/>
+                <View style={{width:'100%',paddingHorizontal:5,flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
+                  <Text style={{color:"#333"}}>Ongkos layanan ditempat</Text>
+                  <Text style={{color:"#000",fontFamily:'Nunito-Bold',fontSize:18}}>Rp.{price}</Text>
+                </View>
+                <Gap height={55}/>
                 <View>
                   <Text style={{width:"100%",textAlign:'right',color:"#000",fontFamily:"Nunito-Light"}}>Tekan batal jika tidak jadi servis</Text>
                   <Gap height={4}/>
