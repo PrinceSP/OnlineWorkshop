@@ -20,10 +20,20 @@ const MapFinder = ({getGeometrics,regions,flags})=>{
 		longitudeDelta:  0.0421,
 	})
   const [desc,setDetails] = useState(null)
+  const [descTwo,setDetailsTwo] = useState(null)
+	const [distance,setDistance] = useState('')
+	const [time,setTime] = useState('')
+
+	// console.log(distance.toFixed(2),Math.ceil(time));
+	console.log(desc);
+
   const datas = {region,desc}
 	// console.log(regions);
-  const mapRef = useRef()
+  const mapRef = useRef(region)
 	const queryRef = useRef(null)
+	const queryRefTwo = useRef(null)
+	// console.log(queryRef.current.getAddressText());
+	// console.log(queryRefTwo.current.getAddressText());
 // console.log(mapRef);
   Geocoder.init("AIzaSyB-lpOPCdsdF7SluzBjETaOIfT-ZDgX2ZA",{language : "en"}); // use a valid API key
   Geocoder.from(region)
@@ -127,10 +137,18 @@ const MapFinder = ({getGeometrics,regions,flags})=>{
 	          apikey="AIzaSyB-lpOPCdsdF7SluzBjETaOIfT-ZDgX2ZA" // insert your API Key here
 	          strokeWidth={4}
 	          strokeColor="#7799ff"
+						onReady={(args)=>{
+							if (args) {
+								setDistance(args.distance)
+								setTime(args.duration)
+							}
+						}}
 	        />}
-				{region && <Marker coordinate={region}
+				{region && <Marker coordinate={region}title="I'm Here"
+				description={desc}
 					image={CustomMarker}/>}
-				{destination && <Marker coordinate={destination}/>}
+				{destination && <Marker coordinate={destination}title="I'm Here"
+				description={descTwo} />}
 				{/**<Marker
 					coordinate={region}
 					draggable={true}
@@ -147,6 +165,115 @@ const MapFinder = ({getGeometrics,regions,flags})=>{
 					description={desc}
 				/>**/}
 			</MapView>
+			<View style={style.placesContainer}>
+				<Text style={{fontFamily:"Nunito-Bold",color:"#444"}}>From</Text>
+				<GooglePlacesAutocomplete
+					ref={queryRef}
+					placeholder={desc?desc:"Search your location here...."}
+					returnKeyType={'search'}
+					autoFocus={true}
+					listViewDisplayed='auto'
+					fetchDetails={true}
+					renderDescription={row=>row.description}
+					GooglePlacesSearchQuery={{
+						rankby: "distance"
+					}}
+					GooglePlacesDetailsQuery={{
+						fields:['formatted_address','geometry']
+					}}
+					enablePoweredByContainer={false}
+					onPress={(data, details = null) => {
+						// 'details' is provided when fetchDetails = true
+						// update the region by its latitude and longitude
+						setRegion({...region,
+							latitude: details.geometry.location.lat,
+							longitude: details.geometry.location.lng,
+						})
+						setDetails(data?.description)
+						getGeometrics(datas)
+						console.log(details.geometry.location);
+						// console.log('data from query: '+data?.description);
+					}}
+					query={{
+						key: "AIzaSyB-lpOPCdsdF7SluzBjETaOIfT-ZDgX2ZA",
+						language: "en",
+						components: "country:id",
+						types: "establishment",
+						radius: 30000,
+						location: `${region.latitude}, ${region.longitude}`
+					}}
+					textInputProps={{
+						placeholderTextColor: '#899',
+						InputComp: TextInput,
+					}}
+					styles={{
+						listView:style.listView,
+						textInputContainer: {
+							alignItems:'center',
+							justifyContent:'space-between'
+						},
+						textInput:{color:'#000',borderColor:"#888",borderWidth:1},
+						description:{
+							fontWeight:'bold',
+							color:'#000',
+						}
+					}}
+				/>
+				<Text style={{fontFamily:"Nunito-Bold",color:"#444"}}>Destination</Text>
+				<GooglePlacesAutocomplete
+					ref={queryRefTwo}
+					placeholder={descTwo?descTwo:"Search your location here...."}
+					returnKeyType={'search'}
+					autoFocus={true}
+					listViewDisplayed='auto'
+					fetchDetails={true}
+					renderDescription={row=>row.description}
+					GooglePlacesSearchQuery={{
+						rankby: "distance"
+					}}
+					GooglePlacesDetailsQuery={{
+						fields:['formatted_address','geometry']
+					}}
+					enablePoweredByContainer={false}
+					onPress={(data, details = null) => {
+						// 'details' is provided when fetchDetails = true
+						// update the region by its latitude and longitude
+						setDestination({...destination,
+							latitude: details.geometry.location.lat,
+							longitude: details.geometry.location.lng,
+						})
+						setDetailsTwo(data.description)
+						console.log(details.geometry.location);
+
+						// getGeometrics(datas)
+						// console.log('data from query: '+data?.description);
+					}}
+					query={{
+						key: "AIzaSyB-lpOPCdsdF7SluzBjETaOIfT-ZDgX2ZA",
+						language: "en",
+						components: "country:id",
+						types: "establishment",
+						radius: 30000,
+						location: `${destination.latitude}, ${destination.longitude}`
+					}}
+					textInputProps={{
+						placeholderTextColor: '#899',
+						InputComp: TextInput,
+					}}
+					styles={{
+						listView:style.listView,
+						textInputContainer: {
+							alignItems:'center',
+							justifyContent:'space-between'
+						},
+						textInput:{color:'#000',borderColor:"#888",borderWidth:1},
+						description:{
+							fontWeight:'bold',
+							color:'#000',
+						}
+					}}
+				/>
+			</View>
 			{/**{flags==="bengkel" ?
 				<View style={style.placesContainer}>
 					<InputLocation label="From"/>
