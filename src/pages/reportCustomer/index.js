@@ -11,10 +11,11 @@ const LaporKerusakkan = ({navigation,route}) => {
   const {itemId,otherParams,location} = route.params
   const {user:currentUser} = useContext(AuthContext)
   // console.log(location);
+  const price = location?.distance*3.87222
   const submitreport=()=>{
     firestore()
     .collection("reports")
-    .add({problem:problems,toBengkel:otherParams,location,from:currentUser[0]._data,status:'Sedang menunggu konfirmasi',harga:''})
+    .add({problem:problems,toBengkel:otherParams,location,from:currentUser[0]._data,status:'Sedang menunggu konfirmasi',harga:price.toFixed(3)})
     .then(()=>{
       console.log('report added');
       setVisible(true)
@@ -44,7 +45,7 @@ const LaporKerusakkan = ({navigation,route}) => {
           <Gap height={29}/>
           <TouchableOpacity style={styles.rowAlignment} onPress={()=>navigation.navigate("CustomerDrawer",{screen:"CustomerMap"},{itemId:itemId})}>
             <MapPin/>
-            <Text style={{color:"#000",width:"80%"}}>{location!==undefined || null ? `${location?.desc}` :  `Tentukan Lokasimu`}</Text>
+            <Text style={{color:"#000",width:"80%"}}>{location!==undefined || null ? location?.desc :  'Tentukan Lokasimu'}</Text>
           </TouchableOpacity>
         </View>
         <Gap height={40}/>
@@ -52,6 +53,8 @@ const LaporKerusakkan = ({navigation,route}) => {
           <Text style={styles.reportTitle}>Tuliskan masalah pada kendaraanmu</Text>
           <Edit/>
         </View>
+        <Text style={{color:"#777"}}>Note: Mohon sertakan jenis/model/merek kendaraan</Text>
+        <Gap height={4}/>
         <Input underlineColorAndroid="transparent"
         placeholderTextColor="#C0A8C2"
         numberOfLines={100}
