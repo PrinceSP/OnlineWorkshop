@@ -85,6 +85,7 @@ const CustomerHistory = ({navigation}) => {
           location={item._nativeData.doc.data.location[1].desc[1]}
           image={item._nativeData.doc.data.toBengkel[1].image[1]}
           address={item._nativeData.doc.data.toBengkel[1].alamat[1]}
+          price={item._nativeData.doc.data.harga[1]}
           desc={item._nativeData.doc.data?.status[1]}
         />}
        />
