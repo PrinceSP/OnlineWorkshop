@@ -1,10 +1,11 @@
 import React, {useState,useRef,useEffect} from "react"
-import {StyleSheet, Text, View, TextInput, TouchableOpacity } from "react-native"
+import {StyleSheet, Text, View, TextInput, TouchableOpacity,PermissionsAndroid,PlatForm } from "react-native"
 import {CustomMarker,Pointer,ArrowLeft} from '../../../assets'
 import MapView, { Callout, Circle, Marker, PROVIDER_GOOGLE } from "react-native-maps"
 import Geocoder from 'react-native-geocoding';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import MapViewDirections from 'react-native-maps-directions';
+import Geolocation from 'react-native-geolocation-service'
 
 const MapFinder = ({getGeometrics,regions,flags})=>{
 	const [ region, setRegion ] = useState({
@@ -23,6 +24,7 @@ const MapFinder = ({getGeometrics,regions,flags})=>{
   const [descTwo,setDetailsTwo] = useState(null)
 	const [distance,setDistance] = useState('')
 	const [time,setTime] = useState('')
+	const [isTracing,setIsTracing] = useState(false)
 
 	// console.log(distance.toFixed(2),Math.ceil(time));
 	// console.log(distance.toFixed(1)*3.85,Math.ceil(time));
@@ -53,6 +55,43 @@ const MapFinder = ({getGeometrics,regions,flags})=>{
     queryRef.current?.clear()
   }
 
+	const locationPermission=()=>{
+		new Promise(async (resolve,reject)=>{
+				if (PlatForm.OS==="ios") {
+					try {
+						const permissionStatus = await Geolocation.requestAuthorization('whenInUse')
+						if (permissionStatus==='granted') {
+							return resolve('granted')
+						}
+						reject("permission not granted")
+					} catch (e) {
+						return reject(e)
+					}
+				}
+				return PermissionsAndroid.request(
+					PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+				).then((granted)=>{
+					if (granted===PermissionsAndroid.RESULTS.GRANTED) {
+						resolve('granted')
+					}
+					return reject('Location Permission Denied')
+				}).catch(e=>{
+					return reject(e)
+				})
+			})
+	}
+
+
+	const edgePadding={top:50,right:50,bottom:50,left:50}
+
+	const trace=()=>{
+		if (region && destination) {
+			setIsTracing(true)
+			mapRef.current.fitToCoordinates([region,destination],{edgePadding})
+			// console.log(mapRef.current.fitToCoordinates);
+		}
+	}
+
   useEffect(()=>{
     getGeometrics(datas)
 		// console.log(datas);
@@ -61,65 +100,6 @@ const MapFinder = ({getGeometrics,regions,flags})=>{
   useEffect(()=>{
     return ()=> console.log('clean up');
   },[])
-
-	function InputLocation({label,onSelectedInput}){
-		return(
-			<>
-				<Text style={{fontFamily:"Nunito-Bold",color:"#444"}}>{label}</Text>
-				<GooglePlacesAutocomplete
-					ref={queryRef}
-					placeholder={desc?desc:"Search your location here...."}
-					returnKeyType={'search'}
-					autoFocus={true}
-					listViewDisplayed='auto'
-					fetchDetails={true}
-					renderDescription={row=>row.description}
-					GooglePlacesSearchQuery={{
-						rankby: "distance"
-					}}
-					GooglePlacesDetailsQuery={{
-						fields:['formatted_address','geometry']
-					}}
-					enablePoweredByContainer={false}
-					onPress={(data, details = null) => {
-						// 'details' is provided when fetchDetails = true
-						// update the region by its latitude and longitude
-						setRegion({...region,
-							latitude: details.geometry.location.lat,
-							longitude: details.geometry.location.lng,
-						})
-						setDetails(data?.description)
-						getGeometrics(datas)
-						// console.log('data from query: '+data?.description);
-					}}
-					query={{
-						key: "AIzaSyB-lpOPCdsdF7SluzBjETaOIfT-ZDgX2ZA",
-						language: "en",
-						components: "country:id",
-						types: "establishment",
-						radius: 30000,
-						location: `${region.latitude}, ${region.longitude}`
-					}}
-					textInputProps={{
-						placeholderTextColor: '#899',
-						InputComp: TextInput,
-					}}
-					styles={{
-						listView:style.listView,
-						textInputContainer: {
-							alignItems:'center',
-							justifyContent:'space-between'
-						},
-						textInput:{color:'#000',borderColor:"#888",borderWidth:1},
-						description:{
-							fontWeight:'bold',
-							color:'#000',
-						}
-					}}
-				/>
-			</>
-		)
-	}
 
 	return (
 		<View style={style.mapContainer}>
@@ -130,8 +110,17 @@ const MapFinder = ({getGeometrics,regions,flags})=>{
 				provider={PROVIDER_GOOGLE}
 				onPress={goToCurrentRegion}
 				userLocationUpdateInterval={700}
+				showsUserLocation={true}
+				showsMyLocationButton={true}
 			>
-				{region && destination && <MapViewDirections
+				{region && <Marker coordinate={region}
+				title="I'm Here"
+				description={desc}
+				image={CustomMarker}/>}
+				{destination && <Marker coordinate={destination}
+				title="I'm Here"
+				description={descTwo} />}
+				{isTracing && region && destination && <MapViewDirections
 	          origin={region}
 	          destination={destination}
 	          apikey="AIzaSyB-lpOPCdsdF7SluzBjETaOIfT-ZDgX2ZA" // insert your API Key here
@@ -143,13 +132,9 @@ const MapFinder = ({getGeometrics,regions,flags})=>{
 								setTime(args.duration)
 							}
 						}}
+						timePrecision='now'
 	        />}
-				{region && <Marker coordinate={region}title="I'm Here"
-				description={desc}
-					image={CustomMarker}/>}
-				{destination && <Marker coordinate={destination}title="I'm Here"
-				description={descTwo} />}
-				{/**<Marker
+				<Marker
 					coordinate={region}
 					draggable={true}
           onDragEnd={(e) => {
@@ -163,7 +148,7 @@ const MapFinder = ({getGeometrics,regions,flags})=>{
 					image={CustomMarker}
 					title="I'm Here"
 					description={desc}
-				/>**/}
+				/>
 			</MapView>
 			<View style={style.placesContainer}>
 				<Text style={{fontFamily:"Nunito-Bold",color:"#444"}}>From</Text>
@@ -273,13 +258,10 @@ const MapFinder = ({getGeometrics,regions,flags})=>{
 						}
 					}}
 				/>
+			<TouchableOpacity onPress={trace} style={{width:'100%',height:40,backgroundColor:"#5E6B73",borderRadius:6,alignItems:'center',justifyContent:'center'}}>
+				<Text style={{fontFamily:"Nunito-Bold",color:"#fff",fontSize:16}}>Trace Route</Text>
+			</TouchableOpacity>
 			</View>
-			{/**{flags==="bengkel" ?
-				<View style={style.placesContainer}>
-					<InputLocation label="From"/>
-					<InputLocation label="Destination"/>
-				</View> : null
-			}**/}
 
 		</View>
 	)
