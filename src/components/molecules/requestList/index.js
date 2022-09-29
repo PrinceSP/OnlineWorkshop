@@ -35,7 +35,28 @@ const RequestLists = ({desc='Online',navigation,id=[],locations,namaBengkel,addr
       setShowMap(true)
     }
 
-    const close=()=>{
+    const close=async()=>{
+      setVisible(false)
+      await firestore()
+      .collection('reports')
+      .doc(id[1])
+      .update({
+        status:'Permintaan di tolak!'
+      })
+      .then(()=>{
+        Toast.show({
+          type: 'error',
+          text1: 'Yeay!',
+          text2: 'Pesanan berhasil di tolak👋'
+        });
+        // setVisible(false)
+        setTimeout(()=>setVisible(false),3000)
+      })
+      // navigation.navigate({
+      //   name:'POVLocation',
+      //   params:{itemId: id,otherParam: locations},
+      //   merge:true
+      // })
       setVisible(false)
     }
 
