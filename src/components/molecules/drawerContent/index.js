@@ -66,7 +66,7 @@ const DrawerContent = (props)=>{
    const signOut=async()=> {
      try {
        props.navigation.navigate('LoginOptions')
-       await AsyncStorage.removeItem("@user")
+       // await AsyncStorage.removeItem("@user")
      } catch (e) {
        console.log(e);
      }
