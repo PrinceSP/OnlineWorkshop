@@ -148,14 +148,14 @@ const style=StyleSheet.create({
     alignItems:'center',
   },
   pointer:{
-    position:"absolute",top:"4%",right:"7%",
+    position:"absolute",top:"33%",right:"7%",
     shadowOffset: { width: 0, height: 2 },shadowColor:"#000",
     shadowOpacity: 0.9,
     shadowRadius:3.84,
     elevation:10
   },
   arrowLeft:{width:40,height:40,borderRadius:40,backgroundColor:"#fff",
-    alignItems:'center',justifyContent:'center',position:"absolute",left:"7%",top:"4%",
+    alignItems:'center',justifyContent:'center',position:"absolute",left:"7%",top:"33%",
     shadowOffset: { width: 0, height: 2 },shadowColor:"#000",
     shadowOpacity: 0.9,
     shadowRadius:3.84,
