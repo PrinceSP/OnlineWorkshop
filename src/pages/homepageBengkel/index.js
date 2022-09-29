@@ -1,8 +1,8 @@
 import React, { useState,useContext,useEffect} from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Switch, Image } from 'react-native';
-import { Gap } from '../../components';
-import {Logo} from '../../assets/'
-import {Button,Header} from '../../components'
+import { View, Text, TouchableOpacity, StyleSheet, Switch, Image, Modal } from 'react-native';
+import {Logo,MapPin} from '../../assets/'
+import {Button,Header,Gap} from '../../components'
+import POVLocation from '../../components/molecules/location'
 import firestore from '@react-native-firebase/firestore'
 import {AuthContext} from '../../config/authContext'
 import AsyncStorage from '@react-native-async-storage/async-storage'
@@ -13,6 +13,7 @@ const HomeScreen = ({ navigation })=>{
   const [isEnabled, setIsEnabled] = useState(currentUser._nativeData.doc.data.state[1]==="Online" ? true : false);
   const userId = currentUser._nativeData.doc.path.split("/")
   // console.log(currentUser._nativeData.doc.data.state[1]);
+  const [showMap,setShowMap] = useState(false)
 
   const toggleSwitch = () => {
     setIsEnabled(previousState => !previousState)
@@ -25,6 +26,11 @@ const HomeScreen = ({ navigation })=>{
 
   return (
     <View style={{flex:1,backgroundColor:'#fff'}}>
+      <Modal transparent visible={showMap}>
+        <View style={{flex:1}}>
+          <POVLocation onPress={()=>setShowMap(false)}/>
+        </View>
+      </Modal>
       <Gap height={21}/>
       <Header navigation={navigation} name="Home" btn="bengkel"/>
       <View style={{borderBottomColor: 'black',borderBottomWidth: 2, opacity: 0.2, marginVertical:12 }}/>
@@ -53,7 +59,11 @@ const HomeScreen = ({ navigation })=>{
           onValueChange={toggleSwitch}
           value={isEnabled}/>
       </View>
-      <Gap height={220}/>
+      <TouchableOpacity onPress={()=>setShowMap(true)} style={{width:'100%',flexDirection:'row',alignItems:'center',marginLeft:20,marginTop:50}}>
+        <MapPin/>
+        <Text style={{fontSize:16,color:"#000"}}>Lokasi anda</Text>
+      </TouchableOpacity>
+      <Gap height={150}/>
       <Button style={styles.button} name='Permintaan Service' color = 'white' textAlign='center' size = {18} fam = 'Nunito' onPress={()=>navigation.navigate('PermintaanService')}/>
     </View>
   );
