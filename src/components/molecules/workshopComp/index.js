@@ -9,6 +9,7 @@ import Toast from 'react-native-toast-message'
 
 const WorkshopComponent = ({flag,price,docId=[],desc='Online',onPress,namaBengkel,address,image="",problem,location,...rest}) => {
   const [visible,setVisible] = useState(false)
+  console.log(desc);
   const cancelRequest = async ()=>{
     await firestore()
     .collection('reports')
@@ -44,7 +45,7 @@ const WorkshopComponent = ({flag,price,docId=[],desc='Online',onPress,namaBengke
                   </View>
                 </View>
                 <Gap height={20}/>
-                <Text style={{color:"#B3B553",fontFamily:"Nunito-Bold",fontSize:18}}>{desc}</Text>
+                <Text style={{color:desc==="Sedang proses"?"#B3B553":desc==="Permintaan di tolak!"?"#f00":"#777",fontFamily:"Nunito-Bold",fontSize:18}}>{desc}</Text>
                 <Gap height={20}/>
                 <View style={{width:'100%',paddingHorizontal:5,flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
                   <Text style={{color:"#333"}}>Ongkos layanan ditempat</Text>
@@ -72,7 +73,7 @@ const WorkshopComponent = ({flag,price,docId=[],desc='Online',onPress,namaBengke
             <Gap height={3}/>
             <View style={{width:278,height:1,backgroundColor:"#555"}}/>
             <Gap height={3}/>
-            <Text style={{color:desc==="Online"?"#B3B553":"#777",fontFamily:"Nunito-Bold"}}>{desc}</Text>
+            <Text style={{color:desc==="Online"?"#B3B553":desc==='Permintaan di tolak!'?"#f00":"#777",fontFamily:"Nunito-Bold"}}>{desc}</Text>
           </View>
         </View>
       </View>
