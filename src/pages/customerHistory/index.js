@@ -64,7 +64,7 @@ const CustomerHistory = ({navigation}) => {
         </View>
         <Gap height={32}/>
         <View>
-          <Text style={styles.textCaption}>History</Text>
+          <Text style={styles.textCaption}>Riwayat</Text>
         </View>
       </View>
       <Gap height={12}/>
