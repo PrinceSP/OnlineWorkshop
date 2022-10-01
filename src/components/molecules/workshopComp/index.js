@@ -9,7 +9,7 @@ import Toast from 'react-native-toast-message'
 
 const WorkshopComponent = ({flag,price,docId=[],desc='Online',onPress,namaBengkel,address,image="",problem,location,...rest}) => {
   const [visible,setVisible] = useState(false)
-  console.log(desc);
+  // console.log(desc);
   const cancelRequest = async ()=>{
     await firestore()
     .collection('reports')
@@ -27,7 +27,7 @@ const WorkshopComponent = ({flag,price,docId=[],desc='Online',onPress,namaBengke
       setTimeout(()=>setVisible(false),3000)
     })
   }
-  // flag === "history" && console.log(docId[1]);
+
   return (
       flag === 'history' ? <View >
         <Modal transparent visible={visible}>
@@ -52,11 +52,12 @@ const WorkshopComponent = ({flag,price,docId=[],desc='Online',onPress,namaBengke
                   <Text style={{color:"#000",fontFamily:'Nunito-Bold',fontSize:18}}>Rp.{price}</Text>
                 </View>
                 <Gap height={55}/>
-                <View>
-                  <Text style={{width:"100%",textAlign:'right',color:"#000",fontFamily:"Nunito-Light"}}>Tekan batal jika tidak jadi servis</Text>
-                  <Gap height={4}/>
-                  <Button style={styles.button} name='Batalkan' size = {24} weight = 'bold' color ='#fff' onPress={cancelRequest}/>
-                </View>
+                {desc!=="Permintaan telah di selesaikan" && <View>
+                    <Text style={{width:"100%",textAlign:'right',color:"#000",fontFamily:"Nunito-Light"}}>Tekan batal jika tidak jadi servis</Text>
+                    <Gap height={4}/>
+                    <Button style={styles.button} name='Batalkan' size = {24} weight = 'bold' color ='#fff' onPress={cancelRequest}/>
+                  </View>
+                }
               </Animated.View>
               <Toast autoHide={true} visibilityTime={2000}/>
           </View>
