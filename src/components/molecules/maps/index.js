@@ -26,9 +26,6 @@ const MapFinder = ({getGeometrics,regions,flags})=>{
 	const [time,setTime] = useState('')
 	const [isTracing,setIsTracing] = useState(false)
 
-	// console.log(distance.toFixed(2),Math.ceil(time));
-	// console.log(distance.toFixed(1)*3.85,Math.ceil(time));
-
   const datas = {region,desc,distance,time}
 	// console.log(regions);
   const mapRef = useRef(region)
@@ -55,31 +52,67 @@ const MapFinder = ({getGeometrics,regions,flags})=>{
     queryRef.current?.clear()
   }
 
-	const locationPermission=()=>{
-		new Promise(async (resolve,reject)=>{
-				if (PlatForm.OS==="ios") {
-					try {
-						const permissionStatus = await Geolocation.requestAuthorization('whenInUse')
-						if (permissionStatus==='granted') {
-							return resolve('granted')
-						}
-						reject("permission not granted")
-					} catch (e) {
-						return reject(e)
-					}
-				}
-				return PermissionsAndroid.request(
-					PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-				).then((granted)=>{
-					if (granted===PermissionsAndroid.RESULTS.GRANTED) {
-						resolve('granted')
-					}
-					return reject('Location Permission Denied')
-				}).catch(e=>{
-					return reject(e)
-				})
-			})
-	}
+	const getCurrentLocation = () =>
+   new Promise((resolve, reject) => {
+    Geolocation.getCurrentPosition(
+	    position => {
+	        const cords = {
+	            latitude: position.coords.latitude,
+	            longitude: position.coords.longitude,
+	            heading: position?.coords?.heading,
+	        };
+	        resolve(cords);
+	    },
+	    error => {
+	        reject(error.message);
+	    },
+	    { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 },
+    )
+	})
+
+	const locationPermission = () => new Promise(async (resolve, reject) => {
+	    if (Platform.OS === 'ios') {
+	        try {
+	            const permissionStatus = await Geolocation.requestAuthorization('whenInUse');
+	            if (permissionStatus === 'granted') {
+	                return resolve("granted");
+	            }
+	            reject('Permission not granted');
+	        } catch (error) {
+	            return reject(error);
+	        }
+	    }
+	    return PermissionsAndroid.request(
+	        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+	    ).then((granted) => {
+	        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+	            resolve("granted");
+	        }
+	        return reject('Location Permission denied');
+	    }).catch((error) => {
+	        console.log('Ask Location permission error: ', error);
+	        return reject(error);
+	    });
+	});
+
+	const getLiveLocation = async () => {
+    const locPermissionDenied = await locationPermission()
+    if (locPermissionDenied) {
+      const { latitude, longitude, heading } = await getCurrentLocation()
+      console.log("get live location after 4 second",heading)
+      animate(latitude, longitude);
+      updateState({
+        heading: heading,
+        curLoc: { latitude, longitude },
+        coordinate: new AnimatedRegion({
+	        latitude: latitude,
+	        longitude: longitude,
+	        latitudeDelta: 0.0922,
+	        longitudeDelta: 0.0421
+      	})
+     })
+    }
+  }
 
 
 	const edgePadding={top:50,right:50,bottom:50,left:50}
@@ -110,8 +143,6 @@ const MapFinder = ({getGeometrics,regions,flags})=>{
 				provider={PROVIDER_GOOGLE}
 				onPress={goToCurrentRegion}
 				userLocationUpdateInterval={700}
-				showsUserLocation={true}
-				showsMyLocationButton={true}
 			>
 				{region && <Marker coordinate={region}
 				title="I'm Here"
@@ -176,9 +207,16 @@ const MapFinder = ({getGeometrics,regions,flags})=>{
 						})
 						setDetails(data?.description)
 						getGeometrics(datas)
-						console.log(details.geometry.location);
+						// console.log(details.geometry.location);
 						// console.log('data from query: '+data?.description);
 					}}
+					renderRightButton={() => (
+            (queryRef.current?.getAddressText() ?
+                 <TouchableOpacity onPress={clearing}>
+                           <Text>X</Text>
+								 </TouchableOpacity>
+               :
+                null )	)}
 					query={{
 						key: "AIzaSyB-lpOPCdsdF7SluzBjETaOIfT-ZDgX2ZA",
 						language: "en",
@@ -189,7 +227,7 @@ const MapFinder = ({getGeometrics,regions,flags})=>{
 					}}
 					textInputProps={{
 						placeholderTextColor: '#899',
-						InputComp: TextInput,
+						InputComp: TextInput
 					}}
 					styles={{
 						listView:style.listView,
