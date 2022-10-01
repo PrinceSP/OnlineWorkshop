@@ -24,19 +24,15 @@ const RequestLists = ({desc='Online',navigation,id=[],locations,namaBengkel,addr
           text2: 'Pesanan berhasil di terima👋'
         });
         // setVisible(false)
-        setTimeout(()=>setVisible(false),3000)
+        setTimeout(()=>{
+          setVisible(false)
+          setShowMap(true)
+        },3000)
       })
-      // navigation.navigate({
-      //   name:'POVLocation',
-      //   params:{itemId: id,otherParam: locations},
-      //   merge:true
-      // })
-      setVisible(false)
-      setShowMap(true)
+
     }
 
     const close=async()=>{
-      setVisible(false)
       await firestore()
       .collection('reports')
       .doc(id[1])
@@ -45,24 +41,19 @@ const RequestLists = ({desc='Online',navigation,id=[],locations,namaBengkel,addr
       })
       .then(()=>{
         Toast.show({
-          type: 'error',
+          type: 'success',
           text1: 'Yeay!',
           text2: 'Pesanan berhasil di tolak👋'
         });
         // setVisible(false)
         setTimeout(()=>setVisible(false),3000)
       })
-      // navigation.navigate({
-      //   name:'POVLocation',
-      //   params:{itemId: id,otherParam: locations},
-      //   merge:true
-      // })
-      setVisible(false)
     }
 
   return (
     <View style={{flex:1,width:'100%'}} key={id}>
       <ModalSuccess visible={visible}>
+        <Toast autoHide={true} visibilityTime={2000}/>
         <View style={[styles.bottomSheet,{backgroundColor:"#fff",shadowColor:"#000000"}]}>
           <Text style={{color:"#000",fontFamily:"Nunito-Bold",height:50,width:"100%",fontSize:18}}>{desc}</Text>
           <Gap height={20}/>
@@ -94,7 +85,6 @@ const RequestLists = ({desc='Online',navigation,id=[],locations,namaBengkel,addr
           <Text style={{color:desc==="Online"?"#B3B553":"#777",fontFamily:"Nunito-Bold"}}> {desc}</Text>
         </View>
       </View>
-      <Toast autoHide={true} visibilityTime={2000}/>
     </View>
   )
 }
