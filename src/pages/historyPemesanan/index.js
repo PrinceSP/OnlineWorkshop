@@ -1,13 +1,20 @@
-import React from 'react'
-import { StyleSheet, Text, View, Image,TouchableOpacity,useWindowDimensions } from 'react-native'
+import React,{useState,useContext,useEffect} from 'react'
+import { StyleSheet, Text, View, Image,TouchableOpacity,useWindowDimensions, FlatList } from 'react-native'
 import {ArrowLeft,MapPin,Warning} from '../../assets/'
-import { Gap,Button } from '../../components'
+import { Gap,Button ,WorkshopComponent} from '../../components'
 import {PanGestureHandler} from 'react-native-gesture-handler'
 import Animated,{useAnimatedGestureHandler,useAnimatedStyle,useSharedValue,withSpring} from 'react-native-reanimated'
+import firestore from '@react-native-firebase/firestore'
+import {AuthContext} from '../../config/authContext'
 
 const HistoryPemesanan = ({navigation}) => {
+  const [reports,setReport] = useState([])
+  const [refreshing,setRefreshing] = useState(true)
+  const [isVisible,setIsVisible] = useState(false)
+  const {user:currentUser} = useContext(AuthContext)
+  const [docId,setDocId] = useState([])
 
-  const submit = async()=>{
+  const submit = ()=>{
     top.value = withSpring(dimensions.height / 1,springConfig)
   }
 
@@ -47,6 +54,40 @@ const HistoryPemesanan = ({navigation}) => {
     top.value = withSpring(dimensions.height / 1,springConfig)
     navigation.navigate("BengkelMelaporCustomer")
   }
+  // console.log(currentUser._nativeData.doc.data.email[1]);
+
+  const fetchReports=async()=>{
+    try {
+      await firestore()
+      .collection('reports')
+      .where('toBengkel.email','==',currentUser._nativeData.doc.data.email[1])
+      .onSnapshot(items => {
+        // console.log(items);
+        items._changes.map(item=>{
+          if (item._nativeData.doc.data.toBengkel[1].email[1] == currentUser._nativeData.doc.data.email[1]) {
+            setReport(items._changes)
+            setRefreshing(false)
+            console.log(true)
+            // console.log(item._nativeData.doc.data.status[1]);
+          }else{
+            setReport([])
+            setRefreshing(false)
+          }
+        })
+        setRefreshing(false)
+      })
+      // console.log(currentUser._nativeData.doc.data.email[1]);
+    } catch (e) {
+      console.log(e);
+      setReport([])
+      setRefreshing(false)
+    }
+  }
+
+  useEffect(()=>{
+    fetchReports()
+    return ()=> fetchReports()
+  },[])
 
   return (
     <View style={styles.container}>
@@ -90,24 +131,26 @@ const HistoryPemesanan = ({navigation}) => {
       <Gap height={12}/>
       <View style={{borderBottomColor: 'black',borderBottomWidth: 2, opacity: 0.2}}/>
       <Gap height={30}/>
-      <View style={{flexDirection:'row',  marginLeft: 15}}>
-        <View>
-        <Image
-            source={require('../../assets/images/fotoprofil.jpg')} //Change your icon image here
-            style={styles.ImageStyle}
-           />
-        </View>
-        <Gap width={23}/>
-        <TouchableOpacity onPress={()=>top.value = withSpring(dimensions.height / 2,springConfig)}>
-          <View style={{flexDirection:'column', justifyContent:'center'}}>
-            <Text style={{fontSize:18, fontFamily:'Nunito', fontWeight:'700', color:'black'}}>Yoel Roring</Text>
-            <Text style={{fontSize:18, fontFamily:'Nunito', fontWeight:'700', color:'#BCB6B6'}}>Malalayang Satu</Text>
-            <Text style={{fontSize:18, fontFamily:'Nunito', fontWeight:'700', color:'#B3B553'}}>Sedang di Proses</Text>
-          </View>
-        </TouchableOpacity>
-      </View>
-      <Gap height={25}/>
-      <View style={{borderBottomColor: 'black',borderBottomWidth: 2, opacity: 0.2, marginVertical:12 }}/>
+      {reports!== (undefined||null||[]) && <FlatList
+        keyExtractor={(item,index) => index}
+        refreshing={refreshing}
+        onRefresh={fetchReports}
+        showsVerticalScrollIndicator={false}
+        data={reports}
+        extraData={reports}
+        renderItem={({item,index})=>item._nativeData.doc.data.status[1] === ("Pesanan di terima" || "Permintaan telah di selesaikan") && <WorkshopComponent
+          flag="history"
+          docId={item._nativeData.doc.path.split('/')}
+          namaBengkel={item._nativeData.doc.data.toBengkel[1].namaBengkel[1]}
+          problem={item._nativeData.doc.data.problem[1]}
+          location={item._nativeData.doc.data.location[1].desc[1]}
+          image={item._nativeData.doc.data.toBengkel[1].image[1]}
+          address={item._nativeData.doc.data.toBengkel[1].alamat[1]}
+          price={item._nativeData.doc.data.harga[1]}
+          desc={item._nativeData.doc.data?.status[1]}
+        />}
+       />
+      }
     </View>
   )
 }
