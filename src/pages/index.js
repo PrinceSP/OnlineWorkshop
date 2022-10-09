@@ -18,7 +18,8 @@ import Feedback from './feedback'
 import CustomerHistory from './customerHistory'
 import LaporKerusakkan from './reportCustomer'
 import CustomerMap from './customerMapReport'
+import BengkelLocation from './updateUserLocation'
 
 export {Register,SplashScreen,LoginOptions,LoginBengkel,LoginCustomer,ProfileBengkel,ProfileCustomer,
-  RegisterBengkel,RegisterBengkelMotor,RegisterBengkelMobil,HomeScreen,LaporKerusakkan,
+  RegisterBengkel,RegisterBengkelMotor,RegisterBengkelMobil,HomeScreen,LaporKerusakkan,BengkelLocation,
   HomepageCustomer,HistoryPemesanan,BengkelMelaporCustomer,PermintaanService,Feedback,CustomerHistory,CustomerMap}
