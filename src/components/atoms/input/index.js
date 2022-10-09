@@ -10,7 +10,7 @@ const Input = ({height=50,setLabel=false,width=329,borderRadius=50,label,color,.
       borderColor:'#000',
       borderRadius,
       color:'#000',
-      paddingHorizontal:28.77,
+      paddingHorizontal:25.77,
       fontSize:19,
       backgroundColor:'#fff',
     }
