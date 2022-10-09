@@ -9,19 +9,19 @@ import Geolocation from 'react-native-geolocation-service'
 
 const MapFinder = ({getGeometrics,regions,flags})=>{
 	const [ region, setRegion ] = useState({
-		latitude: regions?.latitude[1] || 1.4730796311491023,
-		longitude: regions?.longitude[1] || 124.8540263923278,
-		latitudeDelta: regions?.latitudeDelta[1] || 0.0922,
-		longitudeDelta: regions?.longitudeDelta[1] || 0.0421,
+		latitude: 1.4730796311491023,
+		longitude: 124.8540263923278,
+		latitudeDelta: 0.0922,
+		longitudeDelta: 0.0421,
 	})
 	const [destination,setDestination] = useState({
-		latitude:  1.4730796311491023,
-		longitude:  124.8540263923278,
-		latitudeDelta:  0.0922,
-		longitudeDelta:  0.0421,
+		latitude:  regions?.region.latitude[1] ||  1.4730796311491023,
+		longitude:  regions?.region.longitude[1] ||  124.8540263923278,
+		latitudeDelta:  regions?.region.latitudeDelta[1] ||  0.0922,
+		longitudeDelta:  regions?.region.longitudeDelta[1] ||  0.0421,
 	})
   const [desc,setDetails] = useState(null)
-  const [descTwo,setDetailsTwo] = useState(null)
+  const [descTwo,setDetailsTwo] = useState(regions.desc)
 	const [distance,setDistance] = useState('')
 	const [time,setTime] = useState('')
 	const [isTracing,setIsTracing] = useState(false)
@@ -34,15 +34,15 @@ const MapFinder = ({getGeometrics,regions,flags})=>{
 	// console.log(queryRef.current.getAddressText());
 	// console.log(queryRefTwo.current.getAddressText());
 // console.log(mapRef);
-  Geocoder.init("AIzaSyB-lpOPCdsdF7SluzBjETaOIfT-ZDgX2ZA",{language : "en"}); // use a valid API key
-  Geocoder.from(region)
-  		.then(res => {
-        const addressComponent = res.results[0].formatted_address;
-        const address = addressComponent.split(',').splice(1,5).join(',')
-  			setDetails(address);
-        // console.log('data from address: '+address);
-  		})
-  		.catch(error => console.warn(error));
+  // Geocoder.init("AIzaSyB-lpOPCdsdF7SluzBjETaOIfT-ZDgX2ZA",{language : "en"}); // use a valid API key
+  // Geocoder.from(region)
+  // 		.then(res => {
+  //       const addressComponent = res.results[0].formatted_address;
+  //       const address = addressComponent.split(',').splice(1,5).join(',')
+  // 			setDetails(address);
+  //       // console.log('data from address: '+address);
+  // 		})
+  // 		.catch(error => console.warn(error));
 
 	const goToCurrentRegion=()=>{
 		mapRef.current.animateToRegion(region,300)
@@ -125,7 +125,18 @@ const MapFinder = ({getGeometrics,regions,flags})=>{
 		}
 	}
 
+	console.log(mapRef);
+
   useEffect(()=>{
+		Geocoder.init("AIzaSyB-lpOPCdsdF7SluzBjETaOIfT-ZDgX2ZA",{language : "en"}); // use a valid API key
+	  Geocoder.from(region)
+	  		.then(res => {
+	        const addressComponent = res.results[0].formatted_address;
+	        const address = addressComponent.split(',').splice(1,5).join(',')
+	  			setDetails(address);
+	        // console.log('data from address: '+address);
+	  		})
+	  		.catch(error => console.warn(error));
     getGeometrics(datas)
 		// console.log(datas);
   },[desc,descTwo,distance,time])
@@ -211,9 +222,9 @@ const MapFinder = ({getGeometrics,regions,flags})=>{
 						// console.log('data from query: '+data?.description);
 					}}
 					renderRightButton={() => (
-            (queryRef.current?.getAddressText() ?
+            (desc!=null ?
                  <TouchableOpacity onPress={clearing}>
-                           <Text>X</Text>
+                           <Text style={{color:"#000"}}>x</Text>
 								 </TouchableOpacity>
                :
                 null )	)}
@@ -243,59 +254,7 @@ const MapFinder = ({getGeometrics,regions,flags})=>{
 					}}
 				/>
 				<Text style={{fontFamily:"Nunito-Bold",color:"#444"}}>Destination</Text>
-				<GooglePlacesAutocomplete
-					ref={queryRefTwo}
-					placeholder={descTwo?descTwo:"Search your location here...."}
-					returnKeyType={'search'}
-					autoFocus={true}
-					listViewDisplayed='auto'
-					fetchDetails={true}
-					renderDescription={row=>row.description}
-					GooglePlacesSearchQuery={{
-						rankby: "distance"
-					}}
-					GooglePlacesDetailsQuery={{
-						fields:['formatted_address','geometry']
-					}}
-					enablePoweredByContainer={false}
-					onPress={(data, details = null) => {
-						// 'details' is provided when fetchDetails = true
-						// update the region by its latitude and longitude
-						setDestination({...destination,
-							latitude: details.geometry.location.lat,
-							longitude: details.geometry.location.lng,
-						})
-						setDetailsTwo(data.description)
-						console.log(details.geometry.location);
-
-						// getGeometrics(datas)
-						// console.log('data from query: '+data?.description);
-					}}
-					query={{
-						key: "AIzaSyB-lpOPCdsdF7SluzBjETaOIfT-ZDgX2ZA",
-						language: "en",
-						components: "country:id",
-						types: "establishment",
-						radius: 30000,
-						location: `${destination.latitude}, ${destination.longitude}`
-					}}
-					textInputProps={{
-						placeholderTextColor: '#899',
-						InputComp: TextInput,
-					}}
-					styles={{
-						listView:style.listView,
-						textInputContainer: {
-							alignItems:'center',
-							justifyContent:'space-between'
-						},
-						textInput:{color:'#000',borderColor:"#888",borderWidth:1},
-						description:{
-							fontWeight:'bold',
-							color:'#000',
-						}
-					}}
-				/>
+				<Text style={{width:'100%',fontFamily:"Nunito-Bold",color:"#444",height:60,borderRadius:6,borderColor:"#888",borderWidth:1,padding:10}}>{regions.desc}</Text>
 			<TouchableOpacity onPress={trace} style={{width:'100%',height:40,backgroundColor:"#5E6B73",borderRadius:6,alignItems:'center',justifyContent:'center'}}>
 				<Text style={{fontFamily:"Nunito-Bold",color:"#fff",fontSize:16}}>Trace Route</Text>
 			</TouchableOpacity>
