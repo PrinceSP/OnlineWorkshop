@@ -11,6 +11,9 @@ const LaporKerusakkan = ({navigation,route}) => {
   const {itemId,otherParams,location} = route.params
   const {user:currentUser} = useContext(AuthContext)
   // console.log(location);
+  // const result = otherParams.location.desc.split(",")[0]
+
+  // console.log(result);
   const price = location?.distance*3.87222
   const submitreport=()=>{
     firestore()
@@ -40,10 +43,10 @@ const LaporKerusakkan = ({navigation,route}) => {
       <View style={{alignItems:'center'}}>
         <View>
           <View style={styles.line}/>
-          <Text style={styles.title}>{`${otherParams.namaBengkel}, ${otherParams.alamat}`}</Text>
+          <Text style={styles.title}>{`${otherParams.namaBengkel}, ${otherParams.location.desc.split(",")[0]}`}</Text>
           <Image source={{uri:`data:image/png;base64,${otherParams.image}`}} style={styles.image}/>
           <Gap height={29}/>
-          <TouchableOpacity style={styles.rowAlignment} onPress={()=>navigation.navigate("CustomerDrawer",{screen:"CustomerMap"},{itemId:itemId})}>
+          <TouchableOpacity style={styles.rowAlignment} onPress={()=>navigation.navigate("CustomerDrawer",{screen:"CustomerMap",params:otherParams.location},{itemId:itemId})}>
             <MapPin/>
             <Text style={{color:"#000",width:"80%"}}>{location!==undefined || null ? location?.desc :  'Tentukan Lokasimu'}</Text>
           </TouchableOpacity>
