@@ -1,6 +1,6 @@
 import React,{useState,useContext} from 'react'
-import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity } from 'react-native'
-import {Gap} from '../../components'
+import { StyleSheet, TextInput,Text, View, Image, ScrollView, TouchableOpacity } from 'react-native'
+import {Gap,Button} from '../../components'
 import { ArrowLeft,Camera } from '../../assets'
 import {AuthContext} from '../../config/authContext'
 import {launchImageLibrary} from 'react-native-image-picker'
@@ -8,13 +8,18 @@ import firestore from '@react-native-firebase/firestore'
 
 const ProfileCustomer = ({navigation}) => {
   const {user:currentUser} = useContext(AuthContext)
-  // console.log(currentUser);
+  // console.log(currentUser[0]._data.email);
   const userId = currentUser[0].ref._documentPath._parts[1]
-  // console.log(userId);
+  console.log(userId);
   const [photo,setPhoto] = useState('')
   const [hasPhoto, setHasPhoto] = useState(false)
   const [photoBase64,setPhotoBase64] = useState('')
-
+  const [userInfos,setInfos] = useState({
+    fullname:currentUser[0]._data.fullname,
+    phoneNumber:currentUser[0]._data.phoneNumber,
+    email:currentUser[0]._data.email
+  })
+  // console.log(userInfos.fullname,userInfos.phoneNumber,userInfos.email);
   const imageGallery = ()=>{
     const options={
       maxHeight:400,
@@ -37,6 +42,19 @@ const ProfileCustomer = ({navigation}) => {
         });
       }
     })
+  }
+
+  const updateBio = ()=>{
+    firestore()
+    .collection('users')
+    .doc(userId)
+    .update({
+      fullname:userInfos.fullname,
+      email: userInfos.email,
+      phoneNumber: userInfos.phoneNumber
+    }).then(() => {
+      console.log('User updated!');
+    });
   }
 
   return (
@@ -66,31 +84,35 @@ const ProfileCustomer = ({navigation}) => {
       <View style={styles.cardContainer}>
           <Text style={styles.titleText}>Nama Lengkap</Text>
         <View style={styles.card}>
-            <Text style={styles.textCard}>{currentUser[0].fullname}</Text>
+          <TextInput style={styles.textCard} defaultValue={currentUser[0]._data.fullname} onChangeText={(event)=>setInfos({...userInfos,fullname:event})}/>
         </View>
       </View>
       <Gap height={28}/>
       <View style={styles.cardContainer}>
         <Text style={styles.titleText}>Email</Text>
         <View style={styles.card}>
-          <Text style={styles.textCard}>{currentUser[0].email}</Text>
+        <TextInput style={styles.textCard} defaultValue={currentUser[0]._data.email} onChangeText={(event)=>setInfos({...userInfos,email:event})}/>
         </View>
       </View>
       <Gap height={28}/>
       <View style={styles.cardContainer}>
         <Text style={styles.titleText}>Nomor HP</Text>
         <View style={styles.card}>
-          <Text style={styles.textCard}>{currentUser[0].phoneNumber}</Text>
+        <TextInput style={styles.textCard} defaultValue={currentUser[0]._data.phoneNumber} onChangeText={(event)=>setInfos({...userInfos,phoneNumber:event})}/>
         </View>
       </View>
-      <Gap height={28}/>
+      <Gap height={58}/>
+      {
+        (userInfos.fullname != currentUser[0]._data.fullname || userInfos.email != currentUser[0]._data.email || userInfos.phoneNumber != currentUser[0]._data.phoneNumber)
+        ? <Button name='Perbarui Profil' color='#fff' fam='Nunito-SemiBold' size={20} style={styles.btnSubmit} onPress={updateBio}/> : null
+      }
     </ScrollView>
   )
 }
 const styles = StyleSheet.create({
   container:{
     backgroundColor: '#fff',
-    flex:1
+    flex:1,
   },
   header:{
     flexDirection: 'row',
@@ -119,11 +141,15 @@ const styles = StyleSheet.create({
     borderWidth:2,
     borderRadius: 14,
     borderColor: 'black',
-    height: 59,
-    padding: 16
+    height: 60,
+    padding: 16,
+    justifyContent:'center'
   },
   textCard:{
-    fontSize: 18
+    fontSize: 18,
+    color:"#000",
+    width:"100%",
+    height:40
   },
   containerImage:{
     alignItems:'center',
@@ -152,6 +178,19 @@ const styles = StyleSheet.create({
     fontFamily: 'Inter',
     maxWidth: 40,
     textAlign: 'center',
-  }
+  },
+  btnSubmit:{
+    backgroundColor:"#5E6B73",
+    marginBottom:15,
+    height:60,
+    width:200,
+    borderStyle:'solid',
+    borderWidth:1,
+    borderColor:'#6F9C99',
+    borderRadius:7,
+    alignItems:'center',
+    justifyContent:'center',
+    left:"24%"
+  },
 })
 export default ProfileCustomer
