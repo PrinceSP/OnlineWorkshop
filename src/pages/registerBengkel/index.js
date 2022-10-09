@@ -8,7 +8,7 @@ const RegisterBengkel = ({navigation}) => {
     <View style={styles.container}>
       <View style={styles.containerHeader}>
         <Gap height={30}/>
-        <ArrowLeft height={13} widdth={14}/>
+        <ArrowLeft height={25} onPress={()=>navigation.goBack()}/>
         <Gap height={30}/>
         <View>
           <Text style={styles.titleHeader}>Pendaftaran Bengkel</Text>
