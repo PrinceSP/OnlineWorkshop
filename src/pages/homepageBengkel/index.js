@@ -2,19 +2,19 @@ import React, { useState,useContext,useEffect} from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Switch, Image, Modal } from 'react-native';
 import {Logo,MapPin} from '../../assets/'
 import {Button,Header,Gap} from '../../components'
-import POVLocation from '../../components/molecules/location'
 import firestore from '@react-native-firebase/firestore'
 import {AuthContext} from '../../config/authContext'
-import AsyncStorage from '@react-native-async-storage/async-storage'
 
-const HomeScreen = ({ navigation })=>{
+const HomeScreen = ({ route,navigation })=>{
   const {user:currentUser} = useContext(AuthContext)
   // console.log(currentUser._nativeData.doc.data.state[1]==="Online" ? true : false);
   const [isEnabled, setIsEnabled] = useState(currentUser._nativeData.doc.data.state[1]==="Online" ? true : false);
+  // console.log(currentUser._nativeData.doc.data.state[1]);
   const userId = currentUser._nativeData.doc.path.split("/")
   // console.log(currentUser._nativeData.doc.data.state[1]);
   const [showMap,setShowMap] = useState(false)
-
+  // const [location,setLocation] = useState(null)
+  // console.log(route?.params?.location);
   const toggleSwitch = () => {
     setIsEnabled(previousState => !previousState)
     firestore().collection('users').doc(userId[1])
@@ -26,11 +26,6 @@ const HomeScreen = ({ navigation })=>{
 
   return (
     <View style={{flex:1,backgroundColor:'#fff'}}>
-      <Modal transparent visible={showMap}>
-        <View style={{flex:1}}>
-          <POVLocation onPress={()=>setShowMap(false)}/>
-        </View>
-      </Modal>
       <Gap height={21}/>
       <Header navigation={navigation} name="Home" btn="bengkel"/>
       <View style={{borderBottomColor: 'black',borderBottomWidth: 2, opacity: 0.2, marginVertical:12 }}/>
@@ -59,9 +54,9 @@ const HomeScreen = ({ navigation })=>{
           onValueChange={toggleSwitch}
           value={isEnabled}/>
       </View>
-      <TouchableOpacity onPress={()=>setShowMap(true)} style={{width:'100%',flexDirection:'row',alignItems:'center',marginLeft:20,marginTop:50}}>
+      <TouchableOpacity onPress={()=>navigation.navigate("BengkelLocation")} style={{width:'100%',flexDirection:'row',alignItems:'center',marginLeft:20,marginTop:50}}>
         <MapPin/>
-        <Text style={{fontSize:16,color:"#000"}}>Lokasi anda</Text>
+        <Text style={{fontSize:16,color:"#000",width:"80%"}}>{route?.params?.location.desc!==(null||""||undefined) ? route?.params?.location.desc : "Lokasi anda"}</Text>
       </TouchableOpacity>
       <Gap height={150}/>
       <Button style={styles.button} name='Permintaan Service' color = 'white' textAlign='center' size = {18} fam = 'Nunito' onPress={()=>navigation.navigate('PermintaanService')}/>
