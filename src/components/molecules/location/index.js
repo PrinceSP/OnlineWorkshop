@@ -8,7 +8,7 @@ import Animated,{useAnimatedGestureHandler,useAnimatedStyle,useSharedValue,withS
 
 const {width,height} = Dimensions.get('window')
 
-const POVLocation = ({onPress,datas})=>{
+const POVLocation = ({onPress,datas,getLocation})=>{
   const [reportInfo,setReportInfo] = useState({})
   // console.log("location: ",route.params.otherParam);
   const submit = async()=>{
@@ -56,6 +56,7 @@ const POVLocation = ({onPress,datas})=>{
     setReportInfo(...datas)
     // console.log(...datas);
   }
+  // getLocation(...datas)
 
   // console.log(route.params.otherParam);
 
