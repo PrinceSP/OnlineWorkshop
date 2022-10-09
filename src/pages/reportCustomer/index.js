@@ -62,6 +62,8 @@ const LaporKerusakkan = ({navigation,route}) => {
         borderRadius={10}
         height={172}
         width={360}
+        textAlignVertical="top"
+        paddingVertical={20}
         defaultValue={problems}
         onChangeText={value=>setProblems(value)}/>
       <Gap height={25}/>
