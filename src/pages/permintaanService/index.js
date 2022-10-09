@@ -70,7 +70,6 @@ const PermintaanService = ({navigation}) => {
            />}
         />
       }
-
     </View>
   )
 }
