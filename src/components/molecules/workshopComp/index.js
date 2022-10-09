@@ -84,7 +84,7 @@ const WorkshopComponent = ({flag,price,docId=[],desc='Online',onPress,namaBengke
           <View>
             <Text style={{fontFamily:"Nunito-Bold",color:"#000"}}>{namaBengkel}</Text>
             <Gap height={6}/>
-            <Text style={{fontFamily:"Nunito-Light",color:"#000"}}>{address}</Text>
+            <Text style={{fontFamily:"Nunito-Light",color:"#000",width:260}}>{address}</Text>
             <Gap height={3}/>
             <View style={{width:278,height:1,backgroundColor:"#555"}}/>
             <Gap height={3}/>
