@@ -4,7 +4,7 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import {Register,Login,SplashScreen,LoginOptions,LoginBengkel,LoginCustomer,RegisterBengkel,
   RegisterBengkelMotor,RegisterBengkelMobil,HomeScreen,HomepageCustomer,ProfileBengkel,Feedback,
   ProfileCustomer,HistoryPemesanan,BengkelMelaporCustomer,PermintaanService,POVLocation,CustomerHistory,
-  LaporKerusakkan,CustomerMap} from '../pages';
+  LaporKerusakkan,CustomerMap,BengkelLocation} from '../pages';
 import {DrawerContent,DrawerContentCustomer} from '../components'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import {AuthContext} from '../config/authContext'
@@ -61,7 +61,7 @@ const Root=()=>{
       <Drawer.Screen name="HistoryPemesanan" component={HistoryPemesanan} options={{headerShown:false}}/>
       <Drawer.Screen name="BengkelMelaporCustomer" component={BengkelMelaporCustomer} options={{headerShown:false}}/>
       <Drawer.Screen name="PermintaanService" component={PermintaanService} options={{headerShown:false}}/>
-      {/*<Drawer.Screen name="POVLocation" component={POVLocation} options={{headerShown:false}}/>*/}
+      <Drawer.Screen name="BengkelLocation" component={BengkelLocation} options={{headerShown:false}}/>
     </Drawer.Navigator>
   )
 }
@@ -80,7 +80,7 @@ const Router = () =>{
   });
   // const userData = JSON.stringify(currentUser)
   const userReal = JSON.parse(userData || null)
-  console.log(userReal?._j);
+  // console.log(userReal?._j);
 
   // const[viewedOnBoarding,setViewedOnBoarding] = useState(false)
   // const checkOnBoarding = async()=>{
