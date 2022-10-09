@@ -64,7 +64,7 @@ const HomepageCustomer = ({navigation}) => {
       onRefresh={fetchBengkel}
       showsVerticalScrollIndicator={false}
       data={bengkels._docs}
-      renderItem={({item,index,newArr})=><WorkshopComponent key={index} onPress={()=>navigation.navigate('LaporKerusakkan',{itemId:item.id,otherParams:item._data})} desc={item._data.state} namaBengkel={item._data.namaBengkel} address={item._data.alamat} image={item._data.image}/>}
+      renderItem={({item,index,newArr})=><WorkshopComponent key={index} onPress={()=>navigation.navigate('LaporKerusakkan',{itemId:item.id,otherParams:item._data})} desc={item._data.state} namaBengkel={item._data.namaBengkel} address={item._data?.location?.desc} image={item._data.image}/>}
       />
       {
         reports.map((item,index,newArr)=>(
