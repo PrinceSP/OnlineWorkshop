@@ -8,15 +8,12 @@ import Animated,{useAnimatedGestureHandler,useAnimatedStyle,useSharedValue,withS
 const {width,height} = Dimensions.get('window')
 
 const CustomerMap = ({route,navigation})=>{
+  // console.log(route.params);
   const [reportInfo,setReportInfo] = useState({})
-  console.log(reportInfo.distance);
+  // console.log(reportInfo.distance);
   const price =reportInfo.distance*3.87222
   const getGeometrics = (...datas)=>{
     setReportInfo(...datas)
-  }
-
-  const submit = async()=>{
-    top.value = withSpring(dimensions.height / 1,springConfig)
   }
 
   const dimensions = useWindowDimensions()
@@ -72,7 +69,7 @@ const CustomerMap = ({route,navigation})=>{
   }
   return(
     <>
-      <MapFinder getGeometrics={getGeometrics} navigation={navigation}/>
+      <MapFinder getGeometrics={getGeometrics} navigation={navigation} regions={route.params}/>
       <PanGestureHandler onGestureEvent={gestureHandler}>
         <Animated.View style={[bottomSheet,bottomSheetStyle]}>
           <Text style={{width:"100%",color:"#000",fontFamily:"Nunito-Bold",fontSize:22,textAlign:'left'}}>Tentukan Lokasi</Text>
