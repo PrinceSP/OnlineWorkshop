@@ -9,7 +9,7 @@ import Toast from 'react-native-toast-message'
 const RequestLists = ({desc='Online',navigation,id=[],locations,namaBengkel,address,image=""}) => {
   const [visible,setVisible] = useState(false)
   const [showMap,setShowMap] = useState(false)
-
+  // console.log(locations);
     const confirm=async()=>{
       await firestore()
       .collection('reports')

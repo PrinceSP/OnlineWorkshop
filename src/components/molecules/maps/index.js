@@ -1,6 +1,6 @@
 import React, {useState,useRef,useEffect} from "react"
 import {StyleSheet, Text, View, TextInput, TouchableOpacity,PermissionsAndroid,PlatForm } from "react-native"
-import {CustomMarker,Pointer,ArrowLeft} from '../../../assets'
+import {CustomMarker} from '../../../assets'
 import MapView, { Callout, Circle, Marker, PROVIDER_GOOGLE } from "react-native-maps"
 import Geocoder from 'react-native-geocoding';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
@@ -8,6 +8,7 @@ import MapViewDirections from 'react-native-maps-directions';
 import Geolocation from 'react-native-geolocation-service'
 
 const MapFinder = ({getGeometrics,regions,flags})=>{
+	// console.log(regions);
 	const [ region, setRegion ] = useState({
 		latitude: 1.4730796311491023,
 		longitude: 124.8540263923278,
@@ -15,11 +16,12 @@ const MapFinder = ({getGeometrics,regions,flags})=>{
 		longitudeDelta: 0.0421,
 	})
 	const [destination,setDestination] = useState({
-		latitude:  regions?.region.latitude[1] ||  1.4730796311491023,
-		longitude:  regions?.region.longitude[1] ||  124.8540263923278,
-		latitudeDelta:  regions?.region.latitudeDelta[1] ||  0.0922,
-		longitudeDelta:  regions?.region.longitudeDelta[1] ||  0.0421,
+		latitude:  regions?.region.latitude ||  1.4730796311491023,
+		longitude:  regions?.region.longitude ||  124.8540263923278,
+		latitudeDelta:  regions?.region.latitudeDelta ||  0.0922,
+		longitudeDelta:  regions?.region.longitudeDelta ||  0.0421,
 	})
+
   const [desc,setDetails] = useState(null)
   const [descTwo,setDetailsTwo] = useState(regions.desc)
 	const [distance,setDistance] = useState('')
@@ -27,22 +29,10 @@ const MapFinder = ({getGeometrics,regions,flags})=>{
 	const [isTracing,setIsTracing] = useState(false)
 
   const datas = {region,desc,distance,time}
-	// console.log(regions);
   const mapRef = useRef(region)
 	const queryRef = useRef(null)
 	const queryRefTwo = useRef(null)
-	// console.log(queryRef.current.getAddressText());
-	// console.log(queryRefTwo.current.getAddressText());
-// console.log(mapRef);
-  // Geocoder.init("AIzaSyB-lpOPCdsdF7SluzBjETaOIfT-ZDgX2ZA",{language : "en"}); // use a valid API key
-  // Geocoder.from(region)
-  // 		.then(res => {
-  //       const addressComponent = res.results[0].formatted_address;
-  //       const address = addressComponent.split(',').splice(1,5).join(',')
-  // 			setDetails(address);
-  //       // console.log('data from address: '+address);
-  // 		})
-  // 		.catch(error => console.warn(error));
+	const markerRef = useRef(null)
 
 	const goToCurrentRegion=()=>{
 		mapRef.current.animateToRegion(region,300)
@@ -59,8 +49,8 @@ const MapFinder = ({getGeometrics,regions,flags})=>{
 	        const cords = {
 	            latitude: position.coords.latitude,
 	            longitude: position.coords.longitude,
-	            heading: position?.coords?.heading,
 	        };
+					console.log(cords);
 	        resolve(cords);
 	    },
 	    error => {
@@ -94,26 +84,31 @@ const MapFinder = ({getGeometrics,regions,flags})=>{
 	        return reject(error);
 	    });
 	});
+	const animate = (latitude, longitude) => {
+	        const newCoordinate = { latitude, longitude };
+	        if (Platform.OS == 'android') {
+	            if (markerRef.current) {
+	                markerRef.current.animateMarkerToCoordinate(newCoordinate, 7000);
+	            }
+	        } else {
+	            coordinate.timing(newCoordinate).start();
+	        }
+	    }
 
 	const getLiveLocation = async () => {
     const locPermissionDenied = await locationPermission()
     if (locPermissionDenied) {
-      const { latitude, longitude, heading } = await getCurrentLocation()
-      console.log("get live location after 4 second",heading)
+      const { latitude, longitude } = await getCurrentLocation()
+      // console.log("get live location after 4 second",heading)
       animate(latitude, longitude);
-      updateState({
-        heading: heading,
-        curLoc: { latitude, longitude },
-        coordinate: new AnimatedRegion({
-	        latitude: latitude,
-	        longitude: longitude,
-	        latitudeDelta: 0.0922,
-	        longitudeDelta: 0.0421
-      	})
+      setRegion({...region,
+        latitude: latitude,
+        longitude: longitude,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421
      })
     }
   }
-
 
 	const edgePadding={top:50,right:50,bottom:50,left:50}
 
@@ -122,21 +117,22 @@ const MapFinder = ({getGeometrics,regions,flags})=>{
 			setIsTracing(true)
 			mapRef.current.fitToCoordinates([region,destination],{edgePadding})
 			// console.log(mapRef.current.fitToCoordinates);
+			getLiveLocation()
 		}
 	}
 
-	console.log(mapRef);
+	// console.log(mapRef);
 
   useEffect(()=>{
 		Geocoder.init("AIzaSyB-lpOPCdsdF7SluzBjETaOIfT-ZDgX2ZA",{language : "en"}); // use a valid API key
 	  Geocoder.from(region)
-	  		.then(res => {
-	        const addressComponent = res.results[0].formatted_address;
-	        const address = addressComponent.split(',').splice(1,5).join(',')
-	  			setDetails(address);
-	        // console.log('data from address: '+address);
-	  		})
-	  		.catch(error => console.warn(error));
+		.then(res => {
+      const addressComponent = res.results[0].formatted_address;
+      const address = addressComponent.split(',').splice(1,5).join(',')
+			setDetails(address);
+      // console.log('data from address: '+address);
+		})
+		.catch(error => console.warn(error));
     getGeometrics(datas)
 		// console.log(datas);
   },[desc,descTwo,distance,time])
@@ -155,7 +151,7 @@ const MapFinder = ({getGeometrics,regions,flags})=>{
 				onPress={goToCurrentRegion}
 				userLocationUpdateInterval={700}
 			>
-				{region && <Marker coordinate={region}
+				{region && <Marker coordinate={region} ref={markerRef}
 				title="I'm Here"
 				description={desc}
 				image={CustomMarker}/>}
@@ -233,7 +229,7 @@ const MapFinder = ({getGeometrics,regions,flags})=>{
 						language: "en",
 						components: "country:id",
 						types: "establishment",
-						radius: 30000,
+						radius: 3000,
 						location: `${region.latitude}, ${region.longitude}`
 					}}
 					textInputProps={{
@@ -255,9 +251,9 @@ const MapFinder = ({getGeometrics,regions,flags})=>{
 				/>
 				<Text style={{fontFamily:"Nunito-Bold",color:"#444"}}>Destination</Text>
 				<Text style={{width:'100%',fontFamily:"Nunito-Bold",color:"#444",height:60,borderRadius:6,borderColor:"#888",borderWidth:1,padding:10}}>{regions.desc}</Text>
-			<TouchableOpacity onPress={trace} style={{width:'100%',height:40,backgroundColor:"#5E6B73",borderRadius:6,alignItems:'center',justifyContent:'center'}}>
-				<Text style={{fontFamily:"Nunito-Bold",color:"#fff",fontSize:16}}>Trace Route</Text>
-			</TouchableOpacity>
+				<TouchableOpacity onPress={trace} style={{width:'100%',height:40,backgroundColor:"#5E6B73",borderRadius:6,alignItems:'center',justifyContent:'center'}}>
+					<Text style={{fontFamily:"Nunito-Bold",color:"#fff",fontSize:16}}>Trace Route</Text>
+				</TouchableOpacity>
 			</View>
 
 		</View>
@@ -284,9 +280,16 @@ const style = StyleSheet.create({
 		elevation:4,
 		padding:8,
 		borderRadius:8,
-		top:30
+		top:30,
 	},
-	listView:{minHeight:50,color:'#000'}
+	listView:{minHeight:50,color:'#000'},
+	pointer:{
+    position:"absolute",top:"33%",right:"7%",
+    shadowOffset: { width: 0, height: 2 },shadowColor:"#000",
+    shadowOpacity: 0.9,
+    shadowRadius:3.84,
+    elevation:10
+  },
 })
 
 export default MapFinder

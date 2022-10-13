@@ -1,5 +1,5 @@
 import React,{useState,useContext} from 'react'
-import {Text,View,StyleSheet,TouchableOpacity,Image} from 'react-native'
+import {Text,View,StyleSheet,TouchableOpacity,Image,ScrollView} from 'react-native'
 import {ArrowLeft,MapPin,Edit,SuccessIcon} from '../../assets'
 import {Gap,Input,Button,ModalSuccess} from '../../components'
 import firestore from '@react-native-firebase/firestore'
@@ -26,7 +26,7 @@ const LaporKerusakkan = ({navigation,route}) => {
   }
 
   return (
-    <View style={{flex:1,backgroundColor:'#fff'}}>
+    <View contentContainerStyle={{flex:1,backgroundColor:'#fff'}}>
       <ModalSuccess visible={visible}>
         <View style={styles.modalContainer}>
           <Text onPress={()=>setVisible(false)} style={{fontSize:28,position:'absolute',right:30,top:24,color:'#000'}}>X</Text>
@@ -40,10 +40,10 @@ const LaporKerusakkan = ({navigation,route}) => {
       <Gap height={20}/>
       <ArrowLeft onPress={()=>navigation.navigate('HomepageCustomer')} style={{marginLeft:18}} onPress={()=>navigation.goBack()}/>
       <Gap height={28}/>
-      <View style={{alignItems:'center'}}>
+      <ScrollView contentContainerStyle={{alignItems:'center'}}>
         <View>
           <View style={styles.line}/>
-          <Text style={styles.title}>{`${otherParams.namaBengkel}, ${otherParams.location.desc.split(",")[0]}`}</Text>
+          <Text style={styles.title}>{`${otherParams.namaBengkel}, ${otherParams.location.desc.split(",")[2]}`}</Text>
           <Image source={{uri:`data:image/png;base64,${otherParams.image}`}} style={styles.image}/>
           <Gap height={29}/>
           <TouchableOpacity style={styles.rowAlignment} onPress={()=>navigation.navigate("CustomerDrawer",{screen:"CustomerMap",params:otherParams.location},{itemId:itemId})}>
@@ -59,19 +59,19 @@ const LaporKerusakkan = ({navigation,route}) => {
         <Text style={{color:"#777"}}>Note: Mohon sertakan jenis/model/merek kendaraan</Text>
         <Gap height={4}/>
         <Input underlineColorAndroid="transparent"
-        placeholderTextColor="#C0A8C2"
-        numberOfLines={100}
-        multiline={true}
-        borderRadius={10}
-        height={172}
-        width={360}
-        textAlignVertical="top"
-        paddingVertical={20}
-        defaultValue={problems}
-        onChangeText={value=>setProblems(value)}/>
-      <Gap height={25}/>
-      <Button style={styles.btnSubmit} name="Minta layanan" size={24} fam="Nunito-Bold" color="#fff" onPress={submitreport}/>
-      </View>
+          placeholderTextColor="#C0A8C2"
+          numberOfLines={100}
+          multiline={true}
+          borderRadius={10}
+          height={172}
+          width={360}
+          textAlignVertical="top"
+          paddingVertical={20}
+          defaultValue={problems}
+          onChangeText={value=>setProblems(value)}/>
+        <Gap height={25}/>
+        <Button style={styles.btnSubmit} name="Minta layanan" size={24} fam="Nunito-Bold" color="#fff" onPress={submitreport}/>
+      </ScrollView>
     </View>
   )
 }

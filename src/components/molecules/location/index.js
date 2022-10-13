@@ -2,15 +2,16 @@ import React, {useState,useEffect} from 'react'
 import {Text,View,StyleSheet,Dimensions,useWindowDimensions,ActivityIndicator,Linking} from 'react-native'
 import {PanGestureHandler} from 'react-native-gesture-handler'
 import {Gap} from '../../atoms'
-import MapFinder from '../maps'
+import MapFinderBengkelTwo from '../mapsFinderBengkel'
 import {Phone,ArrowLeft,Pointer} from '../../../assets'
 import Animated,{useAnimatedGestureHandler,useAnimatedStyle,useSharedValue,withSpring} from 'react-native-reanimated'
 
 const {width,height} = Dimensions.get('window')
 
-const POVLocation = ({onPress,datas,getLocation})=>{
+const POVLocation = ({onPress,datas})=>{
+  console.log("Datas: ",datas);
   const [reportInfo,setReportInfo] = useState({})
-  // console.log("location: ",route.params.otherParam);
+  // console.log("location: ",route);
   const submit = async()=>{
     top.value = withSpring(dimensions.height / 1,springConfig)
   }
@@ -59,10 +60,10 @@ const POVLocation = ({onPress,datas,getLocation})=>{
   // getLocation(...datas)
 
   // console.log(route.params.otherParam);
-
+  // console.log(datas);
   return(
     <>
-      <MapFinder getGeometrics={getGeometrics} flags="bengkel" regions={datas}/>
+      <MapFinderBengkelTwo getGeometrics={getGeometrics} flags="bengkel" regions={datas}/>
       <PanGestureHandler onGestureEvent={gestureHandler}>
         <Animated.View style={[bottomSheet,bottomSheetStyle]}>
           <View style={{flexDirection:'row',width:"100%"}}>

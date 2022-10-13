@@ -66,7 +66,7 @@ const PermintaanService = ({navigation}) => {
            id={item.item._nativeData.doc.path.split('/')}
            address={item.item._nativeData.doc.data.status[1]}
            navigation={navigation}
-           locations={item.item._nativeData.doc.data.location[1].region[1]}
+           locations={item.item._nativeData.doc.data}
            />}
         />
       }

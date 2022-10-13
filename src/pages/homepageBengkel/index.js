@@ -9,7 +9,7 @@ const HomeScreen = ({ route,navigation })=>{
   const {user:currentUser} = useContext(AuthContext)
   // console.log(currentUser._nativeData.doc.data.state[1]==="Online" ? true : false);
   const [isEnabled, setIsEnabled] = useState(currentUser._nativeData.doc.data.state[1]==="Online" ? true : false);
-  // console.log(currentUser._nativeData.doc.data.state[1]);
+  // console.log(currentUser._nativeData.doc.data.locatison[1].region[1]);
   const userId = currentUser._nativeData.doc.path.split("/")
   // console.log(currentUser._nativeData.doc.data.state[1]);
   const [showMap,setShowMap] = useState(false)
@@ -56,7 +56,7 @@ const HomeScreen = ({ route,navigation })=>{
       </View>
       <TouchableOpacity onPress={()=>navigation.navigate("BengkelLocation")} style={{width:'100%',flexDirection:'row',alignItems:'center',marginLeft:20,marginTop:50}}>
         <MapPin/>
-        <Text style={{fontSize:16,color:"#000",width:"80%"}}>{route?.params?.location.desc!==(null||""||undefined) ? route?.params?.location.desc : "Lokasi anda"}</Text>
+        <Text style={{fontSize:16,color:"#000",width:"80%"}}>{route?.params?.location.desc!==(null||""||undefined) ? route?.params?.location.desc : currentUser._nativeData.doc.data.location[1] !==(null||""||undefined) ? currentUser._nativeData.doc.data.location[1].desc[1] : "Lokasi anda"}</Text>
       </TouchableOpacity>
       <Gap height={150}/>
       <Button style={styles.button} name='Permintaan Service' color = 'white' textAlign='center' size = {18} fam = 'Nunito' onPress={()=>navigation.navigate('PermintaanService')}/>

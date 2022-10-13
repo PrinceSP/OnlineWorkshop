@@ -67,6 +67,7 @@ const CustomerMap = ({route,navigation})=>{
     top.value = withSpring(dimensions.height/1,springConfig)
 
   }
+
   return(
     <>
       <MapFinder getGeometrics={getGeometrics} navigation={navigation} regions={route.params}/>
