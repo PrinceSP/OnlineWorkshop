@@ -28,7 +28,8 @@ const RegisterBengkelMotor = ({navigation}) => {
     noHp:noHp,
     image:photoBase64,
     role:'bengkel',
-    state:'Offline'
+    state:'Offline',
+    location:''
   }
   const imageGallery = ()=>{
     const options={
@@ -161,25 +162,28 @@ export default RegisterBengkelMotor
 
 const styles = StyleSheet.create({
   scrollView: {
+    backgroundColor:'#fff',
     marginHorizontal: 20,
   },
   containerHeader:{
     flexDirection: 'column',
     justifyContent: 'space-between',
     marginLeft: 10,
-    marginRight: 20
+    marginRight: 20,
+    backgroundColor:'#fff',
   },
   textTitle:{
     fontWeight:'500',
     marginBottom:10,
-    color: 'black'
+    color: '#000'
   },
   titleHeader:{
     fontSize: 36,
-    color: 'black',
+    color: '#000',
     fontWeight: '500'
   },
   content:{
+    backgroundColor:'#fff',
     flexDirection: 'column',
     marginLeft: 12,
     fontSize: 18,
@@ -204,7 +208,8 @@ const styles = StyleSheet.create({
     borderColor: '#020202',
     borderRadius: 8,
     paddingLeft: 10,
-    paddingHorizontal: 10
+    paddingHorizontal: 10,
+    color:"#000"
   },
   containerInput:{
     marginHorizontal: 16
@@ -235,8 +240,8 @@ const styles = StyleSheet.create({
     fontFamily: 'Inter',
     maxWidth: 40,
     textAlign: 'center',
+    color:"#aaa"
   },
-
   border: {
     borderWidth: 1,
     borderColor: '8D92A3',

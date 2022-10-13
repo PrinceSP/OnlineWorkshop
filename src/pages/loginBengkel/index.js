@@ -73,9 +73,9 @@ const LoginBengkel = ({navigation}) => {
             <Text style={{color:'#000000',fontSize:24,fontFamily:"Nunito-Bold",marginLeft:15}}>Bengkel</Text>
           </View>
           <Text style={styles.title}>Masuk</Text>
-          <Input setLabel={true} label="Email" borderRadius={10} width={width/1.22} defaultValue={email} onChangeText={(value)=>setEmail(value)}/>
+          <Input setLabel={true} color="#000" label="Email" borderRadius={10} width={width/1.22} defaultValue={email} onChangeText={(value)=>setEmail(value)}/>
           <Gap height={40}/>
-          <Input setLabel={true} label="Password" borderRadius={10} width={width/1.22} secureTextEntry={true} defaultValue={password} onChangeText={(value)=>setPassword(value)}/>
+          <Input setLabel={true} color="#000" label="Password" borderRadius={10} width={width/1.22} secureTextEntry={true} defaultValue={password} onChangeText={(value)=>setPassword(value)}/>
           <Gap height={15}/>
           <Button name='Lupa password?' color='#000' fam='Nunito-Bold'/>
           <Gap height={60}/>

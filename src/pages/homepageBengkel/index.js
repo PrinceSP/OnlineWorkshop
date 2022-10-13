@@ -14,7 +14,8 @@ const HomeScreen = ({ route,navigation })=>{
   // console.log(currentUser._nativeData.doc.data.state[1]);
   const [showMap,setShowMap] = useState(false)
   // const [location,setLocation] = useState(null)
-  // console.log(route?.params?.location);
+  console.log(currentUser._nativeData.doc.data.location);
+
   const toggleSwitch = () => {
     setIsEnabled(previousState => !previousState)
     firestore().collection('users').doc(userId[1])
@@ -56,7 +57,12 @@ const HomeScreen = ({ route,navigation })=>{
       </View>
       <TouchableOpacity onPress={()=>navigation.navigate("BengkelLocation")} style={{width:'100%',flexDirection:'row',alignItems:'center',marginLeft:20,marginTop:50}}>
         <MapPin/>
-        <Text style={{fontSize:16,color:"#000",width:"80%"}}>{route?.params?.location.desc!==(null||""||undefined) ? route?.params?.location.desc : currentUser._nativeData.doc.data.location[1] !==(null||""||undefined) ? currentUser._nativeData.doc.data.location[1].desc[1] : "Lokasi anda"}</Text>
+        <Text style={{fontSize:16,color:"#000",width:"80%"}}>
+          {route?.params?.location.desc!==(null||""||undefined)
+            ? route?.params?.location?.desc : currentUser._nativeData.doc?.data?.location[1] !==(null||""||undefined)
+            ? currentUser._nativeData.doc.data?.location[1]?.desc[1] : "Lokasi anda"}
+        </Text>
+
       </TouchableOpacity>
       <Gap height={150}/>
       <Button style={styles.button} name='Permintaan Service' color = 'white' textAlign='center' size = {18} fam = 'Nunito' onPress={()=>navigation.navigate('PermintaanService')}/>

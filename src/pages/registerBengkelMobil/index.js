@@ -29,7 +29,8 @@ const RegisterBengkelMobil = ({navigation}) => {
     noHp:noHp,
     image:photoBase64,
     role:'bengkel',
-    state:'Offline'
+    state:'Offline',
+    location:''
   }
   const imageGallery = ()=>{
     const options={
@@ -87,14 +88,14 @@ const RegisterBengkelMobil = ({navigation}) => {
        <Gap height={20}/>
        <Text style={styles.titleHeader}>Lengkapi Profil</Text>
       </View>
-      <View style={{borderBottomColor: 'black',borderBottomWidth: 2, opacity: 0.2, marginVertical:12 }}/>
+      <View style={{borderBottomColor: '#000',borderBottomWidth: 2, opacity: 0.2, marginVertical:12 }}/>
       <View style={styles.content}>
-        <Text style={{fontWeight: 'bold', color:'black'}}>Jenis Bengkel yang dipilih</Text>
+        <Text style={{fontFamily: 'Poppins-Bold', color:'#000'}}>Jenis Bengkel yang dipilih</Text>
         <Gap height={20}/>
         <View  style={{flexDirection:'row',alignItems:'center'}}>
          <CarLogo height={61} width={64}/>
          <Gap height={16}/>
-        <Text style={{fontWeight: 'bold', color:'black',marginLeft:20}}>Bengkel Mobil</Text>
+        <Text style={{fontFamily: 'Poppins-Bold', color:'#000',marginLeft:20}}>Bengkel Mobil</Text>
         </View>
         <Gap height={16}/>
         <View style={styles.containerImage}>
@@ -169,11 +170,11 @@ const styles = StyleSheet.create({
   textTitle:{
     fontWeight:'500',
     marginBottom:10,
-    color: 'black'
+    color: '#000'
   },
   titleHeader:{
     fontSize: 36,
-    color: 'black',
+    color: '#000',
     fontWeight: '500'
   },
   content:{
@@ -202,7 +203,8 @@ const styles = StyleSheet.create({
     borderColor: '#020202',
     borderRadius: 8,
     paddingLeft: 10,
-    paddingHorizontal: 10
+    paddingHorizontal: 10,
+    color:"#000"
   },
   containerInput:{
     marginHorizontal: 16
@@ -233,6 +235,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Inter',
     maxWidth: 40,
     textAlign: 'center',
+    color:"#aaa"
   },
   border: {
     borderWidth: 1,

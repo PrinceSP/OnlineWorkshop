@@ -72,9 +72,9 @@ const LoginCustomer = ({navigation}) => {
             <Text style={{color:'#000000',fontSize:24,fontFamily:"Nunito-Bold",marginLeft:15}}>Customer</Text>
           </View>
           <Text style={styles.title}>Masuk</Text>
-          <Input setLabel={true} label="Email" borderRadius={10} width={width/1.22} defaultValue={email} onChangeText={email=>setEmail(email)}/>
+          <Input setLabel={true} color="#000" label="Email" borderRadius={10} width={width/1.22} defaultValue={email} onChangeText={email=>setEmail(email)}/>
           <Gap height={40}/>
-          <Input setLabel={true} label="Password" borderRadius={10} width={width/1.22} secureTextEntry={true} defaultValue={password} onChangeText={password=>setPassword(password)}/>
+          <Input setLabel={true} color="#000" label="Password" borderRadius={10} width={width/1.22} secureTextEntry={true} defaultValue={password} onChangeText={password=>setPassword(password)}/>
           <Gap height={15}/>
           <Button name='Lupa password?' color='#000' fam='Nunito-Bold'/>
           <Gap height={60}/>
