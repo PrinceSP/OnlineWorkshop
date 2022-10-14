@@ -141,7 +141,7 @@ const HistoryPemesanan = ({navigation}) => {
         renderItem={({item,index})=>item._nativeData.doc.data.status[1] === ("Pesanan di terima" || "Permintaan telah di selesaikan") && <WorkshopComponent
           flag="history"
           docId={item._nativeData.doc.path.split('/')}
-          namaBengkel={item._nativeData.doc.data.toBengkel[1].namaBengkel[1]}
+          namaBengkel={item._nativeData.doc.data.from[1].username[1]}
           problem={item._nativeData.doc.data.problem[1]}
           location={item._nativeData.doc.data.location[1].desc[1]}
           image={item._nativeData.doc.data.toBengkel[1].image[1]}
