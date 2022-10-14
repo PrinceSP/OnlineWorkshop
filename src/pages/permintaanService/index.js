@@ -68,6 +68,7 @@ const PermintaanService = ({navigation}) => {
            address={item.item._nativeData.doc.data.status[1]}
            navigation={navigation}
            locations={item.item._nativeData.doc.data}
+           image={item.item._nativeData.doc.data?.image[1]}
            />}
         />
       }

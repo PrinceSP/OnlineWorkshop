@@ -30,7 +30,8 @@ const RegisterBengkelMobil = ({navigation}) => {
     image:photoBase64,
     role:'bengkel',
     state:'Offline',
-    location:''
+    location:'',
+    jenisBengkel:'bengkel mobil'
   }
   const imageGallery = ()=>{
     const options={
@@ -145,7 +146,7 @@ const RegisterBengkelMobil = ({navigation}) => {
           <TextInput style={styles.input} defaultValue={password} onChangeText={(value)=>setUserInfos({...userInfos,password:value})}/>
         </View>
         <Gap height={20}/>
-        <Button style={styles.button} name='Lanjut' size = {24} weight = 'bold' color ='white' onPress={submit}/>
+        <Button style={styles.button} name='Daftar' size = {24} weight = 'bold' color ='white' onPress={submit}/>
       </View>
       <Gap height={20}/>
       <Toast autoHide={true} visibilityTime={2000} position="bottom"/>
