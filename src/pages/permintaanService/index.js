@@ -62,6 +62,7 @@ const PermintaanService = ({navigation}) => {
          renderItem={(item,index)=><RequestLists key={index}
            visible={visible}
            desc={item.item._nativeData.doc.data.problem[1]}
+           harga={item.item._nativeData.doc.data.harga[1]}
            namaBengkel={item.item._nativeData.doc.data.from[1].fullname[1]}
            id={item.item._nativeData.doc.path.split('/')}
            address={item.item._nativeData.doc.data.status[1]}
@@ -80,7 +81,8 @@ const styles = StyleSheet.create({
     container:{
         flex:1,
         paddingHorizontal:15,
-        backgroundColor:"#fff"
+        backgroundColor:"#fff",
+        position:'relative'
     },
     textCaption:{
         fontFamily:'Nunito-Bold',
