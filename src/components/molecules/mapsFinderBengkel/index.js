@@ -22,6 +22,8 @@ const MapFinderBengkelTwo = ({getGeometrics,regions,flags})=>{
 
   const [desc,setDetails] = useState(regions?.toBengkel[1].location[1].desc[1])
   const [descTwo,setDetailsTwo] = useState(regions?.location[1].desc[1])
+  const [distance,setDistance] = useState('')
+  const [time,setTime] = useState('')
 	const [isTracing,setIsTracing] = useState(false)
 
   const datas = {region,desc}
@@ -62,7 +64,7 @@ const MapFinderBengkelTwo = ({getGeometrics,regions,flags})=>{
 		.catch(error => console.warn(error));
     getGeometrics(datas)
 		// console.log(datas);
-  },[desc,descTwo])
+  },[desc,descTwo,distance,time])
 
   useEffect(()=>{
     return ()=> console.log('clean up');

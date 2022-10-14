@@ -78,6 +78,8 @@ const DrawerContentCustomer = (props)=>{
       <DrawerContentScrollView {...props}>
         <View style={container}>
           <View style={section}>
+            {currentUser[0]._data?.image ? <Image style={image} source={{uri:`data:image/png;base64,${currentUser[0]._data.image}`}}/>
+             :<View style={[image,{backgroundColor:'#e8e8e8',alignItems:'center',justifyContent:'center'}]}><AvatarProfile height={40} width={40}/></View>}
             <View>
               <Text style={title}>{currentUser[0]._data.username}</Text>
               <Text style={desc}>+62{`${currentUser[0]._data.phoneNumber}`}</Text>

@@ -5,8 +5,9 @@ import ModalSuccess from '../successModal'
 import POVLocation from '../location'
 import firestore from '@react-native-firebase/firestore'
 import Toast from 'react-native-toast-message'
+import Animated from 'react-native-reanimated'
 
-const RequestLists = ({desc='Online',navigation,id=[],locations,namaBengkel,address,image=""}) => {
+const RequestLists = ({desc='Online',navigation,id=[],harga,locations,namaBengkel,address,image=""}) => {
   const [visible,setVisible] = useState(false)
   const [showMap,setShowMap] = useState(false)
   // console.log(locations);
@@ -51,19 +52,25 @@ const RequestLists = ({desc='Online',navigation,id=[],locations,namaBengkel,addr
     }
 
   return (
-    <View style={{flex:1,width:'100%'}} key={id}>
+    <View style={{width:'100%'}} key={id}>
       <ModalSuccess visible={visible}>
         <Toast autoHide={true} visibilityTime={2000}/>
-        <View style={[styles.bottomSheet,{backgroundColor:"#fff",shadowColor:"#000000"}]}>
-          <Text style={{color:"#000",fontFamily:"Nunito-Bold",height:50,width:"100%",fontSize:18}}>{desc}</Text>
-          <Gap height={20}/>
+        <TouchableOpacity style={{flex:1,width:"100%"}} onPress={()=>setVisible(false)}/>
+        <Animated.View style={[styles.bottomSheet,{backgroundColor:"#fff",shadowColor:"#000000"}]}>
+          <Text style={{color:"#000",fontFamily:"Nunito-Bold",width:"100%",fontSize:18}}>{desc}</Text>
+          <Gap height={40}/>
+          <View style={{flexDirection:'row',justifyContent:'space-between'}}>
+            <Text style={{color:"#000",fontFamily:"Nunito-Regular",height:50,fontSize:18}}>Biaya</Text>
+            <Text style={{color:"#000",fontFamily:"Nunito-SemiBold",height:50,fontSize:18}}>Rp.{harga}</Text>
+          </View>
+          <Text style={{color:"#000",fontFamily:"Nunito-Light",height:50,fontSize:13}}>Note : Biaya belum termasuk ongkos kerja dan sparepart jika ada yang harus di ganti.</Text>
           <View style={{borderStyle:'dotted',borderColor:"rgba(0,0,0,0.4)",borderWidth:2}}/>
-          <Gap height={70}/>
+          <Gap height={50}/>
           <View style={{width:"100%",flexDirection:'row',alignItems:'center',justifyContent:'space-between',alignContent:'center',paddingHorizontal:40}}>
             <Button style={styles.button} name='Terima' size = {18} color ='#A8AA3B' fam="Nunito-Bold" onPress={confirm}/>
             <Button style={styles.button} name='Tolak' size = {18} color ='#FF0000' fam="Nunito-Bold" onPress={close}/>
           </View>
-        </View>
+        </Animated.View>
       </ModalSuccess>
       <Modal transparent visible={showMap}>
         <View style={{flex:1}}>

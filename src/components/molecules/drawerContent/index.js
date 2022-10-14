@@ -77,6 +77,7 @@ const DrawerContent = (props)=>{
       <DrawerContentScrollView {...props}>
         <View style={container}>
           <View style={section}>
+            <Image source={currentUser._nativeData.doc.data.image[1]}/>
             <View>
               <Text style={title}>{currentUser._nativeData.doc.data.namaBengkel[1]}</Text>
               <Text style={desc}>+62{`${currentUser._nativeData.doc.data.noHp[1]}`}</Text>

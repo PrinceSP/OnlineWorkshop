@@ -28,6 +28,8 @@ const WorkshopComponent = ({flag,price,docId=[],desc='Online',onPress,namaBengke
     })
   }
 
+  // console.log(desc);
+
   return (
       flag === 'history' ? <View >
         <Modal transparent visible={visible}>
@@ -52,12 +54,11 @@ const WorkshopComponent = ({flag,price,docId=[],desc='Online',onPress,namaBengke
                   <Text style={{color:"#000",fontFamily:'Nunito-Bold',fontSize:18}}>Rp.{price}</Text>
                 </View>
                 <Gap height={55}/>
-                {desc!=="Permintaan telah di selesaikan" && <View>
-                    <Text style={{width:"100%",textAlign:'right',color:"#000",fontFamily:"Nunito-Light"}}>Tekan batal jika tidak jadi servis</Text>
-                    <Gap height={4}/>
-                    <Button style={styles.button} name='Batalkan' size = {24} weight = 'bold' color ='#fff' onPress={cancelRequest}/>
-                  </View>
-                }
+                <View>
+                  <Text style={{width:"100%",textAlign:'right',color:"#000",fontFamily:"Nunito-Light"}}>Tekan batal jika tidak jadi servis</Text>
+                  <Gap height={4}/>
+                  <Button style={styles.button} name={desc==="Pesanan di terima"?'Selesai':'Batalkan'} size = {24} weight = 'bold' color ='#fff' onPress={cancelRequest}/>
+                </View>
               </Animated.View>
               <Toast autoHide={true} visibilityTime={2000}/>
           </View>
