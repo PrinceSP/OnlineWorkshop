@@ -8,6 +8,7 @@ const HomepageCustomer = ({navigation}) => {
 
   const [bengkels,setBengkels] = useState([])
   const [refreshing,setRefreshing] = useState(false)
+  const [disabled,setDisabled] = useState(false)
   const [reports,setReport] = useState([])
   const {user:currentUser} = useContext(AuthContext)
   // const userId = currentUser[0].ref._documentPath._parts[1]
@@ -43,12 +44,14 @@ const HomepageCustomer = ({navigation}) => {
     })
   }
 
-
   useEffect(()=>{
     let isMounted = true
     if(isMounted){
       fetchBengkel()
       fetchReports()
+      reports.map((item,index,newArr)=>(
+        newArr[index]._data.status === "Menunggu konfirmasi" ? setDisabled(true) : setDisabled(true)
+      ))
     }
     return ()=>isMounted=false
   },[])
@@ -64,11 +67,11 @@ const HomepageCustomer = ({navigation}) => {
       onRefresh={fetchBengkel}
       showsVerticalScrollIndicator={false}
       data={bengkels._docs}
-      renderItem={({item,index,newArr})=><WorkshopComponent key={index} onPress={()=>navigation.navigate('LaporKerusakkan',{itemId:item.id,otherParams:item._data})} desc={item._data.state} namaBengkel={item._data.namaBengkel} address={item._data?.location?.desc} image={item._data.image}/>}
+      renderItem={({item,index,newArr})=><WorkshopComponent disabled={disabled} key={index} onPress={()=>navigation.navigate('LaporKerusakkan',{itemId:item.id,otherParams:item._data})} desc={item._data.state} namaBengkel={item._data.namaBengkel} address={item._data?.jenisBengkel} image={item._data.image}/>}
       />
       {
         reports.map((item,index,newArr)=>(
-          newArr[index]._data.status === "menunggu konfirmasi" ? <View key={index} style={{height:82,width:"100%",position:"absolute",bottom:0,backgroundColor:"#5E6B73",padding:10}}>
+          newArr[index]._data.status === "Menunggu konfirmasi" ? <View key={index} style={{height:82,width:"100%",position:"absolute",bottom:0,backgroundColor:"#5E6B73",padding:10}}>
             <Text style={{fontSize:20,fontFamily:"Nunito-Bold",color:"#fff"}}>sedang menunggu konfirmasi dari  </Text>
             <Text style={{fontSize:18,fontFamily:"Nunito-Bold",color:"#ddd"}}>• {item._data.toBengkel.namaBengkel}</Text>
           </View> : item._data.status === null||undefined ? <Text>sdfsdfsdf</Text> : null

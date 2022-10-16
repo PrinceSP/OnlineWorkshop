@@ -95,7 +95,7 @@ const Register = ({navigation}) => {
       <Gap height={25}/>
       <Input setLabel={true} label="Phone Number" borderRadius={10} width={windowWidth/1.22} defaultValue={phoneNumber} onChangeText={(value)=>setUserInfo({...userInfo,phoneNumber:value})}/>
       <Gap height={25}/>
-      <Input setLabel={true} label="Password" borderRadius={10} width={windowWidth/1.22} defaultValue={password} onChangeText={(value)=>setUserInfo({...userInfo,password:value})}/>
+      <Input setLabel={true} secureEntry={true} label="Password" borderRadius={10} width={windowWidth/1.22} defaultValue={password} onChangeText={(value)=>setUserInfo({...userInfo,password:value})}/>
       <Gap height={25}/>
       <Button name='Daftar' color='#000' fam='Nunito-Regular' size={20} style={styles.btnSubmit} onPress={submit}/>
       <Toast autoHide={true} visibilityTime={2000}/>

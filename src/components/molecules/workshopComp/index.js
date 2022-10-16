@@ -7,7 +7,7 @@ import Animated from 'react-native-reanimated'
 import firestore from '@react-native-firebase/firestore'
 import Toast from 'react-native-toast-message'
 
-const WorkshopComponent = ({flag,price,docId=[],desc='Online',onPress,namaBengkel,address,image="",problem,location,...rest}) => {
+const WorkshopComponent = ({disabled,navigation,flag,price,docId=[],desc='Online',onPress,namaBengkel,address,image="",problem,location,...rest}) => {
   const [visible,setVisible] = useState(false)
   // console.log(desc);
   const cancelRequest = async ()=>{
@@ -15,13 +15,31 @@ const WorkshopComponent = ({flag,price,docId=[],desc='Online',onPress,namaBengke
     .collection('reports')
     .doc(docId[1])
     .update({
-      status:'Pesanan dibatalkan'
+      status:'Permintaan dibatalkan'
     })
     .then(()=>{
       Toast.show({
         type: 'success',
         text1: 'Yeay!',
         text2: 'your report has been canceled👋'
+      });
+      // setVisible(false)
+      setTimeout(()=>setVisible(false),3000)
+    })
+  }
+
+  const finishedRequest = async ()=>{
+    await firestore()
+    .collection('reports')
+    .doc(docId[1])
+    .update({
+      status:'Permintaan selesai'
+    })
+    .then(()=>{
+      Toast.show({
+        type: 'success',
+        text1: 'Yeay!',
+        text2: 'your report has been finished👋'
       });
       // setVisible(false)
       setTimeout(()=>setVisible(false),3000)
@@ -54,11 +72,11 @@ const WorkshopComponent = ({flag,price,docId=[],desc='Online',onPress,namaBengke
                   <Text style={{color:"#000",fontFamily:'Nunito-Bold',fontSize:18}}>Rp.{price}</Text>
                 </View>
                 <Gap height={55}/>
-                <View>
+                {desc==="Permintaan dibatalkan" || desc==="Permintaan di tolak!" || desc==="Permintaan selesai"? null : <View>
                   <Text style={{width:"100%",textAlign:'right',color:"#000",fontFamily:"Nunito-Light"}}>Tekan batal jika tidak jadi servis</Text>
                   <Gap height={4}/>
-                  <Button style={styles.button} name={desc==="Pesanan di terima"?'Selesai':'Batalkan'} size = {24} weight = 'bold' color ='#fff' onPress={cancelRequest}/>
-                </View>
+                  <Button style={styles.button} name={desc==="Permintaan di terima"?'Selesai':'Batalkan'} size = {24} weight = 'bold' color ='#fff' onPress={desc==="Permintaan di terima" ? finishedRequest : cancelRequest}/>
+                </View> }
               </Animated.View>
               <Toast autoHide={true} visibilityTime={2000}/>
           </View>
@@ -79,7 +97,7 @@ const WorkshopComponent = ({flag,price,docId=[],desc='Online',onPress,namaBengke
           </View>
         </View>
       </View>
-      : <TouchableOpacity onPress={onPress} {...rest}>
+      : <TouchableOpacity onPress={onPress}  {...rest}>
         <View style={{width:"100%",flexDirection:'row',padding:15,justifyContent:"space-between"}}>
           {image==="" ? <View style={{width:80,height:82,backgroundColor:"#444",borderRadius:15}}/> : <Image style={{width:80,height:82,backgroundColor:"#444",borderRadius:15}} source={{uri:`data:image/png;base64,${image}`}}/>}
           <View>

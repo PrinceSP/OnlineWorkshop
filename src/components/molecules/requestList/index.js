@@ -1,6 +1,7 @@
 import React,{useState} from 'react'
 import {View,Text,TouchableOpacity,Image,StyleSheet,Modal} from 'react-native'
 import {Gap,Button,Input} from '../../atoms'
+import {Warning} from '../../../assets'
 import ModalSuccess from '../successModal'
 import POVLocation from '../location'
 import firestore from '@react-native-firebase/firestore'
@@ -10,19 +11,20 @@ import Animated from 'react-native-reanimated'
 const RequestLists = ({desc='Online',navigation,id=[],harga,locations,namaBengkel,address,image=""}) => {
   const [visible,setVisible] = useState(false)
   const [showMap,setShowMap] = useState(false)
+  // console.log(address);
   // console.log(locations);
     const confirm=async()=>{
       await firestore()
       .collection('reports')
       .doc(id[1])
       .update({
-        status:'Pesanan di terima'
+        status:'Permintaan di terima'
       })
       .then(()=>{
         Toast.show({
           type: 'success',
           text1: 'Yeay!',
-          text2: 'Pesanan berhasil di terima👋'
+          text2: 'Permintaan berhasil di terima👋'
         });
         // setVisible(false)
         setTimeout(()=>{
@@ -44,7 +46,7 @@ const RequestLists = ({desc='Online',navigation,id=[],harga,locations,namaBengke
         Toast.show({
           type: 'success',
           text1: 'Yeay!',
-          text2: 'Pesanan berhasil di tolak👋'
+          text2: 'Permintaan berhasil di tolak👋'
         });
         // setVisible(false)
         setTimeout(()=>setVisible(false),3000)
@@ -58,7 +60,12 @@ const RequestLists = ({desc='Online',navigation,id=[],harga,locations,namaBengke
         <TouchableOpacity style={{flex:1,width:"100%"}} onPress={()=>setVisible(false)}/>
         <Animated.View style={[styles.bottomSheet,{backgroundColor:"#fff",shadowColor:"#000000"}]}>
           <Text style={{color:"#000",fontFamily:"Nunito-Bold",width:"100%",fontSize:18}}>{desc}</Text>
-          <Gap height={40}/>
+          <Gap height={20}/>
+          <View style={{flexDirection:'row',justifyContent:'space-between'}}>
+            <Text style={{color:address==="Sedang proses"?"#B3B553":address==="Permintaan di tolak!"?"#f00":"#777",fontFamily:"Nunito-Bold",fontSize:18}}>{address}</Text>
+            <Warning onPress={()=>navigation.navigate("BengkelMelaporCustomer")}/>
+          </View>
+          <Gap height={20}/>
           <View style={{flexDirection:'row',justifyContent:'space-between'}}>
             <Text style={{color:"#000",fontFamily:"Nunito-Regular",height:50,fontSize:18}}>Biaya</Text>
             <Text style={{color:"#000",fontFamily:"Nunito-SemiBold",height:50,fontSize:18}}>Rp.{harga}</Text>
@@ -66,10 +73,10 @@ const RequestLists = ({desc='Online',navigation,id=[],harga,locations,namaBengke
           <Text style={{color:"#000",fontFamily:"Nunito-Light",height:50,fontSize:13}}>Note : Biaya belum termasuk ongkos kerja dan sparepart jika ada yang harus di ganti.</Text>
           <View style={{borderStyle:'dotted',borderColor:"rgba(0,0,0,0.4)",borderWidth:2}}/>
           <Gap height={50}/>
-          <View style={{width:"100%",flexDirection:'row',alignItems:'center',justifyContent:'space-between',alignContent:'center',paddingHorizontal:40}}>
+          {address==="Permintaan dibatalkan" || address==="Permintaan di tolak!" || address==="Permintaan selesai"? null : <View style={{width:"100%",flexDirection:'row',alignItems:'center',justifyContent:'space-between',alignContent:'center',paddingHorizontal:40}}>
             <Button style={styles.button} name='Terima' size = {18} color ='#A8AA3B' fam="Nunito-Bold" onPress={confirm}/>
             <Button style={styles.button} name='Tolak' size = {18} color ='#FF0000' fam="Nunito-Bold" onPress={close}/>
-          </View>
+          </View>}
         </Animated.View>
       </ModalSuccess>
       <Modal transparent visible={showMap}>

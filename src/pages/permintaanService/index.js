@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity,FlatList } from 'react-native'
 import React, {useEffect,useState,useContext} from 'react'
 import {ArrowLeft} from '../../assets'
-import { Gap,Button,RequestLists,WorkshopComponent } from '../../components'
+import { Gap,Button,RequestLists } from '../../components'
 import firestore from '@react-native-firebase/firestore'
 import {AuthContext} from '../../config/authContext'
 

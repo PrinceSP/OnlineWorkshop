@@ -21,7 +21,7 @@ const CustomerHistory = ({navigation}) => {
       .collection('reports')
       .where('from.email','==',currentUser[0]._data.email)
       .onSnapshot(items => {
-        items._changes.map(item=>{
+        items?._changes.map(item=>{
           if (item._nativeData.doc.data.from[1].email[1] == currentUser[0]._data.email) {
             console.log('id:',item.id);
             setReport(items._changes)
@@ -68,7 +68,7 @@ const CustomerHistory = ({navigation}) => {
         </View>
       </View>
       <Gap height={12}/>
-      <View style={{borderBottomColor: 'black',borderBottomWidth: 2, opacity: 0.2}}/>
+      <View style={{borderBottomColor: '#000',borderBottomWidth: 2, opacity: 0.2}}/>
       <Gap height={30}/>
       {reports!== (undefined||null||[]) && <FlatList
         keyExtractor={(item,index) => index}

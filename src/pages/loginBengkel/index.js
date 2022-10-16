@@ -87,6 +87,7 @@ const LoginBengkel = ({navigation}) => {
             <Button name='Masuk' color='#000' fam='Nunito-Regular' size={20} style={styles.btnSubmit} onPress={submit}/>
           </View>
         </View>
+        <Toast autoHide={true} visibilityTime={2000}/>
       </ImageBackground>
     </View>
   )

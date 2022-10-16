@@ -26,7 +26,7 @@ const LaporKerusakkan = ({navigation,route}) => {
       toBengkel:otherParams,
       location,
       from:currentUser[0]._data,
-      status:'Sedang menunggu konfirmasi',
+      status:'Menunggu konfirmasi',
       harga:price.toFixed(3),
       image:photoBase64
     })

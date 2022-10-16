@@ -143,7 +143,7 @@ const RegisterBengkelMobil = ({navigation}) => {
         <Gap height={20}/>
         <View style={styles.containerInput}>
           <Text style={styles.textTitle}>Password</Text>
-          <TextInput style={styles.input} defaultValue={password} onChangeText={(value)=>setUserInfos({...userInfos,password:value})}/>
+          <TextInput style={styles.input} secureEntry={true} defaultValue={password} onChangeText={(value)=>setUserInfos({...userInfos,password:value})}/>
         </View>
         <Gap height={20}/>
         <Button style={styles.button} name='Daftar' size = {24} weight = 'bold' color ='white' onPress={submit}/>

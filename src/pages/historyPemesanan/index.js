@@ -89,6 +89,8 @@ const HistoryPemesanan = ({navigation}) => {
     return ()=> fetchReports()
   },[])
 
+  console.log(reports[0]._nativeData.doc.data.status[1])
+
   return (
     <View style={styles.container}>
       <Gap height={24}/>
@@ -125,7 +127,7 @@ const HistoryPemesanan = ({navigation}) => {
         </View>
         <Gap height={32}/>
         <View>
-        <Text style={styles.textCaption}>History</Text>
+        <Text style={styles.textCaption}>Riwayat</Text>
         </View>
       </View>
       <Gap height={12}/>
@@ -138,7 +140,7 @@ const HistoryPemesanan = ({navigation}) => {
         showsVerticalScrollIndicator={false}
         data={reports}
         extraData={reports}
-        renderItem={({item,index})=>item._nativeData.doc.data.status[1] === ("Pesanan di terima" || "Permintaan telah di selesaikan") && <WorkshopComponent
+        renderItem={({item,index})=>item._nativeData.doc.data.status[1] === "Permintaan di terima" || item._nativeData.doc.data.status[1] === "Permintaan selesai" ? <WorkshopComponent
           flag="history"
           docId={item._nativeData.doc.path.split('/')}
           namaBengkel={item._nativeData.doc.data.from[1].username[1]}
@@ -148,7 +150,7 @@ const HistoryPemesanan = ({navigation}) => {
           address={item._nativeData.doc.data.toBengkel[1].alamat[1]}
           price={item._nativeData.doc.data.harga[1]}
           desc={item._nativeData.doc.data?.status[1]}
-        />}
+        /> : null}
        />
       }
     </View>

@@ -48,11 +48,11 @@ const BengkelMelaporCustomer = ({navigation}) => {
         </View>
       </View>
       <Gap height={17}/>
-      <View style={{borderBottomColor: 'black',borderBottomWidth: 2, opacity: 0.2}}/>
+      <View style={{borderBottomColor: '#000',borderBottomWidth: 2, opacity: 0.2}}/>
       <Gap height={23}/>
       <View style={styles.content}>
         <View style={{flexDirection:'row'}}>
-          <Text style={{fontFamily:'Nunito', fontWeight:'700', fontSize: 18, color: 'black'}}>Laporkan jika ada masalah</Text>
+          <Text style={{fontFamily:'Nunito-Bold', fontSize: 18, color: '#000'}}>Laporkan jika ada masalah</Text>
           <Gap width={7}/>
           <Edit width={20}/>
         </View>
@@ -85,14 +85,14 @@ const styles = StyleSheet.create({
   },
   headerTitleText:{
     fontSize: 36,
-    color:'black',
+    color:'#000',
     fontFamily:'Nunito',
     fontSize: 36
   },
   textInputStyle:{
     textAlignVertical:'top',
     borderWidth: 2,
-    borderColor:'black',
+    borderColor:'#000',
     height: 132,
     width: '100%',
     borderRadius: 10,
