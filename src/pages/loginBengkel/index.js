@@ -14,16 +14,38 @@ const LoginBengkel = ({navigation}) => {
   const {isFetching,dispatch} = useContext(AuthContext)
   const [email,setEmail] = useState('')
   const [password,setPassword] = useState('')
-  const datas = []
 
   const submit = ()=>{
     firestore().collection('users')
+    // .orderBy('email')
+    .where('role','==','bengkel')
+    .where('email','==',email)
+    // .where('password','==',password)
     .get()
     .then((data)=>{
-      data._changes.forEach(async(item)=> {
-        // console.log(item._nativeData.doc.data);
-        if (item._nativeData.doc.data.email[1] === email && item._nativeData.doc.data.password[1] === password) {
-          // console.log(item._nativeData.doc.data.password[1]);
+      // console.log(data._docs);
+      if (data._docs == null||[]) {
+        Toast.show({
+          type: 'error',
+          text1: 'Oops!',
+          text2: 'account is not registered'
+        });
+        // return false;
+      }
+
+      if (data._docs != null||[]) {
+        data._changes.forEach(async(item)=> {
+          // console.log(item._nativeData.doc.data);
+          const datas = []
+          if(item._nativeData.doc.data.password[1] != password){
+            console.log("Invalid Password!");
+            Toast.show({
+              type: 'error',
+              text1: 'Nope!',
+              text2: 'Invalid Password!'
+            });
+            return false
+          }
           dispatch({ type: "LOGIN_SUCCESS", payload: item });
           Toast.show({
             type: 'success',
@@ -31,13 +53,13 @@ const LoginBengkel = ({navigation}) => {
             text2: 'account has been login 👋'
           });
           const jsonValue = JSON.stringify(data, (key, val)=>{
-             if (val != null && typeof val == "object") {
-                  if (datas.indexOf(val) >= 0) {
-                      return;
-                  }
-                  datas.push(val);
+            if (val != null && typeof val == "object") {
+              if (datas.indexOf(val) >= 0) {
+                return;
               }
-              return val;
+              datas.push(val);
+            }
+            return val;
           });
           // console.log(item._nativeData.doc.path.split('/'));
           await AsyncStorage.setItem('@user',jsonValue)
@@ -47,18 +69,8 @@ const LoginBengkel = ({navigation}) => {
             navigation.navigate('Root',{screen:'HomeScreen'})
           },3000)
           console.log(true);
-        }else{
-          // isFetching=false
-          Toast.show({
-            type: 'error',
-            text1: 'Oops!',
-            text2: 'account is not registered'
-          });
-          console.log(false);
-        }
-      });
-
-
+        });
+      }
     }).catch(e=>{
       dispatch({ type: "LOGIN_FAILURE", payload: e });
     })
