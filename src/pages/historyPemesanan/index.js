@@ -89,7 +89,7 @@ const HistoryPemesanan = ({navigation}) => {
     return ()=> fetchReports()
   },[])
 
-  console.log(reports[0]._nativeData.doc.data.status[1])
+  // console.log(reports[0]?._nativeData.doc.data.status[1])
 
   return (
     <View style={styles.container}>
@@ -133,7 +133,7 @@ const HistoryPemesanan = ({navigation}) => {
       <Gap height={12}/>
       <View style={{borderBottomColor: 'black',borderBottomWidth: 2, opacity: 0.2}}/>
       <Gap height={30}/>
-      {reports!== (undefined||null||[]) && <FlatList
+      {reports!== (undefined||null||[]) ? <FlatList
         keyExtractor={(item,index) => index}
         refreshing={refreshing}
         onRefresh={fetchReports}
@@ -151,7 +151,7 @@ const HistoryPemesanan = ({navigation}) => {
           price={item._nativeData.doc.data.harga[1]}
           desc={item._nativeData.doc.data?.status[1]}
         /> : null}
-       />
+       /> : null
       }
     </View>
   )
