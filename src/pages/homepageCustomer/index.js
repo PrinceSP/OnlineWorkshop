@@ -33,9 +33,14 @@ const HomepageCustomer = ({navigation}) => {
     .where('from.email','==',currentUser[0]._data.email)
     .get()
     .then(items=>{
+      // console.log(items._changes[1]);
       setReport(items._docs)
       // console.log(items._docs);
       setRefreshing(true)
+      items._changes.map((item,index,newArr)=>{
+        console.log(item._nativeData.doc.data.status[1]);
+        item._nativeData.doc.data.status[1] === "Menunggu konfirmasi" ? setDisabled(true) : setDisabled(false)
+      })
     }).catch(e=>{
       setRefreshing(false)
       setReport([])
@@ -44,14 +49,15 @@ const HomepageCustomer = ({navigation}) => {
     })
   }
 
+  // console.log(reports[4]._data.status)
+  // console.log(disabled);
+
   useEffect(()=>{
     let isMounted = true
     if(isMounted){
       fetchBengkel()
       fetchReports()
-      reports.map((item,index,newArr)=>(
-        newArr[index]._data.status === "Menunggu konfirmasi" ? setDisabled(true) : setDisabled(true)
-      ))
+
     }
     return ()=>isMounted=false
   },[])
@@ -67,6 +73,7 @@ const HomepageCustomer = ({navigation}) => {
       onRefresh={fetchBengkel}
       showsVerticalScrollIndicator={false}
       data={bengkels._docs}
+      extraData={reports}
       renderItem={({item,index,newArr})=><WorkshopComponent disabled={disabled} key={index} onPress={()=>navigation.navigate('LaporKerusakkan',{itemId:item.id,otherParams:item._data})} desc={item._data.state} namaBengkel={item._data.namaBengkel} address={item._data?.jenisBengkel} image={item._data.image}/>}
       />
       {
