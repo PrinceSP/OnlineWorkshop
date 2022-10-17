@@ -53,6 +53,24 @@ const RequestLists = ({desc='Online',navigation,id=[],harga,locations,namaBengke
       })
     }
 
+    const finishedRequest = async ()=>{
+      await firestore()
+      .collection('reports')
+      .doc(id[1])
+      .update({
+        status:'Permintaan selesai'
+      })
+      .then(()=>{
+        Toast.show({
+          type: 'success',
+          text1: 'Yeay!',
+          text2: 'your report has been finished👋'
+        });
+        // setVisible(false)
+        setTimeout(()=>setVisible(false),3000)
+      })
+    }
+
   return (
     <View style={{width:'100%'}} key={id}>
       <ModalSuccess visible={visible}>
@@ -73,10 +91,11 @@ const RequestLists = ({desc='Online',navigation,id=[],harga,locations,namaBengke
           <Text style={{color:"#000",fontFamily:"Nunito-Light",height:50,fontSize:13}}>Note : Biaya belum termasuk ongkos kerja dan sparepart jika ada yang harus di ganti.</Text>
           <View style={{borderStyle:'dotted',borderColor:"rgba(0,0,0,0.4)",borderWidth:2}}/>
           <Gap height={50}/>
-          {address==="Permintaan dibatalkan" || address==="Permintaan di tolak!" || address==="Permintaan selesai"? null : <View style={{width:"100%",flexDirection:'row',alignItems:'center',justifyContent:'space-between',alignContent:'center',paddingHorizontal:40}}>
+          {address==="Permintaan dibatalkan" || address==="Permintaan di tolak!" || address==="Permintaan selesai"? null : address==="Permintaan di terima" ? <Button style={styles.button} name='Selesaikan' size = {24} weight = 'bold' color ='#fff' onPress={finishedRequest}/> : <View style={{width:"100%",flexDirection:'row',alignItems:'center',justifyContent:'space-between',alignContent:'center',paddingHorizontal:40}}>
             <Button style={styles.button} name='Terima' size = {18} color ='#A8AA3B' fam="Nunito-Bold" onPress={confirm}/>
             <Button style={styles.button} name='Tolak' size = {18} color ='#FF0000' fam="Nunito-Bold" onPress={close}/>
           </View>}
+
         </Animated.View>
       </ModalSuccess>
       <Modal transparent visible={showMap}>
@@ -141,6 +160,15 @@ const styles = StyleSheet.create({
       paddingHorizontal:16,
       paddingVertical:16,
     },
+    button:{
+      height: 50,
+      width:"100%",
+      backgroundColor: '#5E6B73',
+      width:"100%",
+      justifyContent: 'center',
+      alignItems: 'center',
+      borderRadius: 15
+    }
 })
 
 export default RequestLists
