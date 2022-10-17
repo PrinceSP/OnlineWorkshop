@@ -60,7 +60,7 @@ const POVLocation = ({onPress,datas})=>{
   // getLocation(...datas)
 
   // console.log(route.params.otherParam);
-  // console.log(datas);
+  console.log(datas.from[1].phoneNumber[1].slice(1,-1));
   return(
     <>
       <MapFinderBengkelTwo getGeometrics={getGeometrics} flags="bengkel" regions={datas}/>
@@ -78,11 +78,11 @@ const POVLocation = ({onPress,datas})=>{
           <Gap height={20}/>
           <View style={{margin:"auto",width:"60%",flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
             <View>
-              <Phone onPress={()=>Linking.openURL(`tel:${+6281213507373}`)}/>
+              <Phone onPress={()=>Linking.openURL(`tel:${+62}${datas.from[1].phoneNumber[1].slice(1,-1)}`)}/>
               <Text style={{fontSize:14,fontFamily:"Nunito-Light",color:"#000"}}>Via Phone</Text>
             </View>
             <View>
-              <Phone onPress={()=>Linking.openURL(`whatsapp://send?phone=${6281213507373}`)}/>
+              <Phone onPress={()=>Linking.openURL(`whatsapp://send?phone=${datas.from[1].phoneNumber[1].slice(1,-1)}`)}/>
               <Text style={{fontSize:14,fontFamily:"Nunito-Light",color:"#000"}}>Via WhatsApp</Text>
             </View>
           </View>
