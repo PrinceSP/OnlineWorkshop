@@ -14,7 +14,7 @@ const HomeScreen = ({ route,navigation })=>{
   // console.log(currentUser._nativeData.doc.data.state[1]);
   const [showMap,setShowMap] = useState(false)
   // const [location,setLocation] = useState(null)
-  console.log(currentUser._nativeData.doc.data.location);
+  // console.log(currentUser._nativeData.doc.data.location);
 
   const toggleSwitch = () => {
     setIsEnabled(previousState => !previousState)
