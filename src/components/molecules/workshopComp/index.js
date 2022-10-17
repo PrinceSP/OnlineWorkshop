@@ -7,7 +7,7 @@ import Animated from 'react-native-reanimated'
 import firestore from '@react-native-firebase/firestore'
 import Toast from 'react-native-toast-message'
 
-const WorkshopComponent = ({disabled,navigation,flag,price,docId=[],desc='Online',onPress,namaBengkel,address,image="",problem,location,...rest}) => {
+const WorkshopComponent = ({navigation,flag,price,docId=[],desc='Online',onPress,namaBengkel,address,image="",problem,location,...rest}) => {
   const [visible,setVisible] = useState(false)
   // console.log(desc);
   const cancelRequest = async ()=>{
