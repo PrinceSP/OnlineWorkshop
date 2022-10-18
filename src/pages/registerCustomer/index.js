@@ -21,7 +21,7 @@ const Register = ({navigation}) => {
     password:'',
   })
   const {username,fullname,email,phoneNumber,password} = userInfo
-  const datas = {username,fullname,email,phoneNumber,password,role:"customer"}
+  const datas = {username,fullname,email,phoneNumber,password,role:"customer",image:photoBase64}
 
   const submit =()=>{
     firestore()

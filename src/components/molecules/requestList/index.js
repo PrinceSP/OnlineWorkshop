@@ -91,7 +91,7 @@ const RequestLists = ({desc='Online',navigation,id=[],harga,locations,namaBengke
           <Text style={{color:"#000",fontFamily:"Nunito-Light",height:50,fontSize:13}}>Note : Biaya belum termasuk ongkos kerja dan sparepart jika ada yang harus di ganti.</Text>
           <View style={{borderStyle:'dotted',borderColor:"rgba(0,0,0,0.4)",borderWidth:2}}/>
           <Gap height={50}/>
-          {address==="Permintaan dibatalkan" || address==="Permintaan di tolak!" || address==="Permintaan selesai"? null : address==="Permintaan di terima" ? <Button style={styles.button} name='Selesaikan' size = {24} weight = 'bold' color ='#fff' onPress={finishedRequest}/> : <View style={{width:"100%",flexDirection:'row',alignItems:'center',justifyContent:'space-between',alignContent:'center',paddingHorizontal:40}}>
+          {address==="Permintaan dibatalkan" || address==="Permintaan di tolak!" || address==="Permintaan selesai"? null : address==="Permintaan di terima" ? <Button style={styles.buttonDone} name='Selesaikan' size = {24} weight = 'bold' color ='#fff' onPress={finishedRequest}/> : <View style={{width:"100%",flexDirection:'row',alignItems:'center',justifyContent:'space-between',alignContent:'center',paddingHorizontal:40}}>
             <Button style={styles.button} name='Terima' size = {18} color ='#A8AA3B' fam="Nunito-Bold" onPress={confirm}/>
             <Button style={styles.button} name='Tolak' size = {18} color ='#FF0000' fam="Nunito-Bold" onPress={close}/>
           </View>}
@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
       paddingHorizontal:16,
       paddingVertical:16,
     },
-    button:{
+    buttonDone:{
       height: 50,
       width:"100%",
       backgroundColor: '#5E6B73',
