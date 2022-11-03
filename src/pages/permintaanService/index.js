@@ -17,7 +17,6 @@ const PermintaanService = ({navigation}) => {
     navigation.navigate("HomeScreen")
   }
 
-
   const fetchReports=()=>{
     firestore().collection('reports')
     .where('toBengkel.email','==',currentUser._nativeData.doc.data.email[1])
@@ -61,6 +60,7 @@ const PermintaanService = ({navigation}) => {
          data={reports._changes}
          renderItem={(item,index)=><RequestLists key={index}
            visible={visible}
+           distance={item.item._nativeData.doc.data.location[1].distance[1]}
            desc={item.item._nativeData.doc.data.problem[1]}
            harga={item.item._nativeData.doc.data.harga[1]}
            namaBengkel={item.item._nativeData.doc.data.from[1].fullname[1]}
