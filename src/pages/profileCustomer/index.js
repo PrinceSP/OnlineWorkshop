@@ -10,7 +10,7 @@ const ProfileCustomer = ({navigation}) => {
   const {user:currentUser} = useContext(AuthContext)
   // console.log(currentUser[0]._data.email);
   const userId = currentUser[0].ref._documentPath._parts[1]
-  console.log(userId);
+  // console.log(userId);
   const [photo,setPhoto] = useState('')
   const [hasPhoto, setHasPhoto] = useState(false)
   const [photoBase64,setPhotoBase64] = useState('')
