@@ -13,7 +13,7 @@ const LoginOptions = ({navigation}) => {
       <LoginIllustration/>
       <Gap height={20}/>
       <Button name='Customer' color='#fff' size={20} fam='Nunito-Bold' style={styles.btnSubmit} onPress={()=>navigation.navigate('LoginCustomer')}/>
-      <Button name='Bengkel' color='#fff' size={20} fam='Nunito-Bold' style={styles.btnSubmit} onPress={()=>navigation.navigate('LoginBengkel')}/>
+      <Button name='Montir' color='#fff' size={20} fam='Nunito-Bold' style={styles.btnSubmit} onPress={()=>navigation.navigate('LoginBengkel')}/>
     </View>
   )
 }
