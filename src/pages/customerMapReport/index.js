@@ -85,6 +85,7 @@ const CustomerMap = ({route,navigation})=>{
             </View>
           </View>
           <Gap height={20}/>
+          <Text style={{color:"#333"}}>Jarak : {reportInfo.distance}</Text>
           <View style={{width:'100%',paddingHorizontal:5,flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
             <Text style={{color:"#333"}}>Ongkos layanan ditempat</Text>
             <Text style={{color:"#000",fontFamily:'Nunito-Bold'}}>Rp.{price.toFixed(3)}</Text>
