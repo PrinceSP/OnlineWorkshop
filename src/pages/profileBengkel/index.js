@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
     borderRadius:35
   },
   btnSubmit:{
-    backgroundColor:"#5E6B73",
+    backgroundColor:"#3d2c3f",
     marginBottom:15,
     height:60,
     width:200,
