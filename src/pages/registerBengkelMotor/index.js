@@ -5,11 +5,13 @@ import { Button, Gap } from '../../components'
 import firestore from '@react-native-firebase/firestore'
 import Toast from 'react-native-toast-message'
 import { ArrowLeft, MotoLogo } from '../../assets'
+import {isValidObjField,updateError,isValidEmail} from '../../config/validator'
 
 const RegisterBengkelMotor = ({navigation}) => {
   const [photo,setPhoto] = useState('')
   const [hasPhoto, setHasPhoto] = useState(false)
   const [photoBase64,setPhotoBase64] = useState('')
+  const [message,setMessage] = useState("")
   const [userInfos,setUserInfos] = useState({
     namaBengkel:'',
     alamat:'',
@@ -33,6 +35,20 @@ const RegisterBengkelMotor = ({navigation}) => {
     jenisBengkel:'bengkel mobil'
 
   }
+
+  const validation = ()=>{
+    if(!isValidObjField(userInfos))
+      return updateError("Fields can't be empty",setMessage)
+    if(!isValidEmail(email))
+      return updateError("Email address must contains '@'",setMessage)
+    if(email.length < 8)
+      return updateError("Email length must be 8 or more characters")
+    if(!password.trim() || password.length < 6 )
+      return updateError("Password must have min 6 characters",setMessage)
+
+    return true
+  }
+
   const imageGallery = ()=>{
     const options={
       maxHeight:400,
@@ -52,39 +68,29 @@ const RegisterBengkelMotor = ({navigation}) => {
     })
   }
   const submit=()=>{
-    firestore()
-    .collection('users')
-    .add(datas)
-    .then(() => {
-      console.log('User added!');
-      Toast.show({
-        type: 'success',
-        text1: 'User added!',
-        text2: 'account has been registered 👋'
-      });
-      // setUserInfos({...userInfos,namaBengkel:'',address:'',username:'',email:'',password:'',noHp:''})
-      // setHasPhoto(false)
-      // setPhoto('');
-      // setPhotoBase64('');
-      setTimeout(()=>{
-        navigation.navigate('LoginBengkel')
-      },3500)
-    })
-    .catch((e)=>{
-      Toast.show({
-        type: 'error',
-        text1: 'Failed!',
-        text2: 'account cannot be register!'
-      });
-      // setUserInfos({...userInfos,namaBengkel:'',address:'',username:'',email:'',password:'',noHp:''})
-      // setHasPhoto(false)
-      // setPhoto('');
-      // setPhotoBase64('');
-    })
-    // .finally(()=>{
-    //
-    // })
-    // console.log(datas);
+    if (validation()) {
+      firestore()
+      .collection('users')
+      .add(datas)
+      .then(() => {
+        console.log('User added!');
+        Toast.show({
+          type: 'success',
+          text1: 'User added!',
+          text2: 'account has been registered 👋'
+        });
+        setTimeout(()=>{
+          navigation.navigate('LoginBengkel')
+        },3500)
+      })
+      .catch((e)=>{
+        Toast.show({
+          type: 'error',
+          text1: 'Failed!',
+          text2: 'account cannot be register!'
+        });
+      })
+    }
   }
 
   return (
@@ -97,12 +103,12 @@ const RegisterBengkelMotor = ({navigation}) => {
         </View>
         <View style={{borderBottomColor: 'black',borderBottomWidth: 2, opacity: 0.2, marginVertical:12 }}/>
         <View style={styles.content}>
-          <Text style={{fontWeight: 'bold', color:'black'}}>Jenis Bengkel yang dipilih</Text>
+          <Text style={{fontWeight: 'bold', color:'black'}}>Jenis Montir yang dipilih</Text>
           <Gap height={20}/>
           <View  style={{flexDirection:'row',alignItems:'center'}}>
            <MotoLogo height={61} width={64}/>
            <Gap height={16}/>
-          <Text style={{fontWeight: 'bold', color:'black',marginLeft:20}}>Bengkel Motor</Text>
+          <Text style={{fontWeight: 'bold', color:'black',marginLeft:20}}>Montir Motor</Text>
           </View>
           <Gap height={16}/>
           <View style={styles.containerImage}>
@@ -122,8 +128,9 @@ const RegisterBengkelMotor = ({navigation}) => {
         </View>
         <Gap height={20}/>
         <ScrollView showsVerticalScrollIndicator={false} containerStyle={styles.scrollView}>
+          {message ? <Text style={{color:'#000'}}>{message}</Text> : null}
           <View style={styles.containerInput}>
-            <Text style={styles.textTitle}>Nama Bengkel</Text>
+            <Text style={styles.textTitle}>Nama Montir</Text>
             <TextInput style={styles.input} defaultValue={namaBengkel} onChangeText={(value)=>setUserInfos({...userInfos,namaBengkel:value})}/>
           </View>
           <Gap height={20}/>
@@ -149,7 +156,7 @@ const RegisterBengkelMotor = ({navigation}) => {
           <Gap height={20}/>
           <View style={styles.containerInput}>
             <Text style={styles.textTitle}>Password</Text>
-            <TextInput style={styles.input} secureEntry={true} defaultValue={password} onChangeText={(value)=>setUserInfos({...userInfos,password:value})}/>
+            <TextInput style={styles.input} secureTextEntry={true} defaultValue={password} onChangeText={(value)=>setUserInfos({...userInfos,password:value})}/>
           </View>
           <Gap height={20}/>
           <Button style={styles.button} name='Daftar' size = {24} weight = 'bold' color ='white' onPress={submit}/>

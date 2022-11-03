@@ -6,6 +6,7 @@ import Toast from 'react-native-toast-message'
 import firestore from '@react-native-firebase/firestore'
 import {AuthContext} from '../../config/authContext'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import {isValidObjField,updateError,isValidEmail} from '../../config/validator'
 
 const width = Dimensions.get('window').width
 const height = Dimensions.get('window').height
@@ -14,7 +15,21 @@ const LoginCustomer = ({navigation}) => {
   const [email,setEmail] = useState('')
   const [password,setPassword] = useState('')
   const {isFetching,dispatch} = useContext(AuthContext)
+  const [message,setMessage] = useState("")
   const datas = []
+
+  const validation = ()=>{
+    if(!isValidObjField({email,password}))
+      return updateError("Fields can't be empty",setMessage)
+    if(!isValidEmail(email))
+      return updateError("Email address must contains '@'",setMessage)
+    if(email.length < 8)
+      return updateError("Email length must be 8 or more characters")
+    if(!password.trim() || password.length < 6 )
+      return updateError("Password must have min 6 characters",setMessage)
+
+    return true
+  }
 
   const handleSignIn = ()=>{
     dispatch({type:"LOGIN_START"})
@@ -26,40 +41,42 @@ const LoginCustomer = ({navigation}) => {
     .get()
     .then((data) => {
       // console.log(data.size);
-      data.forEach(async(item)=> {
-        if (item._data.role == "customer" && item._data.email == email && item._data.password == password) {
-          // console.log(email);
-          dispatch({ type: "LOGIN_SUCCESS", payload: [item] });
-          Toast.show({
-            type: 'success',
-            text1: 'Yeay!',
-            text2: 'account has been login 👋'
-          });
+      if (validation()) {
+        data.forEach(async(item)=> {
+          if (item._data.role == "customer" && item._data.email == email && item._data.password == password) {
+            // console.log(email);
+            dispatch({ type: "LOGIN_SUCCESS", payload: [item] });
+            Toast.show({
+              type: 'success',
+              text1: 'Yeay!',
+              text2: 'account has been login 👋'
+            });
 
-          const jsonValue = JSON.stringify(data, (key, val)=>{
-           if (val != null && typeof val == "object") {
-                if (datas.indexOf(val) >= 0) {
-                    return;
-                }
-                datas.push(val);
-            }
-            return val;
-          });
-          await AsyncStorage.setItem('@user', jsonValue)
-          setTimeout(()=>{
-            navigation.navigate('CustomerDrawer',{screen:'HomepageCustomer'})
-          },3000)
-          // console.log(true);
-        }else{
-          // isFetching=false
-          Toast.show({
-            type: 'error',
-            text1: 'Oops!',
-            text2: 'account is not registered'
-          });
-          console.log(false);
-        }
-      });
+            const jsonValue = JSON.stringify(data, (key, val)=>{
+             if (val != null && typeof val == "object") {
+                  if (datas.indexOf(val) >= 0) {
+                      return;
+                  }
+                  datas.push(val);
+              }
+              return val;
+            });
+            await AsyncStorage.setItem('@user', jsonValue)
+            setTimeout(()=>{
+              navigation.navigate('CustomerDrawer',{screen:'HomepageCustomer'})
+            },3000)
+            // console.log(true);
+          }else{
+            // isFetching=false
+            Toast.show({
+              type: 'error',
+              text1: 'Oops!',
+              text2: 'account is not registered'
+            });
+            console.log(false);
+          }
+        });
+      }
     })
   }
 
@@ -72,6 +89,7 @@ const LoginCustomer = ({navigation}) => {
             <Text style={{color:'#000000',fontSize:24,fontFamily:"Nunito-Bold",marginLeft:15}}>Customer</Text>
           </View>
           <Text style={styles.title}>Masuk</Text>
+          {message ? <Text style={{color:'#000'}}>{message}</Text> : null}
           <Input setLabel={true} color="#000" label="Email" borderRadius={10} width={width/1.22} defaultValue={email} onChangeText={email=>setEmail(email)}/>
           <Gap height={40}/>
           <Input setLabel={true} color="#000" label="Password" borderRadius={10} width={width/1.22} secureTextEntry={true} defaultValue={password} onChangeText={password=>setPassword(password)}/>

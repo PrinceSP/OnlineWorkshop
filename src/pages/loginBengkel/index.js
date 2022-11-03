@@ -6,6 +6,7 @@ import {AuthContext} from '../../config/authContext'
 import firestore from '@react-native-firebase/firestore'
 import Toast from 'react-native-toast-message'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import {isValidObjField,updateError,isValidEmail} from '../../config/validator'
 
 const width = Dimensions.get('window').width
 const height = Dimensions.get('window').height
@@ -14,6 +15,7 @@ const LoginBengkel = ({navigation}) => {
   const {isFetching,dispatch} = useContext(AuthContext)
   const [email,setEmail] = useState('')
   const [password,setPassword] = useState('')
+  const [message,setMessage] = useState("")
 
   const submit = ()=>{
     firestore().collection('users')
@@ -76,15 +78,29 @@ const LoginBengkel = ({navigation}) => {
     })
   }
 
+  const validation = ()=>{
+    if(!isValidObjField({email,password}))
+      return updateError("Fields can't be empty",setMessage)
+    if(!isValidEmail(email))
+      return updateError("Email address must contains '@'",setMessage)
+    if(email.length < 8)
+      return updateError("Email length must be 8 or more characters")
+    if(!password.trim() || password.length < 6 )
+      return updateError("Password must have min 6 characters",setMessage)
+
+    return true
+  }
+
   return (
     <View style={styles.container}>
       <ImageBackground source={LoginBackground} resizeMode="cover" style={styles.image}>
         <View style={styles.blurBackground}>
           <View style={{flexDirection:'row',justifyContent:'center',alignItems:"center"}}>
             <Logo height={70} width={70}/>
-            <Text style={{color:'#000000',fontSize:24,fontFamily:"Nunito-Bold",marginLeft:15}}>Bengkel</Text>
+            <Text style={{color:'#000000',fontSize:24,fontFamily:"Nunito-Bold",marginLeft:15}}>Montir</Text>
           </View>
           <Text style={styles.title}>Masuk</Text>
+          {message ? <Text style={{color:'#000'}}>{message}</Text> : null}
           <Input setLabel={true} color="#000" label="Email" borderRadius={10} width={width/1.22} defaultValue={email} onChangeText={(value)=>setEmail(value)}/>
           <Gap height={40}/>
           <Input setLabel={true} color="#000" label="Password" borderRadius={10} width={width/1.22} secureTextEntry={true} defaultValue={password} onChangeText={(value)=>setPassword(value)}/>
