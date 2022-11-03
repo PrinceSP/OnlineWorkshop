@@ -5,6 +5,7 @@ import {Camera,ArrowLeft} from '../../assets'
 import {launchImageLibrary} from 'react-native-image-picker'
 import firestore from '@react-native-firebase/firestore';
 import Toast from 'react-native-toast-message';
+import {isValidObjField,updateError,isValidEmail} from '../../config/validator'
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -13,6 +14,7 @@ const Register = ({navigation}) => {
   const [photo,setPhoto] = useState('')
   const [hasPhoto, setHasPhoto] = useState(false)
   const [photoBase64,setPhotoBase64] = useState('')
+  const [message,setMessage] = useState("")
   const [userInfo,setUserInfo] = useState({
     username:'',
     fullname:'',
@@ -23,32 +25,46 @@ const Register = ({navigation}) => {
   const {username,fullname,email,phoneNumber,password} = userInfo
   const datas = {username,fullname,email,phoneNumber,password,role:"customer",image:photoBase64}
 
-  const submit =()=>{
-    firestore()
-    .collection('users')
-    .add(datas)
-    .then(() => {
-      console.log('User added!');
-      Toast.show({
-        type: 'success',
-        text1: 'User added!',
-        text2: 'account has been registered 👋'
-      });
-    })
-    .catch((e)=>{
-      Toast.show({
-        type: 'error',
-        text1: 'Failed!',
-        text2: 'account cannot be register!'
-      });
-    })
-    .finally(()=>{
-      setUserInfo({...userInfo,username:'',fullname:'',email:'',phoneNumber:'',password:''})
-      setTimeout(()=>{
-        navigation.navigate('LoginOptions')
-      },3500)
-    })
+  const validation = ()=>{
+    if(!isValidObjField(userInfo))
+      return updateError("Fields can't be empty",setMessage)
+    if(!isValidEmail(email))
+      return updateError("Email address must contains '@'",setMessage)
+    if(email.length < 8)
+      return updateError("Email length must be 8 or more characters")
+    if(!password.trim() || password.length < 6 )
+      return updateError("Password must have min 6 characters",setMessage)
 
+    return true
+  }
+
+  const submit =()=>{
+    if (validation()) {
+      firestore()
+      .collection('users')
+      .add(datas)
+      .then(() => {
+        console.log('User added!');
+        Toast.show({
+          type: 'success',
+          text1: 'User added!',
+          text2: 'account has been registered 👋'
+        });
+      })
+      .catch((e)=>{
+        Toast.show({
+          type: 'error',
+          text1: 'Failed!',
+          text2: 'account cannot be register!'
+        });
+      })
+      .finally(()=>{
+        setUserInfo({...userInfo,username:'',fullname:'',email:'',phoneNumber:'',password:''})
+        setTimeout(()=>{
+          navigation.navigate('LoginOptions')
+        },3500)
+      })
+    }
   }
 
   const imageGallery = ()=>{
@@ -87,6 +103,7 @@ const Register = ({navigation}) => {
           </TouchableOpacity>
         </View>
       </View>
+      {message ? <Text style={{color:'#000'}}>{message}</Text> : null}
       <Input setLabel={true} label="fullname" borderRadius={10} width={windowWidth/1.22} defaultValue={username} onChangeText={(value)=>setUserInfo({...userInfo,username:value})}/>
       <Gap height={25}/>
       <Input setLabel={true} label="Username" borderRadius={10} width={windowWidth/1.22} defaultValue={fullname} onChangeText={(value)=>setUserInfo({...userInfo,fullname:value})}/>
@@ -95,7 +112,7 @@ const Register = ({navigation}) => {
       <Gap height={25}/>
       <Input setLabel={true} label="Phone Number" borderRadius={10} width={windowWidth/1.22} defaultValue={phoneNumber} onChangeText={(value)=>setUserInfo({...userInfo,phoneNumber:value})}/>
       <Gap height={25}/>
-      <Input setLabel={true} secureEntry={true} label="Password" borderRadius={10} width={windowWidth/1.22} defaultValue={password} onChangeText={(value)=>setUserInfo({...userInfo,password:value})}/>
+      <Input setLabel={true} secureTextEntry={true} label="Password" borderRadius={10} width={windowWidth/1.22} defaultValue={password} onChangeText={(value)=>setUserInfo({...userInfo,password:value})}/>
       <Gap height={25}/>
       <Button name='Daftar' color='#000' fam='Nunito-Regular' size={20} style={styles.btnSubmit} onPress={submit}/>
       <Toast autoHide={true} visibilityTime={2000}/>

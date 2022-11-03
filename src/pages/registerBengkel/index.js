@@ -11,32 +11,32 @@ const RegisterBengkel = ({navigation}) => {
         <ArrowLeft height={25} onPress={()=>navigation.goBack()}/>
         <Gap height={30}/>
         <View>
-          <Text style={styles.titleHeader}>Pendaftaran Bengkel</Text>
+          <Text style={styles.titleHeader}>Pendaftaran Montir</Text>
         </View>
       </View>
       <View style={{borderBottomColor: 'black',borderBottomWidth: 2, opacity: 0.2, marginVertical:12 }}/>
       <View style={styles.instruction}>
         <View style={{flexDirection:'column'}}>
-          <Text style={{fontSize: 20, fontWeight:'700', color:'black'}}>Selamat datang di pendaftaran bengkel</Text>
+          <Text style={{fontSize: 20, fontWeight:'700', color:'black'}}>Selamat datang di pendaftaran montir</Text>
         </View>
         <Gap height={10}/>
         <View>
-            <Text style={{fontSize:18,color:"#000",fontWeight:"300"}}>Ikuti langkah-langkah untuk daftar bengkel secara praktis</Text>
+            <Text style={{fontSize:18,color:"#000",fontWeight:"300"}}>Ikuti langkah-langkah untuk daftar montir secara praktis</Text>
         </View>
       </View>
      <View style={{borderBottomColor: 'black',borderBottomWidth: 2, opacity: 0.2, marginVertical:12 }}/>
      <View style={styles.content}>
       <View>
-        <Text style={{color:'#000',fontWeight:"700"}}>Pilih jenis Bengkel</Text>
+        <Text style={{color:'#000',fontWeight:"700"}}>Pilih jenis Montir</Text>
       </View>
       <TouchableOpacity style={styles.category} onPress={()=>navigation.navigate('RegisterBengkelMobil')}>
         <CarLogo/>
-        <Text style={{color:'#000',fontWeight:"700",fontSize:16}}>Bengkel Mobil</Text>
+        <Text style={{color:'#000',fontWeight:"700",fontSize:16}}>Montir Mobil</Text>
         <ArrowRight/>
       </TouchableOpacity>
       <TouchableOpacity style={styles.category} onPress={()=>navigation.navigate('RegisterBengkelMotor')}>
         <MotoLogo/>
-        <Text style={{color:'#000',fontWeight:"700",fontSize:16}}>Bengkel Motor</Text>
+        <Text style={{color:'#000',fontWeight:"700",fontSize:16}}>Montir Motor</Text>
         <ArrowRight/>
       </TouchableOpacity>
      </View>
