@@ -8,7 +8,7 @@ import firestore from '@react-native-firebase/firestore'
 import Toast from 'react-native-toast-message'
 import Animated from 'react-native-reanimated'
 
-const RequestLists = ({desc='Online',navigation,id=[],harga,locations,namaBengkel,address,image=""}) => {
+const RequestLists = ({distance,desc='Online',navigation,id=[],harga,locations,namaBengkel,address,image=""}) => {
   const [visible,setVisible] = useState(false)
   const [showMap,setShowMap] = useState(false)
   // console.log(address);
@@ -79,6 +79,7 @@ const RequestLists = ({desc='Online',navigation,id=[],harga,locations,namaBengke
         <Animated.View style={[styles.bottomSheet,{backgroundColor:"#fff",shadowColor:"#000000"}]}>
           <Text style={{color:"#000",fontFamily:"Nunito-Bold",width:"100%",fontSize:18}}>{desc}</Text>
           <Gap height={20}/>
+          <Text style={{color:"#000",fontFamily:"Nunito-SemiBold",width:"100%",fontSize:16}}>Jarak {distance.toFixed(1)} KM</Text>
           <View style={{flexDirection:'row',justifyContent:'space-between'}}>
             <Text style={{color:address==="Sedang proses"?"#B3B553":address==="Permintaan di tolak!"?"#f00":"#777",fontFamily:"Nunito-Bold",fontSize:18}}>{address}</Text>
             <Warning onPress={()=>navigation.navigate("BengkelMelaporCustomer")}/>
@@ -95,7 +96,6 @@ const RequestLists = ({desc='Online',navigation,id=[],harga,locations,namaBengke
             <Button style={styles.button} name='Terima' size = {18} color ='#A8AA3B' fam="Nunito-Bold" onPress={confirm}/>
             <Button style={styles.button} name='Tolak' size = {18} color ='#FF0000' fam="Nunito-Bold" onPress={close}/>
           </View>}
-
         </Animated.View>
       </ModalSuccess>
       <Modal transparent visible={showMap}>
