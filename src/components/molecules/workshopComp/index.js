@@ -64,6 +64,10 @@ const WorkshopComponent = ({navigation,flag,price,docId=[],desc='Online',onPress
                     <Text style={{color:"#000",fontFamily:"Nunito-Bold",fontSize:18}}>{location}</Text>
                   </View>
                 </View>
+                <View style={{flexDirection:'row',justifyContent:'space-between'}}>
+                  <Text style={{color:address==="Sedang proses"?"#B3B553":address==="Permintaan di tolak!"?"#f00":"#777",fontFamily:"Nunito-Bold",fontSize:18}}>{address}</Text>
+                  <Warning onPress={()=>navigation.navigate("Feedback")}/>
+                </View>
                 <Gap height={20}/>
                 <Text style={{color:desc==="Sedang proses"?"#B3B553":desc==="Permintaan di tolak!"?"#f00":"#777",fontFamily:"Nunito-Bold",fontSize:18}}>{desc}</Text>
                 <Gap height={20}/>

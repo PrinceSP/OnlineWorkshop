@@ -36,8 +36,8 @@ const RegisterBengkelMobil = ({navigation}) => {
   }
 
   const validation = ()=>{
-    if(!isValidObjField(userInfos))
-      return updateError("Fields can't be empty",setMessage)
+    // if(!isValidObjField(userInfos))
+    //   return updateError("Fields can't be empty",setMessage)
     if (!username.trim() || username.length < 6)
       return updateError("Username must have min 6 characters",setMessage)
     if(!isValidEmail(email))

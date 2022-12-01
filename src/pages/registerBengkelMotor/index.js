@@ -37,8 +37,8 @@ const RegisterBengkelMotor = ({navigation}) => {
   }
 
   const validation = ()=>{
-    if(!isValidObjField(userInfos))
-      return updateError("Fields can't be empty",setMessage)
+    // if(!isValidObjField(userInfos))
+    //   return updateError("Fields can't be empty",setMessage)
     if(!isValidEmail(email))
       return updateError("Email address must contains '@'",setMessage)
     if(email.length < 8)

@@ -77,7 +77,7 @@ const CustomerHistory = ({navigation}) => {
         showsVerticalScrollIndicator={false}
         data={reports}
         extraData={reports}
-        renderItem={({item,index})=><WorkshopComponent
+        renderItem={({item,index})=><WorkshopComponent navigation={navigation}
           flag="history"
           docId={item._nativeData.doc.path.split('/')}
           namaBengkel={item._nativeData.doc.data.toBengkel[1].namaBengkel[1]}

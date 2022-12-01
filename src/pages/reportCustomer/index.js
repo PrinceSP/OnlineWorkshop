@@ -51,6 +51,7 @@ const LaporKerusakkan = ({navigation,route}) => {
         setPhoto(res.assets[0].uri);
         setPhotoBase64(res.assets[0].base64);
         // setHasPhoto(true);
+        top.value = withSpring(dimensions.height / 1,springConfig)
       }
     })
   }
@@ -156,7 +157,7 @@ const LaporKerusakkan = ({navigation,route}) => {
       <ScrollView contentContainerStyle={{alignItems:'center'}}>
         <View>
           <View style={styles.line}/>
-          <Text style={styles.title}>{`${otherParams.namaBengkel}, ${otherParams.location.desc.split(",")[2]}`}</Text>
+          <Text style={styles.title}>{`${otherParams.namaBengkel}, ${otherParams?.location?.desc?.split(",")[2]}`}</Text>
           <Image source={{uri:`data:image/png;base64,${otherParams.image}`}} style={styles.image}/>
           <Gap height={29}/>
           <TouchableOpacity style={styles.rowAlignment} onPress={()=>navigation.navigate("CustomerDrawer",{screen:"CustomerMap",params:otherParams.location},{itemId:itemId})}>
@@ -187,7 +188,7 @@ const LaporKerusakkan = ({navigation,route}) => {
           defaultValue={problems}
           onChangeText={value=>setProblems(value)}/>
         <Gap height={25}/>
-        <Button style={styles.btnSubmit} name="Minta layanan" size={24} fam="Nunito-Bold" color="#fff" onPress={submitreport}/>
+      <Button style={styles.btnSubmit} name="Minta layanan" size={24} fam="Nunito-Bold" color="#fff" onPress={submitreport}/>
       </ScrollView>
       <PanGestureHandler onGestureEvent={gestureHandler}>
         <Animated.View style={[styles.bottomSheet,bottomSheetStyle,{backgroundColor:"#fff",shadowColor:"#000"}]}>
